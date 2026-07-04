@@ -231,9 +231,11 @@ CHAPTER_PALETTES = [  # (上端, 下端) 章の感情に沿った暗色トーン
 
 
 def step_bg(ep: Path) -> None:
-    from PIL import Image, ImageDraw
+    from PIL import Image, ImageDraw, ImageFont
     timeline = json.loads((ep / "timeline.json").read_text(encoding="utf-8"))
     chapters = sorted({s["chapter"] for s in timeline})
+    titles = {s["chapter"]: s["text"] for s in timeline if s["type"] == "title"}
+    font_path = "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"
     bg_dir = ep / "bg"
     bg_dir.mkdir(exist_ok=True)
     W2, H2 = W * 2, H * 2  # Ken Burns用に大きめ
@@ -263,7 +265,13 @@ def step_bg(ep: Path) -> None:
         for i in range(120):
             a = int(80 * (i / 120) ** 2)
             d.rectangle([i*6, i*4, W2-i*6, H2-i*4], outline=(0, 0, 0, min(a, 4)), width=6)
-        # 章タイトルは背景に描かない(字幕・映像の邪魔になるため)
+        # 章タイトルは左上(下部の字幕域を避ける)
+        title = titles.get(ch, "")
+        name = title.split("　", 1)[1] if "　" in title else title
+        d.text((W2*0.07, H2*0.10), title.split("　")[0] if "　" in title else f"第{ch}章",
+               font=ImageFont.truetype(font_path, 40), fill=(200, 180, 140, 200))
+        d.text((W2*0.07, H2*0.155), name, font=ImageFont.truetype(font_path, 84),
+               fill=(235, 228, 214, 235))
         img.save(out)
     print(f"bg: {len(chapters)}枚 → bg/")
 
