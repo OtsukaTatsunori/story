@@ -23,6 +23,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 BANKS = ROOT / "prompts" / "banks"
 DIRECTOR_TEMPLATE = ROOT / "prompts" / "director_prompt.md"
+FORESHADOW_GUIDE = ROOT / "prompts" / "foreshadowing_guide.md"
 PLOT_TEMPLATE = ROOT / "prompts" / "master_plot_prompt.md"
 HISTORY = ROOT / "db" / "history.json"
 
@@ -139,7 +140,10 @@ def build_director(seed, out: Path | None) -> None:
 
     template = DIRECTOR_TEMPLATE.read_text(encoding="utf-8")
     body = template.split("---", 1)[1].lstrip() if "---" in template else template
-    prompt = body.replace("{{candidates}}", candidates).replace("{{banned}}", banned_text)
+    guide = FORESHADOW_GUIDE.read_text(encoding="utf-8")
+    prompt = (body.replace("{{candidates}}", candidates)
+                  .replace("{{banned}}", banned_text)
+                  .replace("{{foreshadow_guide}}", guide))
 
     unresolved = re.findall(r"\{\{(\w+)\}\}", prompt)
     if unresolved:
