@@ -1,0 +1,4072 @@
+[
+ {
+  "chapter": 1,
+  "type": "title",
+  "text": "第一章　葬式の翌日に来た男",
+  "wav": "seg0000.wav",
+  "start": 0.0,
+  "end": 3.94
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "その朝、倒産寸前の町工場に、",
+  "wav": "seg0001.wav",
+  "start": 5.54,
+  "end": 9.345
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "一通のメールが届いた。差出人は、",
+  "wav": "seg0002.wav",
+  "start": 9.645,
+  "end": 13.61
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "世界最大の医療機器メーカー。",
+  "para_end": true,
+  "wav": "seg0003.wav",
+  "start": 13.91,
+  "end": 16.8
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "「ある職人を、探しています」。",
+  "para_end": true,
+  "wav": "seg0004.wav",
+  "start": 17.45,
+  "end": 20.555
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "名指しされたのは、昨日、「事故を起こした工場」と業界中に烙印を押されたばかりの男だっ",
+  "wav": "seg0005.wav",
+  "start": 21.205,
+  "end": 28.745
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "た。",
+  "para_end": true,
+  "wav": "seg0006.wav",
+  "start": 29.045,
+  "end": 30.145
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "——話は、三週間前にさかのぼる。父の葬儀の、翌日のことだ。",
+  "para_end": true,
+  "wav": "seg0007.wav",
+  "start": 30.795,
+  "end": 37.315
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "東京の下町。竹田ばね製作所。従業員八人の、小さな小さな工場だ。",
+  "para_end": true,
+  "wav": "seg0008.wav",
+  "start": 37.965,
+  "end": 45.62
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "事務所には、まだ線香の匂いが残っていた。",
+  "wav": "seg0009.wav",
+  "start": 46.27,
+  "end": 50.4
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "祭壇代わりの棚には、作業着姿で笑う先代の写真。",
+  "wav": "seg0010.wav",
+  "start": 50.7,
+  "end": 55.94
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "六十二年の生涯のほとんどを、",
+  "wav": "seg0011.wav",
+  "start": 56.24,
+  "end": 59.275
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "この油の匂いの中で過ごした男だった。",
+  "para_end": true,
+  "wav": "seg0012.wav",
+  "start": 59.575,
+  "end": 63.255
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "二代目の竹田直人、三十八歳。",
+  "wav": "seg0013.wav",
+  "start": 63.905,
+  "end": 67.52
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "通夜から一睡もしていなかった。",
+  "wav": "seg0014.wav",
+  "start": 67.82,
+  "end": 70.46
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "それでも朝六時に工場のシャッターを開けたのは、",
+  "wav": "seg0015.wav",
+  "start": 70.76,
+  "end": 74.775
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "父がそうしていたからだ。それ以外の理由を、",
+  "wav": "seg0016.wav",
+  "start": 75.075,
+  "end": 78.95
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "直人は知らなかった。",
+  "para_end": true,
+  "wav": "seg0017.wav",
+  "start": 79.25,
+  "end": 81.585
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "午前十時。工場の前に、黒塗りの車が停まった。",
+  "para_end": true,
+  "wav": "seg0018.wav",
+  "start": 82.235,
+  "end": 87.565
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "降りてきた老人を見て、事務員の節子さんが小さく息を呑んだ。",
+  "para_end": true,
+  "wav": "seg0019.wav",
+  "start": 88.215,
+  "end": 93.515
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "大隅宗一郎。大隅製作所会長。",
+  "wav": "seg0020.wav",
+  "start": 94.165,
+  "end": 98.17
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "従業員三千人。業界団体の会長。",
+  "wav": "seg0021.wav",
+  "start": 98.47,
+  "end": 102.82
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "勲章持ち。テレビが「町工場の神様」と呼ぶ男が、",
+  "wav": "seg0022.wav",
+  "start": 103.12,
+  "end": 108.025
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "香典袋を手に、油の染みた事務所に入ってきた。",
+  "para_end": true,
+  "wav": "seg0023.wav",
+  "start": 108.325,
+  "end": 113.03
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "「この度は、ご愁傷さまだったね」",
+  "para_end": true,
+  "wav": "seg0024.wav",
+  "start": 113.68,
+  "end": 117.08
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "大隅は香典袋を机に置いた。そして、同じ手で、鞄から一枚の書類を出した。",
+  "para_end": true,
+  "wav": "seg0025.wav",
+  "start": 117.73,
+  "end": 125.57
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "買収契約書、と書いてあった。",
+  "para_end": true,
+  "wav": "seg0026.wav",
+  "start": 126.22,
+  "end": 129.545
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "「香典は弾んどいたよ。工場の査定額に上乗せしといてやる。それが弔いってもんだろう」",
+  "para_end": true,
+  "wav": "seg0027.wav",
+  "start": 130.195,
+  "end": 137.615
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "直人は、書類と、香典袋と、父の遺影とを、順番に見た。",
+  "para_end": true,
+  "wav": "seg0028.wav",
+  "start": 138.265,
+  "end": 144.905
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "「格が違うんだよ、格が」",
+  "para_end": true,
+  "wav": "seg0029.wav",
+  "start": 145.555,
+  "end": 148.485
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "大隅は扇子で口元を隠して笑った。",
+  "para_end": true,
+  "wav": "seg0030.wav",
+  "start": 149.135,
+  "end": 152.76
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "「あんたの代で畳む。それが、",
+  "wav": "seg0031.wav",
+  "start": 153.41,
+  "end": 156.51
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "竹田んとこの倅にできる、唯一の親孝行だ。",
+  "wav": "seg0032.wav",
+  "start": 156.81,
+  "end": 161.21
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "……なあ、そうだろう?」",
+  "para_end": true,
+  "wav": "seg0033.wav",
+  "start": 161.51,
+  "end": 163.74
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "直人は何も言わなかった。何も言わずに、書類を大隅の前に、静かに押し返した。",
+  "para_end": true,
+  "wav": "seg0034.wav",
+  "start": 164.39,
+  "end": 171.88
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "大隅の目が、一瞬だけ冷えた。笑ったまま、目だけが冷えた。",
+  "para_end": true,
+  "wav": "seg0035.wav",
+  "start": 172.53,
+  "end": 178.405
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "「……若いねえ。まあいい。どうせ三月と持たんよ、この工場は」",
+  "para_end": true,
+  "wav": "seg0036.wav",
+  "start": 179.055,
+  "end": 184.935
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "黒塗りの車が去った後も、直人は長いこと、遺影の前に立っていた。",
+  "para_end": true,
+  "wav": "seg0037.wav",
+  "start": 185.585,
+  "end": 191.97
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "その夜、直人は父の最後の言葉を思い出していた。",
+  "wav": "seg0038.wav",
+  "start": 192.62,
+  "end": 197.48
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "病院のベッドで、酸素の管をつけた父が、",
+  "wav": "seg0039.wav",
+  "start": 197.78,
+  "end": 201.87
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "かすれた声で言ったのだ。",
+  "para_end": true,
+  "wav": "seg0040.wav",
+  "start": 202.17,
+  "end": 204.59
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "——いいか、直人。あの帳面だけは、渡すな。",
+  "para_end": true,
+  "wav": "seg0041.wav",
+  "start": 205.24,
+  "end": 210.11
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "帳面。作業場の棚の奥の、古い一冊。",
+  "wav": "seg0042.wav",
+  "start": 210.76,
+  "end": 215.255
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "ばねの配合や熱処理を書きつけた、",
+  "wav": "seg0043.wav",
+  "start": 215.555,
+  "end": 218.745
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "ただの技術記録のはずだった。",
+  "para_end": true,
+  "wav": "seg0044.wav",
+  "start": 219.045,
+  "end": 221.88
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "だが、それなら、なぜ父は。",
+  "para_end": true,
+  "wav": "seg0045.wav",
+  "start": 222.53,
+  "end": 225.925
+ },
+ {
+  "chapter": 1,
+  "type": "body",
+  "text": "あんな、謝るような目をしたのだろう。",
+  "para_end": true,
+  "wav": "seg0046.wav",
+  "start": 226.575,
+  "end": 230.085
+ },
+ {
+  "chapter": 2,
+  "type": "title",
+  "text": "第二章　千本にひとつの濁り",
+  "wav": "seg0047.wav",
+  "start": 230.735,
+  "end": 234.195
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "三日後、工場に一人の女が来た。",
+  "para_end": true,
+  "wav": "seg0048.wav",
+  "start": 235.795,
+  "end": 239.43
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "佐伯美咲、二十九歳。医療機器商社の調達担当。",
+  "wav": "seg0049.wav",
+  "start": 240.08,
+  "end": 245.665
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "グレーのスーツに、几帳面に留めた髪。",
+  "wav": "seg0050.wav",
+  "start": 245.965,
+  "end": 249.695
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "手にした書類の名目は「取引見直しのための現場査定」。",
+  "para_end": true,
+  "wav": "seg0051.wav",
+  "start": 249.995,
+  "end": 254.625
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "つまり、竹田ばねを切るかどうかを、決めに来たのだ。",
+  "para_end": true,
+  "wav": "seg0052.wav",
+  "start": 255.275,
+  "end": 260.05
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "「本日は査定に伺いました。一時間で終わらせます」",
+  "para_end": true,
+  "wav": "seg0053.wav",
+  "start": 260.7,
+  "end": 265.465
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "名刺を出す手つきから、できる人間なのは分かった。",
+  "wav": "seg0054.wav",
+  "start": 266.115,
+  "end": 270.54
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "そして、この工場を数字としてしか見ていないことも。",
+  "para_end": true,
+  "wav": "seg0055.wav",
+  "start": 270.84,
+  "end": 275.395
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "美咲は工場を一周した。古い機械。",
+  "wav": "seg0056.wav",
+  "start": 276.045,
+  "end": 279.93
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "手書きの工程表。壁に貼られた、",
+  "wav": "seg0057.wav",
+  "start": 280.23,
+  "end": 283.82
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "変色した「整理整頓」の紙。",
+  "para_end": true,
+  "wav": "seg0058.wav",
+  "start": 284.12,
+  "end": 286.905
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "一周を終えると、時計を見ながら言った。",
+  "para_end": true,
+  "wav": "seg0059.wav",
+  "start": 287.555,
+  "end": 291.18
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "「御社の単価は、相場より二割高い。",
+  "wav": "seg0060.wav",
+  "start": 291.83,
+  "end": 295.495
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "理由は検品工程の人件費です。",
+  "wav": "seg0061.wav",
+  "start": 295.795,
+  "end": 299.175
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "うちの他の仕入先は、全数を機械で検査しています。",
+  "wav": "seg0062.wav",
+  "start": 299.475,
+  "end": 304.46
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "御社は——」",
+  "para_end": true,
+  "wav": "seg0063.wav",
+  "start": 304.76,
+  "end": 306.19
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "「人が、聴いてます」",
+  "para_end": true,
+  "wav": "seg0064.wav",
+  "start": 306.84,
+  "end": 309.265
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "「……聴く?」",
+  "para_end": true,
+  "wav": "seg0065.wav",
+  "start": 309.915,
+  "end": 311.12
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "直人は答える代わりに、検品台の前に座った。",
+  "para_end": true,
+  "wav": "seg0066.wav",
+  "start": 311.77,
+  "end": 316.585
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "鋼の皿に、ばねを流す。直径〇・三ミリ。",
+  "wav": "seg0067.wav",
+  "start": 317.235,
+  "end": 322.165
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "線の太さは〇・〇三ミリ。髪の毛を半分に裂いた、",
+  "wav": "seg0068.wav",
+  "start": 322.465,
+  "end": 327.75
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "その細さの医療用ばねだ。カテーテルの先で、",
+  "wav": "seg0069.wav",
+  "start": 328.05,
+  "end": 332.385
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "人の血管の中で働く部品だった。",
+  "para_end": true,
+  "wav": "seg0070.wav",
+  "start": 332.685,
+  "end": 336.11
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "ちりん、ちりん、と涼しい音が続く。",
+  "para_end": true,
+  "wav": "seg0071.wav",
+  "start": 336.76,
+  "end": 340.71
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "一分、二分。美咲が腕時計に三度目の視線を落とした、そのときだった。",
+  "para_end": true,
+  "wav": "seg0072.wav",
+  "start": 341.36,
+  "end": 348.18
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "直人の手が、止まった。",
+  "para_end": true,
+  "wav": "seg0073.wav",
+  "start": 348.83,
+  "end": 351.635
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "何千本の中の一本を、指先がすっとつまみ出した。",
+  "para_end": true,
+  "wav": "seg0074.wav",
+  "start": 352.285,
+  "end": 357.15
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "「……今の、何ですか」",
+  "para_end": true,
+  "wav": "seg0075.wav",
+  "start": 357.8,
+  "end": 360.23
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "「音が、濁った」",
+  "para_end": true,
+  "wav": "seg0076.wav",
+  "start": 360.88,
+  "end": 363.19
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "「濁った? 私には、全部同じに聞こえましたけど」",
+  "para_end": true,
+  "wav": "seg0077.wav",
+  "start": 363.84,
+  "end": 368.8
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "「中に、疲れが入ってます。測定器には、出ない」",
+  "para_end": true,
+  "wav": "seg0078.wav",
+  "start": 369.45,
+  "end": 374.565
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "直人はそれだけ言って、その一本を「不良」と書かれた箱に落とした。",
+  "wav": "seg0079.wav",
+  "start": 375.215,
+  "end": 380.885
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "芝居がかったところは何もなかった。",
+  "wav": "seg0080.wav",
+  "start": 381.185,
+  "end": 384.255
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "ただ、続きの検品を始めた。",
+  "para_end": true,
+  "wav": "seg0081.wav",
+  "start": 384.555,
+  "end": 387.9
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "美咲は、その箱から件の一本を借り受けて帰った。",
+  "wav": "seg0082.wav",
+  "start": 388.55,
+  "end": 393.165
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "合理主義者の意地だった。「勘」に二割の単価を払う会社が、",
+  "wav": "seg0083.wav",
+  "start": 393.465,
+  "end": 398.505
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "どこにあるものか。",
+  "para_end": true,
+  "wav": "seg0084.wav",
+  "start": 398.805,
+  "end": 400.725
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "一週間後。美咲の会社の試験室で、結果が出た。",
+  "para_end": true,
+  "wav": "seg0085.wav",
+  "start": 401.375,
+  "end": 406.63
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "無作為に選んだ竹田のばね百本、耐久試験十万回。破断、ゼロ。",
+  "para_end": true,
+  "wav": "seg0086.wav",
+  "start": 407.28,
+  "end": 414.11
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "そして、直人が抜いたあの一本だけを試験機にかけると——三万回で、折れた。",
+  "para_end": true,
+  "wav": "seg0087.wav",
+  "start": 414.76,
+  "end": 421.685
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "どの測定器にも、異常が出ていなかった個体だった。",
+  "para_end": true,
+  "wav": "seg0088.wav",
+  "start": 422.335,
+  "end": 426.835
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "美咲は、データの前で、しばらく動けなかった。",
+  "para_end": true,
+  "wav": "seg0089.wav",
+  "start": 427.485,
+  "end": 432.12
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "あの工場の、あの静かな検品台で聞いた「ちりん」という音を、思い出していた。",
+  "para_end": true,
+  "wav": "seg0090.wav",
+  "start": 432.77,
+  "end": 439.185
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "だが、彼女が本社に提出した査定書には、こう書くしかなかった。",
+  "para_end": true,
+  "wav": "seg0091.wav",
+  "start": 439.835,
+  "end": 445.85
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "「検品は属人的。再現性なし。取引縮小が妥当」。",
+  "para_end": true,
+  "wav": "seg0092.wav",
+  "start": 446.5,
+  "end": 452.295
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "数字は、あの音を、載せられなかった。",
+  "para_end": true,
+  "wav": "seg0093.wav",
+  "start": 452.945,
+  "end": 456.825
+ },
+ {
+  "chapter": 2,
+  "type": "body",
+  "text": "提出ボタンを押す指が、ほんの少しだけ、重かった。",
+  "para_end": true,
+  "wav": "seg0094.wav",
+  "start": 457.475,
+  "end": 462.545
+ },
+ {
+  "chapter": 3,
+  "type": "title",
+  "text": "第三章　一日十万本",
+  "wav": "seg0095.wav",
+  "start": 463.195,
+  "end": 466.5
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "月末、業界の懇親会があった。ホテルの宴会場に、金屏風。",
+  "para_end": true,
+  "wav": "seg0096.wav",
+  "start": 468.1,
+  "end": 474.805
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "中央にいたのは、もちろん大隅だった。",
+  "wav": "seg0097.wav",
+  "start": 475.455,
+  "end": 479.12
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "取り巻きの輪が、老人を中心に花のように開いたり閉じたりしていた。",
+  "para_end": true,
+  "wav": "seg0098.wav",
+  "start": 479.42,
+  "end": 486.385
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "直人は隅で、烏龍茶を飲んでいた。",
+  "wav": "seg0099.wav",
+  "start": 487.035,
+  "end": 490.685
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "来たくはなかった。だが父の名代として、",
+  "wav": "seg0100.wav",
+  "start": 490.985,
+  "end": 494.68
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "世話になった数社に挨拶だけはしなければならなかった。",
+  "para_end": true,
+  "wav": "seg0101.wav",
+  "start": 494.98,
+  "end": 499.36
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "その直人を、大隅は見つけた。グラス片手に、わざわざ人垣を割って、やって来た。",
+  "para_end": true,
+  "wav": "seg0102.wav",
+  "start": 500.01,
+  "end": 507.795
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "「おう、竹田んとこの倅じゃないか。まだやってたのか、あのボロ工場」",
+  "para_end": true,
+  "wav": "seg0103.wav",
+  "start": 508.445,
+  "end": 514.64
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "若手の経営者たちが、へらへらと笑った。笑わなければならない立場の者たちだった。",
+  "para_end": true,
+  "wav": "seg0104.wav",
+  "start": 515.29,
+  "end": 522.465
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "「聞いたよ。あんた、ばねを耳で選ぶんだって?」",
+  "para_end": true,
+  "wav": "seg0105.wav",
+  "start": 523.115,
+  "end": 527.385
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "大隅は扇子を開いた。",
+  "para_end": true,
+  "wav": "seg0106.wav",
+  "start": 528.035,
+  "end": 530.505
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "「うちの機械はね、一日十万本作って、",
+  "wav": "seg0107.wav",
+  "start": 531.155,
+  "end": 535.315
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "十万本検査する。カメラとレーザーで、",
+  "wav": "seg0108.wav",
+  "start": 535.615,
+  "end": 539.6
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "〇・〇一ミリまで見る。……で? あんたの耳は、",
+  "wav": "seg0109.wav",
+  "start": 539.9,
+  "end": 544.575
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "一日何本聴けるんだい?」",
+  "para_end": true,
+  "wav": "seg0110.wav",
+  "start": 544.875,
+  "end": 547.43
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "どっと笑いが起きた。",
+  "para_end": true,
+  "wav": "seg0111.wav",
+  "start": 548.08,
+  "end": 550.16
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "「音だの勘だの、そういうのはね、",
+  "wav": "seg0112.wav",
+  "start": 550.81,
+  "end": 554.01
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "技術って言わないんだよ。芸だ。",
+  "wav": "seg0113.wav",
+  "start": 554.31,
+  "end": 557.58
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "猿回しの芸。客寄せにはなるがね、",
+  "wav": "seg0114.wav",
+  "start": 557.88,
+  "end": 561.59
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "医療の世界に芸はいらんのだよ」",
+  "para_end": true,
+  "wav": "seg0115.wav",
+  "start": 561.89,
+  "end": 564.92
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "扇子が、ぱちんと閉じた。",
+  "para_end": true,
+  "wav": "seg0116.wav",
+  "start": 565.57,
+  "end": 568.4
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "「……格が違うんだよ、格が」",
+  "para_end": true,
+  "wav": "seg0117.wav",
+  "start": 569.05,
+  "end": 571.98
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "直人は、グラスを置いた。何か言おうとして、やめた。",
+  "para_end": true,
+  "wav": "seg0118.wav",
+  "start": 572.63,
+  "end": 577.985
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "言い返す言葉なら、あった。だが、父はいつも言っていたのだ。",
+  "para_end": true,
+  "wav": "seg0119.wav",
+  "start": 578.635,
+  "end": 584.325
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "——口で言い返すな。仕事で言い返せ。ばねは、嘘をつかん。",
+  "para_end": true,
+  "wav": "seg0120.wav",
+  "start": 584.975,
+  "end": 590.55
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "直人は黙って頭を下げ、会場を出た。背中で、二度目の笑いが起きた。",
+  "para_end": true,
+  "wav": "seg0121.wav",
+  "start": 591.2,
+  "end": 598.195
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "廊下を歩いていると、後ろから足音が追ってきた。",
+  "para_end": true,
+  "wav": "seg0122.wav",
+  "start": 598.845,
+  "end": 603.175
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "大隅の隣に何十年も影のように控えている、",
+  "wav": "seg0123.wav",
+  "start": 603.825,
+  "end": 607.935
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "番頭格の男——柴田だった。もう六十七になるはずだ。",
+  "para_end": true,
+  "wav": "seg0124.wav",
+  "start": 608.235,
+  "end": 613.94
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "「竹田さん。あの……な」",
+  "para_end": true,
+  "wav": "seg0125.wav",
+  "start": 614.59,
+  "end": 617.53
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "柴田は何かを言いかけた。言いかけて、宴会場の方を一度振り返り、口をつぐんだ。",
+  "para_end": true,
+  "wav": "seg0126.wav",
+  "start": 618.18,
+  "end": 625.57
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "長い沈黙のあと、老人は別のことを言った。",
+  "para_end": true,
+  "wav": "seg0127.wav",
+  "start": 626.22,
+  "end": 630.6
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "「……親父さんは、ええ職人やった。わしが知る限り、一番のな。それだけですわ」",
+  "para_end": true,
+  "wav": "seg0128.wav",
+  "start": 631.25,
+  "end": 638.55
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "そう言って、柴田は戻っていった。",
+  "para_end": true,
+  "wav": "seg0129.wav",
+  "start": 639.2,
+  "end": 642.56
+ },
+ {
+  "chapter": 3,
+  "type": "body",
+  "text": "その丸まった背中が、なぜか、謝っているように見えた。",
+  "para_end": true,
+  "wav": "seg0130.wav",
+  "start": 643.21,
+  "end": 648.385
+ },
+ {
+  "chapter": 4,
+  "type": "title",
+  "text": "第四章　うちの機械の癖じゃない",
+  "wav": "seg0131.wav",
+  "start": 649.035,
+  "end": 652.59
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "十日後。工場の電話が、朝から鳴り止まなくなった。",
+  "para_end": true,
+  "wav": "seg0132.wav",
+  "start": 654.19,
+  "end": 659.175
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "納品先で、規格外のばねが見つかったのだ。",
+  "wav": "seg0133.wav",
+  "start": 659.825,
+  "end": 664.045
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "それも一本や二本ではない。三つのロットから、",
+  "wav": "seg0134.wav",
+  "start": 664.345,
+  "end": 668.605
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "十七本。",
+  "para_end": true,
+  "wav": "seg0135.wav",
+  "start": 668.905,
+  "end": 670.58
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "医療機器に使われる部品だった。",
+  "wav": "seg0136.wav",
+  "start": 671.23,
+  "end": 674.23
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "全ロット回収。原因究明の要求。",
+  "wav": "seg0137.wav",
+  "start": 674.53,
+  "end": 678.495
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "損害賠償という言葉も飛んだ。",
+  "para_end": true,
+  "wav": "seg0138.wav",
+  "start": 678.795,
+  "end": 681.83
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "直人は取引先を一軒一軒回って、",
+  "wav": "seg0139.wav",
+  "start": 682.48,
+  "end": 686.165
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "頭を下げた。かつて父と釣りに行った仲だという会社の専務は、",
+  "wav": "seg0140.wav",
+  "start": 686.465,
+  "end": 694.985
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "直人を応接室に通しもせず、廊下で言った。",
+  "para_end": true,
+  "wav": "seg0141.wav",
+  "start": 695.285,
+  "end": 699.755
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "「親父さんの代なら、有り得なかったよ」",
+  "para_end": true,
+  "wav": "seg0142.wav",
+  "start": 700.405,
+  "end": 703.92
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "その一言は、どんな怒鳴り声より深く刺さった。",
+  "para_end": true,
+  "wav": "seg0143.wav",
+  "start": 704.57,
+  "end": 708.85
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "業界紙の片隅に、社名こそ伏せられたが、",
+  "wav": "seg0144.wav",
+  "start": 709.5,
+  "end": 713.845
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "誰にでも分かる記事が載った。",
+  "wav": "seg0145.wav",
+  "start": 714.145,
+  "end": 716.86
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "「都内の精密ばね業者で品質事故」。",
+  "para_end": true,
+  "wav": "seg0146.wav",
+  "start": 717.16,
+  "end": 720.58
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "——事故を起こした工場。",
+  "para_end": true,
+  "wav": "seg0147.wav",
+  "start": 721.23,
+  "end": 723.465
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "烙印は、一日で業界を回った。",
+  "para_end": true,
+  "wav": "seg0148.wav",
+  "start": 724.115,
+  "end": 727.815
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "夕方、事務員の節子さんが、受話器を置いて言った。",
+  "para_end": true,
+  "wav": "seg0149.wav",
+  "start": 728.465,
+  "end": 733.295
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "「社長。今の、山下金属さん。……来月の分も、キャンセルですって」",
+  "para_end": true,
+  "wav": "seg0150.wav",
+  "start": 733.945,
+  "end": 740.665
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "山下金属は、父の代から三十年の付き合いだった。",
+  "para_end": true,
+  "wav": "seg0151.wav",
+  "start": 741.315,
+  "end": 746.305
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "「あと、その」節子さんは言いにくそうに続けた。",
+  "wav": "seg0152.wav",
+  "start": 746.955,
+  "end": 751.055
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "「駅前の信用金庫さんから、明日、",
+  "wav": "seg0153.wav",
+  "start": 751.355,
+  "end": 755.03
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "お時間いただけますかって」",
+  "para_end": true,
+  "wav": "seg0154.wav",
+  "start": 755.33,
+  "end": 757.77
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "悪い知らせは、必ずまとめて来る。父がよく言っていた通りだった。",
+  "para_end": true,
+  "wav": "seg0155.wav",
+  "start": 758.42,
+  "end": 764.44
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "夜、誰もいなくなった工場で、直人は回収された「規格外品」を検品台に広げた。",
+  "para_end": true,
+  "wav": "seg0156.wav",
+  "start": 765.09,
+  "end": 772.7
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "一本つまむ。皿に、転がす。",
+  "para_end": true,
+  "wav": "seg0157.wav",
+  "start": 773.35,
+  "end": 777.075
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "——音が、違う。",
+  "para_end": true,
+  "wav": "seg0158.wav",
+  "start": 777.725,
+  "end": 779.885
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "濁っているのではない。最初から、別のばねの音がする。",
+  "para_end": true,
+  "wav": "seg0159.wav",
+  "start": 780.535,
+  "end": 785.765
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "直人はルーペで、切断面を覗き込んだ。そして、顔色が変わった。",
+  "para_end": true,
+  "wav": "seg0160.wav",
+  "start": 786.415,
+  "end": 792.915
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "ばねの端の切り口には、切った機械の癖が必ず残る。",
+  "wav": "seg0161.wav",
+  "start": 793.565,
+  "end": 798.685
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "刃の角度、送りの速さ。職人が見れば、",
+  "wav": "seg0162.wav",
+  "start": 798.985,
+  "end": 803.315
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "指紋のようなものだ。",
+  "para_end": true,
+  "wav": "seg0163.wav",
+  "start": 803.615,
+  "end": 805.72
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "この切り口は——うちの三台の、どの機械の癖でもない。",
+  "para_end": true,
+  "wav": "seg0164.wav",
+  "start": 806.37,
+  "end": 811.515
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "このばねは、うちで作られたものではない。",
+  "para_end": true,
+  "wav": "seg0165.wav",
+  "start": 812.165,
+  "end": 815.915
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "誰かが、出荷の後か、その直前に、混ぜたのだ。",
+  "para_end": true,
+  "wav": "seg0166.wav",
+  "start": 816.565,
+  "end": 821.925
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "心臓が、嫌な速さで打ち始めた。",
+  "wav": "seg0167.wav",
+  "start": 822.575,
+  "end": 826.25
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "出荷記録に穴はない。外部の人間が入った形跡もない。",
+  "wav": "seg0168.wav",
+  "start": 826.55,
+  "end": 831.645
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "夜間の錠は、壊されていない。",
+  "para_end": true,
+  "wav": "seg0169.wav",
+  "start": 831.945,
+  "end": 835.16
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "つまり——内側から、混ぜられている。",
+  "para_end": true,
+  "wav": "seg0170.wav",
+  "start": 835.81,
+  "end": 839.665
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "八人しかいない工場だった。",
+  "para_end": true,
+  "wav": "seg0171.wav",
+  "start": 840.315,
+  "end": 843.03
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "直人は、その先を考えることを、",
+  "wav": "seg0172.wav",
+  "start": 843.68,
+  "end": 847.305
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "自分に禁じた。考えれば、誰かの顔が浮かんでしまうからだ。",
+  "para_end": true,
+  "wav": "seg0173.wav",
+  "start": 847.605,
+  "end": 853.225
+ },
+ {
+  "chapter": 4,
+  "type": "body",
+  "text": "四十年、父の隣で機械を回してきた、あの男の顔が。",
+  "para_end": true,
+  "wav": "seg0174.wav",
+  "start": 853.875,
+  "end": 859.58
+ },
+ {
+  "chapter": 5,
+  "type": "title",
+  "text": "第五章　帳面",
+  "wav": "seg0175.wav",
+  "start": 860.23,
+  "end": 862.725
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "それからの二週間で、すべてが崩れた。",
+  "para_end": true,
+  "wav": "seg0176.wav",
+  "start": 864.325,
+  "end": 868.155
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "取引停止の通知が、三件、五件、",
+  "wav": "seg0177.wav",
+  "start": 868.805,
+  "end": 873.02
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "七件。ファックスの紙が、死亡通知のように積み重なった。",
+  "wav": "seg0178.wav",
+  "start": 873.32,
+  "end": 878.8
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "銀行の担当者の声が、日ごとに事務的になっていった。",
+  "para_end": true,
+  "wav": "seg0179.wav",
+  "start": 879.1,
+  "end": 884.025
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "そして、職人頭の富岡が、突然、辞表を出した。",
+  "para_end": true,
+  "wav": "seg0180.wav",
+  "start": 884.675,
+  "end": 890.515
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "五十五歳。父の代から四十年。",
+  "wav": "seg0181.wav",
+  "start": 891.165,
+  "end": 894.725
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "この工場の機械のすべてを、音で覚えている男。",
+  "wav": "seg0182.wav",
+  "start": 895.025,
+  "end": 899.56
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "直人が子供の頃、肩車で祭りに連れて行ってくれた男。",
+  "wav": "seg0183.wav",
+  "start": 899.86,
+  "end": 905.405
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "今でも直人を「坊」と呼ぶ、たった一人の男。",
+  "para_end": true,
+  "wav": "seg0184.wav",
+  "start": 905.705,
+  "end": 910.135
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "「……すまんな、坊。歳や。潮時や」",
+  "para_end": true,
+  "wav": "seg0185.wav",
+  "start": 910.785,
+  "end": 914.945
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "富岡は、最後まで直人と目を合わせなかった。",
+  "para_end": true,
+  "wav": "seg0186.wav",
+  "start": 915.595,
+  "end": 920.1
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "ロッカーを片づける富岡の背中に、",
+  "wav": "seg0187.wav",
+  "start": 920.75,
+  "end": 924.035
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "直人は何か言おうとした。切り口のことが、",
+  "wav": "seg0188.wav",
+  "start": 924.335,
+  "end": 928.475
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "喉まで出かかった。",
+  "para_end": true,
+  "wav": "seg0189.wav",
+  "start": 928.775,
+  "end": 930.87
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "言えなかった。",
+  "para_end": true,
+  "wav": "seg0190.wav",
+  "start": 931.52,
+  "end": 933.15
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "言えば、何かが終わってしまう気がした。",
+  "para_end": true,
+  "wav": "seg0191.wav",
+  "start": 933.8,
+  "end": 937.285
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "美咲からも、電話が来た。",
+  "para_end": true,
+  "wav": "seg0192.wav",
+  "start": 937.935,
+  "end": 940.915
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "「本社の決定です。取引は、今月限りで……申し訳、ありません」",
+  "para_end": true,
+  "wav": "seg0193.wav",
+  "start": 941.565,
+  "end": 948.49
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "規定の文句のはずなのに、電話の向こうの声は、",
+  "wav": "seg0194.wav",
+  "start": 949.14,
+  "end": 953.55
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "書類を読む声ではなかった。それだけが、",
+  "wav": "seg0195.wav",
+  "start": 953.85,
+  "end": 957.565
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "わずかな救いだった。",
+  "para_end": true,
+  "wav": "seg0196.wav",
+  "start": 957.865,
+  "end": 960.04
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "月末。八人の給料が、払えなかった。",
+  "para_end": true,
+  "wav": "seg0197.wav",
+  "start": 960.69,
+  "end": 965.235
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "直人は従業員を集め、頭を下げた。",
+  "para_end": true,
+  "wav": "seg0198.wav",
+  "start": 965.885,
+  "end": 970.0
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "「今月は、満額を払えません。……申し訳ない」",
+  "para_end": true,
+  "wav": "seg0199.wav",
+  "start": 970.65,
+  "end": 975.295
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "沈黙のあと、一番若い工員の健太が、ぼそりと言った。",
+  "para_end": true,
+  "wav": "seg0200.wav",
+  "start": 975.945,
+  "end": 981.415
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "「社長。おれ、実家なんで。おれの分、後でいいっす」",
+  "para_end": true,
+  "wav": "seg0201.wav",
+  "start": 982.065,
+  "end": 987.545
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "「わたしもいいわよ」と節子さん。「どうせ孫の小遣いに消えるだけだもの」",
+  "para_end": true,
+  "wav": "seg0202.wav",
+  "start": 988.195,
+  "end": 993.755
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "一人、また一人と、同じことを言った。",
+  "para_end": true,
+  "wav": "seg0203.wav",
+  "start": 994.405,
+  "end": 998.5
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "誰も直人を責めなかった。",
+  "para_end": true,
+  "wav": "seg0204.wav",
+  "start": 999.15,
+  "end": 1001.915
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "それが、どんな叱責よりも、つらかった。この人たちの生活を、自分は守れていない。",
+  "para_end": true,
+  "wav": "seg0205.wav",
+  "start": 1002.565,
+  "end": 1010.335
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "その夜、直人は帰らなかった。帰れなかった。",
+  "para_end": true,
+  "wav": "seg0206.wav",
+  "start": 1010.985,
+  "end": 1015.745
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "その夜、直人は一人、父の作業場に入った。",
+  "para_end": true,
+  "wav": "seg0207.wav",
+  "start": 1016.395,
+  "end": 1021.38
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "油の匂い。父が四十年座った丸椅子。棚の奥の、古い帳面。",
+  "para_end": true,
+  "wav": "seg0208.wav",
+  "start": 1022.03,
+  "end": 1028.77
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "——あの帳面だけは、渡すな。",
+  "para_end": true,
+  "wav": "seg0209.wav",
+  "start": 1029.42,
+  "end": 1032.515
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "売れるものは、もう帳面くらいしかないぞ、親父。",
+  "para_end": true,
+  "wav": "seg0210.wav",
+  "start": 1033.165,
+  "end": 1037.73
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "自嘲しながら、表紙をめくった。",
+  "wav": "seg0211.wav",
+  "start": 1038.38,
+  "end": 1041.695
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "中身は、思った通りの技術記録だった。",
+  "wav": "seg0212.wav",
+  "start": 1041.995,
+  "end": 1045.96
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "ばねの配合。熱処理の温度と時間。",
+  "wav": "seg0213.wav",
+  "start": 1046.26,
+  "end": 1050.0
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "失敗の記録まで、几帳面な父の字で残っていた。",
+  "para_end": true,
+  "wav": "seg0214.wav",
+  "start": 1050.3,
+  "end": 1055.045
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "一枚、一枚、めくっていく。ページの間から、父の四十年が匂い立つようだった。",
+  "para_end": true,
+  "wav": "seg0215.wav",
+  "start": 1055.695,
+  "end": 1063.56
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "そして、最後のページに。",
+  "para_end": true,
+  "wav": "seg0216.wav",
+  "start": 1064.21,
+  "end": 1066.945
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "変色した紙が、一枚、挟まっていた。",
+  "para_end": true,
+  "wav": "seg0217.wav",
+  "start": 1067.595,
+  "end": 1071.905
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "借用書だった。",
+  "para_end": true,
+  "wav": "seg0218.wav",
+  "start": 1072.555,
+  "end": 1074.45
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "金三百万円也。昭和五十九年の日付。返済期限の欄には、線が一本引かれているだけ。",
+  "para_end": true,
+  "wav": "seg0219.wav",
+  "start": 1075.1,
+  "end": 1083.67
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "借り主の署名の欄に、その名前はあった。",
+  "para_end": true,
+  "wav": "seg0220.wav",
+  "start": 1084.32,
+  "end": 1088.335
+ },
+ {
+  "chapter": 5,
+  "type": "body",
+  "text": "——大隅宗一郎。",
+  "para_end": true,
+  "wav": "seg0221.wav",
+  "start": 1088.985,
+  "end": 1091.07
+ },
+ {
+  "chapter": 6,
+  "type": "title",
+  "text": "第六章　四十年前の恩",
+  "wav": "seg0222.wav",
+  "start": 1091.72,
+  "end": 1095.015
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "翌日の夕方、工場の前に、老人が一人、立っていた。",
+  "para_end": true,
+  "wav": "seg0223.wav",
+  "start": 1096.615,
+  "end": 1102.575
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "柴田だった。深々と頭を下げてから、老人は言った。",
+  "para_end": true,
+  "wav": "seg0224.wav",
+  "start": 1103.225,
+  "end": 1108.405
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "「わしは今朝、大隅の会社を辞めてきましたんや。四十二年、勤めましたけどな」",
+  "para_end": true,
+  "wav": "seg0225.wav",
+  "start": 1109.055,
+  "end": 1116.24
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "作業場の丸椅子に座り、直人の淹れた茶を一口飲んで、柴田は、四十年前の話を始めた。",
+  "para_end": true,
+  "wav": "seg0226.wav",
+  "start": 1116.89,
+  "end": 1125.66
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "「昭和五十九年。大隅の工場は、",
+  "wav": "seg0227.wav",
+  "start": 1126.31,
+  "end": 1130.025
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "潰れる寸前やった。手形が落ちん。",
+  "wav": "seg0228.wav",
+  "start": 1130.325,
+  "end": 1134.025
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "銀行は知らん顔。業界のもんも、",
+  "wav": "seg0229.wav",
+  "start": 1134.325,
+  "end": 1137.86
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "みんな知らん顔や。……そんとき、",
+  "wav": "seg0230.wav",
+  "start": 1138.16,
+  "end": 1141.185
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "一人だけ、金を持ってきた男がおった」",
+  "para_end": true,
+  "wav": "seg0231.wav",
+  "start": 1141.485,
+  "end": 1145.24
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "「……親父、ですか」",
+  "para_end": true,
+  "wav": "seg0232.wav",
+  "start": 1145.89,
+  "end": 1148.125
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "「三百万。当時のあの工場には、",
+  "wav": "seg0233.wav",
+  "start": 1148.775,
+  "end": 1152.3
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "命の金や。しかも竹田さんは、",
+  "wav": "seg0234.wav",
+  "start": 1152.6,
+  "end": 1156.06
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "金だけやなかった。図面も、焼き入れのコツも、",
+  "wav": "seg0235.wav",
+  "start": 1156.36,
+  "end": 1160.92
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "取引先まで、惜しげもなう分けよった。",
+  "wav": "seg0236.wav",
+  "start": 1161.22,
+  "end": 1164.965
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "わしはあの頃、大隅の工場の若い衆でな。",
+  "wav": "seg0237.wav",
+  "start": 1165.265,
+  "end": 1169.575
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "この目で見とったんや」",
+  "para_end": true,
+  "wav": "seg0238.wav",
+  "start": 1169.875,
+  "end": 1172.06
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "柴田は、湯呑みを置いた。",
+  "para_end": true,
+  "wav": "seg0239.wav",
+  "start": 1172.71,
+  "end": 1175.455
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "「あんたの親父さんは、あほみたいな、お人好しやった」",
+  "para_end": true,
+  "wav": "seg0240.wav",
+  "start": 1176.105,
+  "end": 1180.9
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "「なんで、親父はそこまで」",
+  "para_end": true,
+  "wav": "seg0241.wav",
+  "start": 1181.55,
+  "end": 1184.35
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "「わしも一度だけ聞いた。竹田さんは笑うて、",
+  "wav": "seg0242.wav",
+  "start": 1185.0,
+  "end": 1189.08
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "こう言いよった。『あの男の腕は本物や。",
+  "wav": "seg0243.wav",
+  "start": 1189.38,
+  "end": 1193.285
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "本物が潰れたら、日本の損やろ』…",
+  "wav": "seg0244.wav",
+  "start": 1193.585,
+  "end": 1197.265
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "…とな」",
+  "para_end": true,
+  "wav": "seg0245.wav",
+  "start": 1197.565,
+  "end": 1198.785
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "沈黙が落ちた。柴田の目が、赤くなっていた。",
+  "para_end": true,
+  "wav": "seg0246.wav",
+  "start": 1199.435,
+  "end": 1203.93
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "「大隅は、成功した。そして、",
+  "wav": "seg0247.wav",
+  "start": 1204.58,
+  "end": 1208.105
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "それを全部、なかったことにした。",
+  "wav": "seg0248.wav",
+  "start": 1208.405,
+  "end": 1211.685
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "自分の伝記からも、業界の記憶からも、",
+  "wav": "seg0249.wav",
+  "start": 1211.985,
+  "end": 1216.015
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "竹田の名前を消していきよった。",
+  "wav": "seg0250.wav",
+  "start": 1216.315,
+  "end": 1219.125
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "恩を知る人間を、遠ざけていった。",
+  "wav": "seg0251.wav",
+  "start": 1219.425,
+  "end": 1222.895
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "……あんたの工場が大きい仕事から外され続けたんも、",
+  "wav": "seg0252.wav",
+  "start": 1223.195,
+  "end": 1227.43
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "偶然やないで。恩人が目の前におったら、",
+  "wav": "seg0253.wav",
+  "start": 1227.73,
+  "end": 1231.675
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "あの男の『立志伝』は嘘になるからや」",
+  "para_end": true,
+  "wav": "seg0254.wav",
+  "start": 1231.975,
+  "end": 1235.205
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "柴田は、畳に手をつくように、深く頭を下げた。",
+  "para_end": true,
+  "wav": "seg0255.wav",
+  "start": 1235.855,
+  "end": 1240.87
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "「わしは四十年、それを黙って見とった男や。",
+  "wav": "seg0256.wav",
+  "start": 1241.52,
+  "end": 1245.775
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "せやけど、葬式の翌日に買収をかけに行ったと聞いてな。",
+  "wav": "seg0257.wav",
+  "start": 1246.075,
+  "end": 1251.13
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "……もう、堪忍袋が切れましたんや。",
+  "wav": "seg0258.wav",
+  "start": 1251.43,
+  "end": 1254.815
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "わしはもう、格より恥が怖い歳なんですわ」",
+  "para_end": true,
+  "wav": "seg0259.wav",
+  "start": 1255.115,
+  "end": 1259.345
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "そこへ、もう一人、工場の戸を叩く者がいた。",
+  "para_end": true,
+  "wav": "seg0260.wav",
+  "start": 1259.995,
+  "end": 1264.645
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "美咲だった。会社に内緒で、回収品の切断面を、",
+  "wav": "seg0261.wav",
+  "start": 1265.295,
+  "end": 1270.565
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "大学の研究室に持ち込んで分析してもらったのだという。",
+  "para_end": true,
+  "wav": "seg0262.wav",
+  "start": 1270.865,
+  "end": 1276.295
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "「加工痕の照合が、取れました」",
+  "para_end": true,
+  "wav": "seg0263.wav",
+  "start": 1276.945,
+  "end": 1280.3
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "美咲は、一枚の拡大写真を机に置いた。",
+  "para_end": true,
+  "wav": "seg0264.wav",
+  "start": 1280.95,
+  "end": 1285.355
+ },
+ {
+  "chapter": 6,
+  "type": "body",
+  "text": "「この切り口——大隅製作所の量産機のものです」",
+  "para_end": true,
+  "wav": "seg0265.wav",
+  "start": 1286.005,
+  "end": 1290.645
+ },
+ {
+  "chapter": 7,
+  "type": "title",
+  "text": "第七章　燃やしてこい",
+  "wav": "seg0266.wav",
+  "start": 1291.295,
+  "end": 1294.13
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "同じ頃、大隅製作所の会長室では、大隅が電話を睨みつけていた。",
+  "para_end": true,
+  "wav": "seg0267.wav",
+  "start": 1295.73,
+  "end": 1302.37
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "ドイツの医療機器最大手が主導する、",
+  "wav": "seg0268.wav",
+  "start": 1303.02,
+  "end": 1306.28
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "国産初の人工心臓プロジェクト。",
+  "wav": "seg0269.wav",
+  "start": 1306.58,
+  "end": 1309.95
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "心臓部に使われる極小ばねの入札で、",
+  "wav": "seg0270.wav",
+  "start": 1310.25,
+  "end": 1313.965
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "大隅製は疲労試験に、三度、落ちていた。",
+  "para_end": true,
+  "wav": "seg0271.wav",
+  "start": 1314.265,
+  "end": 1318.795
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "「なぜ通らん! 数値は全部規格内だぞ! 検査データを見ろ!」",
+  "para_end": true,
+  "wav": "seg0272.wav",
+  "start": 1319.445,
+  "end": 1325.015
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "受話器の向こうの部下は、蚊の鳴くような声で報告した。",
+  "wav": "seg0273.wav",
+  "start": 1325.665,
+  "end": 1330.465
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "ドイツ側が、おかしなことを言い始めています—",
+  "wav": "seg0274.wav",
+  "start": 1330.765,
+  "end": 1334.925
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "—。",
+  "para_end": true,
+  "wav": "seg0275.wav",
+  "start": 1335.225,
+  "end": 1335.825
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "——貴社のばねは、十万回で折れる。",
+  "wav": "seg0276.wav",
+  "start": 1336.475,
+  "end": 1339.775
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "我々が試作段階で使っていた無銘の日本製ばねは、",
+  "wav": "seg0277.wav",
+  "start": 1340.075,
+  "end": 1344.76
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "三十万回を超えても折れなかった。",
+  "wav": "seg0278.wav",
+  "start": 1345.06,
+  "end": 1348.165
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "あれと同じものを納入できるなら、",
+  "wav": "seg0279.wav",
+  "start": 1348.465,
+  "end": 1351.495
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "契約しよう。あの職人を探している。",
+  "para_end": true,
+  "wav": "seg0280.wav",
+  "start": 1351.795,
+  "end": 1355.53
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "無銘のばね。試作機に組み込まれていた、出所の分からない、たった一社のばね。",
+  "para_end": true,
+  "wav": "seg0281.wav",
+  "start": 1356.18,
+  "end": 1363.035
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "大隅には、心当たりがあった。あってはならない、心当たりが。",
+  "para_end": true,
+  "wav": "seg0282.wav",
+  "start": 1363.685,
+  "end": 1369.625
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "何年か前、商社を三つ経由した試作の依頼を、都内の小さな工場が受けていたという話。",
+  "para_end": true,
+  "wav": "seg0283.wav",
+  "start": 1370.275,
+  "end": 1378.08
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "「……竹田」",
+  "para_end": true,
+  "wav": "seg0284.wav",
+  "start": 1378.73,
+  "end": 1380.07
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "その名を口にしたとき、老人の顔から、テレビ用の柔和さが剥がれ落ちた。",
+  "para_end": true,
+  "wav": "seg0285.wav",
+  "start": 1380.72,
+  "end": 1387.195
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "会長室に、一人の男が呼ばれた。富岡だった。",
+  "para_end": true,
+  "wav": "seg0286.wav",
+  "start": 1387.845,
+  "end": 1392.915
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "「ご苦労だったな。母親の入院費、来月分も振り込んでおいたよ。個室は、いいだろう」",
+  "para_end": true,
+  "wav": "seg0287.wav",
+  "start": 1393.565,
+  "end": 1401.45
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "大隅は扇子を開いた。",
+  "para_end": true,
+  "wav": "seg0288.wav",
+  "start": 1402.1,
+  "end": 1404.57
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "「ときに……おい、なんだったか、あんたの名前。トミ……トミタ? まあいい」",
+  "para_end": true,
+  "wav": "seg0289.wav",
+  "start": 1405.22,
+  "end": 1412.31
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "富岡の拳が、膝の上で固まった。",
+  "para_end": true,
+  "wav": "seg0290.wav",
+  "start": 1412.96,
+  "end": 1416.865
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "「あんたに、もうひと働き頼みたい。",
+  "wav": "seg0291.wav",
+  "start": 1417.515,
+  "end": 1420.915
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "竹田の作業場に、先代の古い帳面がある。",
+  "wav": "seg0292.wav",
+  "start": 1421.215,
+  "end": 1425.54
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "……今度は、それを燃やしてこい」",
+  "para_end": true,
+  "wav": "seg0293.wav",
+  "start": 1425.84,
+  "end": 1428.775
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "「帳面て……あれは、先代の形見みたいなもんで」",
+  "para_end": true,
+  "wav": "seg0294.wav",
+  "start": 1429.425,
+  "end": 1434.17
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "「だから燃やすんだよ」",
+  "para_end": true,
+  "wav": "seg0295.wav",
+  "start": 1434.82,
+  "end": 1436.94
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "扇子の奥で、大隅は、もう笑っていなかった。",
+  "para_end": true,
+  "wav": "seg0296.wav",
+  "start": 1437.59,
+  "end": 1442.1
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "「あの帳面には、昔の……いや、",
+  "wav": "seg0297.wav",
+  "start": 1442.75,
+  "end": 1446.465
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "あんたが知る必要はない。いいか、",
+  "wav": "seg0298.wav",
+  "start": 1446.765,
+  "end": 1449.985
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "紙一枚だ。紙一枚で、あんたの母親の個室が続くんだ」",
+  "para_end": true,
+  "wav": "seg0299.wav",
+  "start": 1450.285,
+  "end": 1456.155
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "富岡がうなだれて出て行った後、大隅は一人、窓の外の自社ビルの灯りを見た。",
+  "para_end": true,
+  "wav": "seg0300.wav",
+  "start": 1456.805,
+  "end": 1463.775
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "「恩?」",
+  "para_end": true,
+  "wav": "seg0301.wav",
+  "start": 1464.425,
+  "end": 1465.55
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "誰にともなく、老人は呟いた。",
+  "para_end": true,
+  "wav": "seg0302.wav",
+  "start": 1466.2,
+  "end": 1469.745
+ },
+ {
+  "chapter": 7,
+  "type": "body",
+  "text": "「そんなもの、死んだ人間と一緒に、焼いてきたよ」",
+  "para_end": true,
+  "wav": "seg0303.wav",
+  "start": 1470.395,
+  "end": 1475.08
+ },
+ {
+  "chapter": 8,
+  "type": "title",
+  "text": "第八章　坊",
+  "wav": "seg0304.wav",
+  "start": 1475.73,
+  "end": 1478.065
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "深夜二時。工場の裏口の錠が、静かに外れた。合鍵は、返していなかった。",
+  "para_end": true,
+  "wav": "seg0305.wav",
+  "start": 1479.665,
+  "end": 1487.435
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "富岡は、四十年通った作業場に立った。懐中電灯の光が、先代の代からの作業台を舐めた。",
+  "para_end": true,
+  "wav": "seg0306.wav",
+  "start": 1488.085,
+  "end": 1497.19
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "台の縁には、無数の傷があった。",
+  "wav": "seg0307.wav",
+  "start": 1497.84,
+  "end": 1501.195
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "その一つ一つを、富岡は覚えていた。",
+  "wav": "seg0308.wav",
+  "start": 1501.495,
+  "end": 1505.32
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "先代と徹夜で治具を削った夜の傷。",
+  "wav": "seg0309.wav",
+  "start": 1505.62,
+  "end": 1509.17
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "坊が小学生で、初めてばねを巻かせてもらって、",
+  "wav": "seg0310.wav",
+  "start": 1509.47,
+  "end": 1513.96
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "器具を落とした日の傷。",
+  "para_end": true,
+  "wav": "seg0311.wav",
+  "start": 1514.26,
+  "end": 1516.57
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "棚の奥に、帳面はあった。",
+  "para_end": true,
+  "wav": "seg0312.wav",
+  "start": 1517.22,
+  "end": 1520.315
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "ポケットの中で、ライターが、鉛のように重かった。",
+  "para_end": true,
+  "wav": "seg0313.wav",
+  "start": 1520.965,
+  "end": 1525.86
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "——紙一枚だ。",
+  "para_end": true,
+  "wav": "seg0314.wav",
+  "start": 1526.51,
+  "end": 1528.305
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "油の染みた帳面など、よく燃えるだろう。母の病室の、白い天井を思った。",
+  "para_end": true,
+  "wav": "seg0315.wav",
+  "start": 1528.955,
+  "end": 1536.18
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "ライターを握った。握った手が、動かなかった。",
+  "para_end": true,
+  "wav": "seg0316.wav",
+  "start": 1536.83,
+  "end": 1541.38
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "この帳面に書かれた温度と時間の数字を、",
+  "wav": "seg0317.wav",
+  "start": 1542.03,
+  "end": 1545.745
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "先代は、若い富岡に一つずつ教えながら書いたのだ。",
+  "wav": "seg0318.wav",
+  "start": 1546.045,
+  "end": 1550.975
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "「トミさん、これはあんたへの置き手紙でもあるんやで」と笑いながら。",
+  "para_end": true,
+  "wav": "seg0319.wav",
+  "start": 1551.275,
+  "end": 1556.28
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "背後で、電気がついた。",
+  "para_end": true,
+  "wav": "seg0320.wav",
+  "start": 1556.93,
+  "end": 1559.64
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "振り向くと、作業着姿の直人が立っていた。騒がず、驚かず、ただ、立っていた。",
+  "para_end": true,
+  "wav": "seg0321.wav",
+  "start": 1560.29,
+  "end": 1568.43
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "「……坊。わしは……」",
+  "para_end": true,
+  "wav": "seg0322.wav",
+  "start": 1569.08,
+  "end": 1571.23
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "「富岡さん」",
+  "para_end": true,
+  "wav": "seg0323.wav",
+  "start": 1571.88,
+  "end": 1573.55
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "直人は、やかんを火にかけた。",
+  "wav": "seg0324.wav",
+  "start": 1574.2,
+  "end": 1577.46
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "湯呑みを二つ出して、茶を淹れた。",
+  "wav": "seg0325.wav",
+  "start": 1577.76,
+  "end": 1581.055
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "深夜の工場に、湯の匂いが立った。",
+  "para_end": true,
+  "wav": "seg0326.wav",
+  "start": 1581.355,
+  "end": 1584.9
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "「お袋さんの具合、どうですか」",
+  "para_end": true,
+  "wav": "seg0327.wav",
+  "start": 1585.55,
+  "end": 1588.705
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "富岡の肩が、震え始めた。",
+  "para_end": true,
+  "wav": "seg0328.wav",
+  "start": 1589.355,
+  "end": 1592.675
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "「なんで、や」",
+  "para_end": true,
+  "wav": "seg0329.wav",
+  "start": 1593.325,
+  "end": 1595.39
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "声が、割れた。",
+  "para_end": true,
+  "wav": "seg0330.wav",
+  "start": 1596.04,
+  "end": 1598.2
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "「なんで警察を呼ばん! わしはあんたの工場を潰した男やぞ! ばねを混ぜたのも…",
+  "wav": "seg0331.wav",
+  "start": 1598.85,
+  "end": 1605.725
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "…あれをやったのも、わしや!」",
+  "para_end": true,
+  "wav": "seg0332.wav",
+  "start": 1606.025,
+  "end": 1608.92
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "「知ってました」",
+  "para_end": true,
+  "wav": "seg0333.wav",
+  "start": 1609.57,
+  "end": 1611.21
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "直人は、静かに言った。",
+  "para_end": true,
+  "wav": "seg0334.wav",
+  "start": 1611.86,
+  "end": 1614.775
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "「切り口を見た日から。うちの機械の癖やない切り口は、",
+  "wav": "seg0335.wav",
+  "start": 1615.425,
+  "end": 1620.085
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "四十年うちの機械を触った人にしか、",
+  "wav": "seg0336.wav",
+  "start": 1620.385,
+  "end": 1623.825
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "混ぜられん」",
+  "para_end": true,
+  "wav": "seg0337.wav",
+  "start": 1624.125,
+  "end": 1625.65
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "富岡は、立っていられなくなった。",
+  "para_end": true,
+  "wav": "seg0338.wav",
+  "start": 1626.3,
+  "end": 1629.61
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "「……なら、なんで」",
+  "para_end": true,
+  "wav": "seg0339.wav",
+  "start": 1630.26,
+  "end": 1632.275
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "「富岡さんには、富岡さんの守るもんがあったんでしょう」",
+  "para_end": true,
+  "wav": "seg0340.wav",
+  "start": 1632.925,
+  "end": 1637.595
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "直人は、湯呑みを富岡の前に置いた。",
+  "para_end": true,
+  "wav": "seg0341.wav",
+  "start": 1638.245,
+  "end": 1642.12
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "「肩車、覚えてますよ。祭りの。……あれも、この手ですわ」",
+  "para_end": true,
+  "wav": "seg0342.wav",
+  "start": 1642.77,
+  "end": 1648.73
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "老いた職人は、油の染みた床に膝をついて、泣いた。子供のように、声を上げて泣いた。",
+  "para_end": true,
+  "wav": "seg0343.wav",
+  "start": 1649.38,
+  "end": 1657.555
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "「……あんた、親父さんと同じことをする。",
+  "wav": "seg0344.wav",
+  "start": 1658.205,
+  "end": 1661.715
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "あの人も、わしの博打の借金、",
+  "wav": "seg0345.wav",
+  "start": 1662.015,
+  "end": 1665.425
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "黙って肩代わりして、一言も責めんかった…",
+  "wav": "seg0346.wav",
+  "start": 1665.725,
+  "end": 1669.98
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "…」",
+  "para_end": true,
+  "wav": "seg0347.wav",
+  "start": 1670.28,
+  "end": 1670.88
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "富岡は、涙を拭って、顔を上げた。",
+  "para_end": true,
+  "wav": "seg0348.wav",
+  "start": 1671.53,
+  "end": 1675.82
+ },
+ {
+  "chapter": 8,
+  "type": "body",
+  "text": "「坊。わし、全部、話します。どこで誰に何を渡されて、何をしたか。……全部や」",
+  "para_end": true,
+  "wav": "seg0349.wav",
+  "start": 1676.47,
+  "end": 1684.88
+ },
+ {
+  "chapter": 9,
+  "type": "title",
+  "text": "第九章　三十万回",
+  "wav": "seg0350.wav",
+  "start": 1685.53,
+  "end": 1688.57
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "公開検証の日が来た。",
+  "para_end": true,
+  "wav": "seg0351.wav",
+  "start": 1690.17,
+  "end": 1692.63
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "人工心臓プロジェクトの最終選考。",
+  "wav": "seg0352.wav",
+  "start": 1693.28,
+  "end": 1696.785
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "度重なる試験結果への疑義を受けて、",
+  "wav": "seg0353.wav",
+  "start": 1697.085,
+  "end": 1700.39
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "ドイツ社は異例の要求をした。",
+  "wav": "seg0354.wav",
+  "start": 1700.69,
+  "end": 1703.52
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "疲労試験を、業界関係者と報道陣の前で、",
+  "wav": "seg0355.wav",
+  "start": 1703.82,
+  "end": 1708.265
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "公開で行う——。",
+  "para_end": true,
+  "wav": "seg0356.wav",
+  "start": 1708.565,
+  "end": 1710.53
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "会場となった試験センターには、百人を超える人間が詰めかけた。",
+  "para_end": true,
+  "wav": "seg0357.wav",
+  "start": 1711.18,
+  "end": 1716.805
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "大隅は最前列で、扇子をゆったり揺らしていた。",
+  "wav": "seg0358.wav",
+  "start": 1717.455,
+  "end": 1722.04
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "勝負は見えている。相手は倒産寸前の、",
+  "wav": "seg0359.wav",
+  "start": 1722.34,
+  "end": 1726.285
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "「事故を起こした」町工場なのだ。",
+  "wav": "seg0360.wav",
+  "start": 1726.585,
+  "end": 1729.44
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "カメラの前で息の根を止めてやるのも、",
+  "wav": "seg0361.wav",
+  "start": 1729.74,
+  "end": 1732.98
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "悪くない。",
+  "para_end": true,
+  "wav": "seg0362.wav",
+  "start": 1733.28,
+  "end": 1734.78
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "試験の前に、大隅がマイクを握った。求められてもいないのに、である。",
+  "para_end": true,
+  "wav": "seg0363.wav",
+  "start": 1735.43,
+  "end": 1741.78
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "「本日はお集まりいただき恐縮です。",
+  "wav": "seg0364.wav",
+  "start": 1742.43,
+  "end": 1745.76
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "医療機器は人命を預かる。だからこそ、",
+  "wav": "seg0365.wav",
+  "start": 1746.06,
+  "end": 1749.825
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "勘や芸ではなく、数値と設備で語られるべきです。",
+  "wav": "seg0366.wav",
+  "start": 1750.125,
+  "end": 1754.78
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "……本日は、その当たり前が証明される日になるでしょう」",
+  "para_end": true,
+  "wav": "seg0367.wav",
+  "start": 1755.08,
+  "end": 1759.625
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "拍手が起きた。拍手をしながら、",
+  "wav": "seg0368.wav",
+  "start": 1760.275,
+  "end": 1763.46
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "何人かの取引先の男たちは、目を合わせなかった。",
+  "wav": "seg0369.wav",
+  "start": 1763.76,
+  "end": 1768.585
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "彼らはここ数年、大隅製のばねのクレーム処理に、",
+  "wav": "seg0370.wav",
+  "start": 1768.885,
+  "end": 1773.585
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "現場で追われ続けていたからだ。",
+  "wav": "seg0371.wav",
+  "start": 1773.885,
+  "end": 1776.71
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "ただ、格に逆らえず、誰も口にしなかっただけだ。",
+  "para_end": true,
+  "wav": "seg0372.wav",
+  "start": 1777.01,
+  "end": 1781.89
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "直人は、挨拶を求められなかった。会場の隅で、ただ立っていた。",
+  "para_end": true,
+  "wav": "seg0373.wav",
+  "start": 1782.54,
+  "end": 1789.11
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "二台の試験機に、それぞれのばねが装着された。",
+  "para_end": true,
+  "wav": "seg0374.wav",
+  "start": 1789.76,
+  "end": 1794.155
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "「開始します」",
+  "para_end": true,
+  "wav": "seg0375.wav",
+  "start": 1794.805,
+  "end": 1796.545
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "規則的な作動音が、重なって響き始めた。電光掲示の数字が回る。",
+  "para_end": true,
+  "wav": "seg0376.wav",
+  "start": 1797.195,
+  "end": 1803.755
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "一万回。五万回。八万回。",
+  "para_end": true,
+  "wav": "seg0377.wav",
+  "start": 1804.405,
+  "end": 1808.27
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "大隅は余裕の表情で、隣の来賓に何事か囁いて笑っていた。",
+  "para_end": true,
+  "wav": "seg0378.wav",
+  "start": 1808.92,
+  "end": 1814.995
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "九万回。九万五千。",
+  "para_end": true,
+  "wav": "seg0379.wav",
+  "start": 1815.645,
+  "end": 1818.52
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "——十万と三千回で、乾いた音がした。",
+  "para_end": true,
+  "wav": "seg0380.wav",
+  "start": 1819.17,
+  "end": 1823.16
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "大隅製のばねが、折れた音だった。",
+  "para_end": true,
+  "wav": "seg0381.wav",
+  "start": 1823.81,
+  "end": 1827.265
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "会場が、ざわめいた。大隅の扇子が、止まった。",
+  "para_end": true,
+  "wav": "seg0382.wav",
+  "start": 1827.915,
+  "end": 1833.115
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "竹田のばねは、動き続けている。十五万回。二十万回。規格値の二倍を超えた。",
+  "para_end": true,
+  "wav": "seg0383.wav",
+  "start": 1833.765,
+  "end": 1841.65
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "「馬鹿な……」",
+  "para_end": true,
+  "wav": "seg0384.wav",
+  "start": 1842.3,
+  "end": 1843.68
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "二十五万回。三十万回。",
+  "para_end": true,
+  "wav": "seg0385.wav",
+  "start": 1844.33,
+  "end": 1847.625
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "試験機が、規定により停止した。破断、なし。",
+  "para_end": true,
+  "wav": "seg0386.wav",
+  "start": 1848.275,
+  "end": 1853.155
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "審査員のドイツ人技師が立ち上がり、",
+  "wav": "seg0387.wav",
+  "start": 1853.805,
+  "end": 1856.93
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "竹田のばねを取り出した。ルーペで検分し、",
+  "wav": "seg0388.wav",
+  "start": 1857.23,
+  "end": 1861.165
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "それから、ふと思い立ったように、",
+  "wav": "seg0389.wav",
+  "start": 1861.465,
+  "end": 1864.56
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "手元の鋼の皿に、そのばねを転がした。",
+  "para_end": true,
+  "wav": "seg0390.wav",
+  "start": 1864.86,
+  "end": 1869.02
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "ちりん、と。",
+  "para_end": true,
+  "wav": "seg0391.wav",
+  "start": 1869.67,
+  "end": 1871.575
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "三十万回の試験の後とは思えない、澄んだ音がした。",
+  "para_end": true,
+  "wav": "seg0392.wav",
+  "start": 1872.225,
+  "end": 1877.145
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "技師は顔を上げた。そして通訳を待たずに、覚えたての日本語で、はっきりと言った。",
+  "para_end": true,
+  "wav": "seg0393.wav",
+  "start": 1877.795,
+  "end": 1885.17
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "「この精度は——世界で、一社しか出せない」",
+  "para_end": true,
+  "wav": "seg0394.wav",
+  "start": 1885.82,
+  "end": 1889.975
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "そのときだった。会場の後方で、一人の男が立ち上がった。",
+  "para_end": true,
+  "wav": "seg0395.wav",
+  "start": 1890.625,
+  "end": 1896.305
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "富岡だった。",
+  "para_end": true,
+  "wav": "seg0396.wav",
+  "start": 1896.955,
+  "end": 1898.74
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "混入の手口を。渡された金を。",
+  "wav": "seg0397.wav",
+  "start": 1899.39,
+  "end": 1902.82
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "命じた男の名を。震える声で、",
+  "wav": "seg0398.wav",
+  "start": 1903.12,
+  "end": 1906.535
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "しかし一言も濁さずに、証言した。",
+  "para_end": true,
+  "wav": "seg0399.wav",
+  "start": 1906.835,
+  "end": 1910.625
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "続いて柴田が立った。四十年前の三百万円。",
+  "wav": "seg0400.wav",
+  "start": 1911.275,
+  "end": 1915.905
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "譲られた図面。そして、業界の記憶から消されていった、",
+  "wav": "seg0401.wav",
+  "start": 1916.205,
+  "end": 1921.66
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "竹田という名前のこと。",
+  "para_end": true,
+  "wav": "seg0402.wav",
+  "start": 1921.96,
+  "end": 1924.32
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "報道陣のカメラが、一斉に大隅を向いた。",
+  "para_end": true,
+  "wav": "seg0403.wav",
+  "start": 1924.97,
+  "end": 1929.08
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "大隅は立ち上がり、怒鳴った。",
+  "para_end": true,
+  "wav": "seg0404.wav",
+  "start": 1929.73,
+  "end": 1932.92
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "「でたらめだ! 全部でたらめだ! こんな連中の証言に何の価値がある! こいつは金で雇",
+  "wav": "seg0405.wav",
+  "start": 1933.57,
+  "end": 1941.355
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "われた嘘つきで、",
+  "wav": "seg0406.wav",
+  "start": 1941.655,
+  "end": 1943.59
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "こいつは……こいつは、ただの…",
+  "wav": "seg0407.wav",
+  "start": 1943.89,
+  "end": 1947.29
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "…」",
+  "para_end": true,
+  "wav": "seg0408.wav",
+  "start": 1947.59,
+  "end": 1948.19
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "大隅の指が、富岡を差したまま、止まった。",
+  "para_end": true,
+  "wav": "seg0409.wav",
+  "start": 1948.84,
+  "end": 1953.585
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "四十年、自分の隣で働いた男の名前が。",
+  "para_end": true,
+  "wav": "seg0410.wav",
+  "start": 1954.235,
+  "end": 1958.855
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "——出てこなかった。",
+  "para_end": true,
+  "wav": "seg0411.wav",
+  "start": 1959.505,
+  "end": 1961.37
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "「ただの……その……」",
+  "para_end": true,
+  "wav": "seg0412.wav",
+  "start": 1962.02,
+  "end": 1964.115
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "会場が、静まり返った。",
+  "para_end": true,
+  "wav": "seg0413.wav",
+  "start": 1964.765,
+  "end": 1967.735
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "扇子が、手から落ちた。",
+  "para_end": true,
+  "wav": "seg0414.wav",
+  "start": 1968.385,
+  "end": 1971.035
+ },
+ {
+  "chapter": 9,
+  "type": "body",
+  "text": "その沈黙が、どんな判決よりも、雄弁だった。",
+  "para_end": true,
+  "wav": "seg0415.wav",
+  "start": 1971.685,
+  "end": 1976.485
+ },
+ {
+  "chapter": 10,
+  "type": "title",
+  "text": "第十章　澄んだ音",
+  "wav": "seg0416.wav",
+  "start": 1977.135,
+  "end": 1979.88
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "一ヶ月後。",
+  "para_end": true,
+  "wav": "seg0417.wav",
+  "start": 1981.48,
+  "end": 1983.155
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "大隅製作所は主要取引のすべてを失った。",
+  "wav": "seg0418.wav",
+  "start": 1983.805,
+  "end": 1988.055
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "検査データの偽装も次々に明るみに出て、",
+  "wav": "seg0419.wav",
+  "start": 1988.355,
+  "end": 1992.09
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "大隅宗一郎は業界団体の会長職を辞し、",
+  "wav": "seg0420.wav",
+  "start": 1992.39,
+  "end": 1996.765
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "経営から退いた。あれほど老人を囲んでいた人垣は、",
+  "wav": "seg0421.wav",
+  "start": 1997.065,
+  "end": 2002.0
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "一人も、残らなかった。",
+  "para_end": true,
+  "wav": "seg0422.wav",
+  "start": 2002.3,
+  "end": 2005.005
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "テレビはもう、「町工場の神様」とは言わなかった。",
+  "para_end": true,
+  "wav": "seg0423.wav",
+  "start": 2005.655,
+  "end": 2010.145
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "一方、竹田ばね製作所の電話は、鳴り止まなかった。国内から、海外から。",
+  "para_end": true,
+  "wav": "seg0424.wav",
+  "start": 2010.795,
+  "end": 2018.255
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "かつて廊下で直人をあしらった専務が、",
+  "wav": "seg0425.wav",
+  "start": 2018.905,
+  "end": 2022.305
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "菓子折りを持って現れ、「親父さんの代からの付き合いじゃないか」と揉み手をした。",
+  "wav": "seg0426.wav",
+  "start": 2022.605,
+  "end": 2028.48
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "直人は怒らなかった。ただ、「納期は、",
+  "wav": "seg0427.wav",
+  "start": 2028.78,
+  "end": 2032.875
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "順番です」とだけ言った。列の一番後ろに並ぶという意味だと気づいて、",
+  "wav": "seg0428.wav",
+  "start": 2033.175,
+  "end": 2038.885
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "専務の顔が強張った。",
+  "para_end": true,
+  "wav": "seg0429.wav",
+  "start": 2039.185,
+  "end": 2041.56
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "八人だった工場は、富岡が戻り、",
+  "wav": "seg0430.wav",
+  "start": 2042.21,
+  "end": 2046.05
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "九人になった。富岡は給料の一部を、",
+  "wav": "seg0431.wav",
+  "start": 2046.35,
+  "end": 2050.34
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "毎月、匿名で被害を受けた取引先への弁済に回している。",
+  "wav": "seg0432.wav",
+  "start": 2050.64,
+  "end": 2056.14
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "直人はそれを知っているが、何も言わない。",
+  "para_end": true,
+  "wav": "seg0433.wav",
+  "start": 2056.44,
+  "end": 2060.33
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "遅配した給料は、利息をつけて払った。",
+  "wav": "seg0434.wav",
+  "start": 2060.98,
+  "end": 2064.905
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "健太は「利息とかいいっすよ」と言いながら、",
+  "wav": "seg0435.wav",
+  "start": 2065.205,
+  "end": 2068.395
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "その金で工具を新調した。",
+  "para_end": true,
+  "wav": "seg0436.wav",
+  "start": 2068.695,
+  "end": 2071.47
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "美咲も来た。会社を辞めて、竹田ばねの営業担当第一号になったのだ。",
+  "para_end": true,
+  "wav": "seg0437.wav",
+  "start": 2072.12,
+  "end": 2078.745
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "「後悔しませんか」と直人が聞くと、美咲は初めて、書類を持たない手で答えた。",
+  "para_end": true,
+  "wav": "seg0438.wav",
+  "start": 2079.395,
+  "end": 2086.26
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "「数字にならないものを、数字にするのが、これからの私の仕事です」",
+  "para_end": true,
+  "wav": "seg0439.wav",
+  "start": 2086.91,
+  "end": 2092.995
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "プロジェクトの調印式典の日。",
+  "para_end": true,
+  "wav": "seg0440.wav",
+  "start": 2093.645,
+  "end": 2096.39
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "ホールの入り口で、招かれてもいないのに現れた大隅が、",
+  "wav": "seg0441.wav",
+  "start": 2097.04,
+  "end": 2101.865
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "ドイツ社の技術責任者に手を差し出した。",
+  "wav": "seg0442.wav",
+  "start": 2102.165,
+  "end": 2105.79
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "最後の縁に、すがるように。",
+  "para_end": true,
+  "wav": "seg0443.wav",
+  "start": 2106.09,
+  "end": 2108.915
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "技師は、その手の前を——素通りした。",
+  "para_end": true,
+  "wav": "seg0444.wav",
+  "start": 2109.565,
+  "end": 2113.38
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "そして、会場の隅に立っていた作業着の男の前で足を止め、深く、頭を下げた。",
+  "para_end": true,
+  "wav": "seg0445.wav",
+  "start": 2114.03,
+  "end": 2124.245
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "「ミスター・タケダ。あなたを、探していました」",
+  "para_end": true,
+  "wav": "seg0446.wav",
+  "start": 2124.895,
+  "end": 2129.44
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "会場中の目が、その一礼を見ていた。",
+  "wav": "seg0447.wav",
+  "start": 2130.09,
+  "end": 2133.85
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "序列というものが、音を立てて裏返るのを、",
+  "wav": "seg0448.wav",
+  "start": 2134.15,
+  "end": 2138.085
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "全員が見ていた。",
+  "para_end": true,
+  "wav": "seg0449.wav",
+  "start": 2138.385,
+  "end": 2140.385
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "式典の帰り際、人気のない廊下で、直人と大隅は二人きりになった。",
+  "para_end": true,
+  "wav": "seg0450.wav",
+  "start": 2141.035,
+  "end": 2147.645
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "老人は、ひと月で十も老けたように、小さく見えた。",
+  "para_end": true,
+  "wav": "seg0451.wav",
+  "start": 2148.295,
+  "end": 2153.42
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "直人は、初めて自分から、この男に声をかけた。",
+  "para_end": true,
+  "wav": "seg0452.wav",
+  "start": 2154.07,
+  "end": 2159.255
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "「大隅さん。親父は、あんたを恨んでませんでした」",
+  "para_end": true,
+  "wav": "seg0453.wav",
+  "start": 2159.905,
+  "end": 2164.505
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "懐から、あの帳面を出す。最後のページの借用書。",
+  "wav": "seg0454.wav",
+  "start": 2165.155,
+  "end": 2170.355
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "その余白に、父の字は、こう書き添えていた。",
+  "para_end": true,
+  "wav": "seg0455.wav",
+  "start": 2170.655,
+  "end": 2175.13
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "——大隅くんの腕は本物。金は、返さんでいい。",
+  "para_end": true,
+  "wav": "seg0456.wav",
+  "start": 2175.78,
+  "end": 2180.715
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "「四十年、あんたが消そうとしてきた男は、",
+  "wav": "seg0457.wav",
+  "start": 2181.365,
+  "end": 2185.39
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "四十年、あんたの腕を信じてました。",
+  "wav": "seg0458.wav",
+  "start": 2185.69,
+  "end": 2189.37
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "……それが、あんたへの、一番の罰だ」",
+  "para_end": true,
+  "wav": "seg0459.wav",
+  "start": 2189.67,
+  "end": 2193.45
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "大隅の顔が、ゆっくりと、崩れた。",
+  "para_end": true,
+  "wav": "seg0460.wav",
+  "start": 2194.1,
+  "end": 2198.05
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "扇子の奥に四十年隠してきたものが、人前で初めて、崩れた。",
+  "para_end": true,
+  "wav": "seg0461.wav",
+  "start": 2198.7,
+  "end": 2204.89
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "「…………直人くん」",
+  "para_end": true,
+  "wav": "seg0462.wav",
+  "start": 2205.54,
+  "end": 2207.045
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "初めて、名前で呼んだ。",
+  "para_end": true,
+  "wav": "seg0463.wav",
+  "start": 2207.695,
+  "end": 2210.485
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "老人は何かを言いかけ、結局何も言えず、ただ深く、深く頭を下げて、一人で去っていった。",
+  "para_end": true,
+  "wav": "seg0464.wav",
+  "start": 2211.135,
+  "end": 2219.885
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "翌朝。",
+  "para_end": true,
+  "wav": "seg0465.wav",
+  "start": 2220.535,
+  "end": 2222.04
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "竹田ばね製作所の検品台に、直人は座っていた。",
+  "para_end": true,
+  "wav": "seg0466.wav",
+  "start": 2222.69,
+  "end": 2227.7
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "午前六時にシャッターを開け、",
+  "wav": "seg0467.wav",
+  "start": 2228.35,
+  "end": 2231.06
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "鋼の皿に、ばねを流す。何ひとつ変わらない仕事。",
+  "wav": "seg0468.wav",
+  "start": 2231.36,
+  "end": 2236.56
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "変わったのは、世界の眼差しだけだった。",
+  "para_end": true,
+  "wav": "seg0469.wav",
+  "start": 2236.86,
+  "end": 2240.675
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "ちりん、と。",
+  "para_end": true,
+  "wav": "seg0470.wav",
+  "start": 2241.325,
+  "end": 2243.23
+ },
+ {
+  "chapter": 10,
+  "type": "body",
+  "text": "今日も、澄んだ音がした。",
+  "para_end": true,
+  "wav": "seg0471.wav",
+  "start": 2243.88,
+  "end": 2246.59
+ }
+]
