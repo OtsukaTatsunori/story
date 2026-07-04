@@ -21,12 +21,19 @@ import subprocess
 import sys
 from pathlib import Path
 
-SUB_MAX = 42          # 字幕1枚の最大文字数
+SUB_MAX = 40          # 字幕1枚の最大文字数(20字×2行)
+SUB_LINE = 20         # 字幕1行の最大文字数
 PAUSE_SEG = 0.30      # セグメント間ポーズ(秒)
 PAUSE_PARA = 0.65     # 段落間
 PAUSE_CHAP = 1.60     # 章間
 FPS = 24
 W, H = 1280, 720
+
+# 字幕スタイル(libassのPlayResY=288基準。MarginV=29 ≒ 画面下10%の余白)
+# FontName: Noto Sans JP相当(Noto Sans CJK JP)。縁取り(Outline)で読みやすく
+SUB_STYLE = ("FontName=Noto Sans CJK JP,Bold=1,FontSize=20,"
+             "PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,"
+             "BorderStyle=1,Outline=2,Shadow=0,Alignment=2,MarginV=29")
 
 
 def run(cmd, **kw):
@@ -39,24 +46,36 @@ def run(cmd, **kw):
 # ---------- 1. segment ----------
 
 def split_sentence(s: str) -> list[str]:
-    """字幕サイズに文を分割。句読点・記号を優先的な切れ目に使う。"""
+    """字幕サイズに文を分割。句読点で細かく割ってからSUB_MAX以内に貪欲に結合する。
+    文の途中でぶつ切りにしない(句読点のない超長文のみ最後の手段として強制分割)。"""
     if len(s) <= SUB_MAX:
         return [s]
     parts, buf = [], ""
     for ch in s:
         buf += ch
-        if ch in "、。！？…——" and len(buf) >= 14:
+        if ch in "、。！？":
             parts.append(buf)
             buf = ""
     if buf:
         parts.append(buf)
-    out = []
+    chunks, cur = [], ""
     for p in parts:
-        while len(p) > SUB_MAX:
-            out.append(p[:SUB_MAX])
-            p = p[SUB_MAX:]
-        out.append(p)
-    return [p for p in out if p.strip()]
+        if len(p) > SUB_MAX:  # 句読点なしの超長句のみ強制分割
+            if cur:
+                chunks.append(cur)
+                cur = ""
+            while len(p) > SUB_MAX:
+                chunks.append(p[:SUB_MAX])
+                p = p[SUB_MAX:]
+            cur = p
+        elif len(cur) + len(p) <= SUB_MAX:
+            cur += p
+        else:
+            chunks.append(cur)
+            cur = p
+    if cur:
+        chunks.append(cur)
+    return [c for c in chunks if c.strip()]
 
 
 def step_segment(ep: Path) -> None:
@@ -175,12 +194,27 @@ def fmt_ts(s: float) -> str:
     return f"{ms//3600000:02d}:{ms%3600000//60000:02d}:{ms%60000//1000:02d},{ms%1000:03d}"
 
 
+def wrap_sub(text: str) -> str:
+    """字幕テキストを最大2行(1行15〜20字)に折り返す。句読点優先で自然な位置で割る。"""
+    if len(text) <= SUB_LINE:
+        return text
+    mid = len(text) / 2
+    # 句読点・記号のうち中央に最も近い位置で割る
+    breaks = [i + 1 for i, ch in enumerate(text[:-1]) if ch in "、。！？…」』——"]
+    cand = [b for b in breaks if len(text) - b <= SUB_LINE and b <= SUB_LINE]
+    if cand:
+        pos = min(cand, key=lambda b: abs(b - mid))
+    else:
+        pos = min(int(mid + 0.5), SUB_LINE)
+    return text[:pos] + "\n" + text[pos:]
+
+
 def step_srt(ep: Path) -> None:
     timeline = json.loads((ep / "timeline.json").read_text(encoding="utf-8"))
     lines = []
     for n, seg in enumerate(timeline, 1):
         end = seg["end"] + (0.25 if not seg["type"] == "title" else 0.1)
-        lines += [str(n), f"{fmt_ts(seg['start'])} --> {fmt_ts(end)}", seg["text"], ""]
+        lines += [str(n), f"{fmt_ts(seg['start'])} --> {fmt_ts(end)}", wrap_sub(seg["text"]), ""]
     (ep / "subtitles.srt").write_text("\n".join(lines), encoding="utf-8")
     print(f"srt: {len(timeline)}枚 → subtitles.srt")
 
@@ -234,10 +268,11 @@ def step_bg(ep: Path) -> None:
         title = titles.get(ch, "")
         f_big = ImageFont.truetype(font_path, 84)
         f_sm = ImageFont.truetype(font_path, 40)
-        d.text((W2*0.08, H2*0.72), f"第{ch}章" if "章" not in title else title.split("　")[0],
+        # 章タイトルは左上に置く(下部は字幕域のため空けておく)
+        d.text((W2*0.07, H2*0.10), f"第{ch}章" if "章" not in title else title.split("　")[0],
                font=f_sm, fill=(200, 180, 140, 200))
         name = title.split("　", 1)[1] if "　" in title else title
-        d.text((W2*0.08, H2*0.78), name, font=f_big, fill=(235, 228, 214, 235))
+        d.text((W2*0.07, H2*0.155), name, font=f_big, fill=(235, 228, 214, 235))
         img.save(out)
     print(f"bg: {len(chapters)}枚 → bg/")
 
@@ -271,7 +306,7 @@ def step_render(ep: Path) -> None:
     fc = ";".join(fparts) + ";" + "".join(labels) + f"concat=n={n}:v=1:a=0[vid]"
     # 字幕焼き込み
     srt = str(ep / "subtitles.srt").replace(":", "\\:")
-    style = "FontName=Noto Sans CJK JP,FontSize=17,PrimaryColour=&HF0FFFFFF,OutlineColour=&HB0000000,BorderStyle=1,Outline=2,Shadow=0,MarginV=36"
+    style = SUB_STYLE
     fc += f";[vid]subtitles='{srt}':force_style='{style}'[vout]"
     # BGM: 静かな環境音パッド(プレースホルダ)を生成してダッキング的に低音量で敷く
     bgm = (f"aevalsrc='0.02*sin(2*PI*110*t)+0.015*sin(2*PI*164.8*t)+0.012*sin(2*PI*220*t)"
