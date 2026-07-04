@@ -275,7 +275,7 @@ def step_render(ep: Path) -> None:
     fc += f";[vid]subtitles='{srt}':force_style='{style}'[vout]"
     # BGM: 静かな環境音パッド(プレースホルダ)を生成してダッキング的に低音量で敷く
     bgm = (f"aevalsrc='0.02*sin(2*PI*110*t)+0.015*sin(2*PI*164.8*t)+0.012*sin(2*PI*220*t)"
-           f"+0.006*sin(2*PI*329.6*t)':s=44100,tremolo=f=0.08:d=0.4,volume=0.5[bgm]")
+           f"+0.006*sin(2*PI*329.6*t)':s=44100,tremolo=f=0.15:d=0.4,volume=0.5[bgm]")
     fc += f";{bgm};[{n}:a][bgm]amix=inputs=2:duration=first:weights='1 0.35'[aout]"
     cmd = (["ffmpeg", "-y"] + inputs + ["-i", str(ep / "narration.wav"),
            "-filter_complex", fc, "-map", "[vout]", "-map", "[aout]",
