@@ -31,7 +31,7 @@ W, H = 1280, 720
 
 # 字幕スタイル(libassのPlayResY=288基準。MarginV=29 ≒ 画面下10%の余白)
 # FontName: Noto Sans JP相当(Noto Sans CJK JP)。縁取り(Outline)で読みやすく
-SUB_STYLE = ("FontName=Noto Sans CJK JP,Bold=1,FontSize=20,"
+SUB_STYLE = ("FontName=Noto Sans CJK JP,Bold=1,FontSize=23,"
              "PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,"
              "BorderStyle=1,Outline=2,Shadow=0,Alignment=2,MarginV=29")
 
@@ -231,13 +231,11 @@ CHAPTER_PALETTES = [  # (上端, 下端) 章の感情に沿った暗色トーン
 
 
 def step_bg(ep: Path) -> None:
-    from PIL import Image, ImageDraw, ImageFont
+    from PIL import Image, ImageDraw
     timeline = json.loads((ep / "timeline.json").read_text(encoding="utf-8"))
     chapters = sorted({s["chapter"] for s in timeline})
-    titles = {s["chapter"]: s["text"] for s in timeline if s["type"] == "title"}
     bg_dir = ep / "bg"
     bg_dir.mkdir(exist_ok=True)
-    font_path = "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"
     W2, H2 = W * 2, H * 2  # Ken Burns用に大きめ
     for ch in chapters:
         custom = ep / "images" / f"ch{ch:02d}.png"  # 自作画像があれば優先
@@ -265,14 +263,7 @@ def step_bg(ep: Path) -> None:
         for i in range(120):
             a = int(80 * (i / 120) ** 2)
             d.rectangle([i*6, i*4, W2-i*6, H2-i*4], outline=(0, 0, 0, min(a, 4)), width=6)
-        title = titles.get(ch, "")
-        f_big = ImageFont.truetype(font_path, 84)
-        f_sm = ImageFont.truetype(font_path, 40)
-        # 章タイトルは左上に置く(下部は字幕域のため空けておく)
-        d.text((W2*0.07, H2*0.10), f"第{ch}章" if "章" not in title else title.split("　")[0],
-               font=f_sm, fill=(200, 180, 140, 200))
-        name = title.split("　", 1)[1] if "　" in title else title
-        d.text((W2*0.07, H2*0.155), name, font=f_big, fill=(235, 228, 214, 235))
+        # 章タイトルは背景に描かない(字幕・映像の邪魔になるため)
         img.save(out)
     print(f"bg: {len(chapters)}枚 → bg/")
 
