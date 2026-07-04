@@ -1,0 +1,35 @@
+[
+  {
+    "episode": 1,
+    "choices": {
+      "conflict": "x07",
+      "villain": "v16",
+      "protagonist": "p15",
+      "stage": "s01",
+      "kando_main": "k01",
+      "kando_sub": [
+        "k04"
+      ],
+      "sukatto_main": "z02",
+      "sukatto_sub": [
+        "z15"
+      ],
+      "turn1": "t106",
+      "turn2": "t202",
+      "reversal": "r09",
+      "heroine": "h01",
+      "ally": "a02",
+      "betrayal": "b03",
+      "crowd": "c06",
+      "ending": "e12",
+      "hook": "hk04",
+      "foreshadow": [
+        "f11",
+        "f09",
+        "f07",
+        "f03"
+      ]
+    },
+    "design_file": "output/ep001/design.md"
+  }
+]
