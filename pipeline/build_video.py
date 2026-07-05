@@ -359,7 +359,9 @@ def step_render(ep: Path) -> None:
     n = len(chapters)
     fc = ";".join(fparts) + ";" + "".join(labels) + f"concat=n={n}:v=1:a=0[vid]"
     # 字幕焼き込み
-    srt = str(ep / "subtitles.srt").replace(":", "\\:")
+    # subtitlesフィルタ用にパスを正規化: Windowsの \ はエスケープ文字として
+    # 食われるためフォワードスラッシュに統一し、ドライブレターの : をエスケープする
+    srt = (ep / "subtitles.srt").as_posix().replace(":", "\\:")
     style = SUB_STYLE.replace("Noto Sans CJK JP", sub_font_name())
     fc += f";[vid]subtitles='{srt}':force_style='{style}'[vout]"
     # BGM: 静かな環境音パッド(プレースホルダ)を生成してダッキング的に低音量で敷く
