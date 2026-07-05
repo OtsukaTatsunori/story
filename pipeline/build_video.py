@@ -31,9 +31,9 @@ W, H = 1280, 720
 
 # 字幕スタイル(libassのPlayResY=288基準。MarginV=29 ≒ 画面下10%の余白)
 # FontName: Noto Sans JP相当(Noto Sans CJK JP)。縁取り(Outline)で読みやすく
-SUB_STYLE = ("FontName=Noto Sans CJK JP,Bold=1,FontSize=23,"
+SUB_STYLE = ("FontName=Noto Sans CJK JP,Bold=1,FontSize=29,"
              "PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,"
-             "BorderStyle=1,Outline=2,Shadow=0,Alignment=2,MarginV=29")
+             "BorderStyle=1,Outline=2.5,Shadow=0,Alignment=2,MarginV=29")
 
 
 def run(cmd, **kw):
