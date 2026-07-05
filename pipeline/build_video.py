@@ -170,19 +170,27 @@ def step_tts(ep: Path, engine: str, vv_url: str, speaker: int, edge_voice: str) 
             print(f"tts: {i+1}/{len(segments)}  {t/60:.1f}分")
     (ep / "timeline.json").write_text(json.dumps(timeline, ensure_ascii=False, indent=1), encoding="utf-8")
 
-    # 無音を挟んで結合
-    concat = ["ffmpeg", "-y"]
-    filters, idx = [], 0
-    inputs = []
-    for seg in timeline:
-        inputs += ["-i", str(audio_dir / seg["wav"])]
-    n = len(timeline)
-    parts = []
+    # 結合: 各セグメントを統一フォーマット(44100Hz/mono/16bit)+末尾無音に変換し、
+    # concat demuxer(ファイルリスト経由)でcopy結合する。
+    # これにより入力ファイル数が増えてもコマンドラインが長くならない
+    # (Windowsのコマンドライン長制限 WinError 206 を回避)。
+    pad_dir = ep / "audio_padded"
+    pad_dir.mkdir(exist_ok=True)
+    lines = []
     for i, seg in enumerate(timeline):
+        src = audio_dir / seg["wav"]
+        dst = pad_dir / f"p{i:04d}.wav"
         gap = PAUSE_CHAP if seg["type"] == "title" else (PAUSE_PARA if seg.get("para_end") else PAUSE_SEG)
-        parts.append(f"[{i}:a]aresample=44100,apad=pad_dur={gap}[a{i}]")
-    fc = ";".join(parts) + ";" + "".join(f"[a{i}]" for i in range(n)) + f"concat=n={n}:v=0:a=1[out]"
-    run(concat + inputs + ["-filter_complex", fc, "-map", "[out]", "-ar", "44100", str(ep / "narration.wav")])
+        run(["ffmpeg", "-y", "-i", str(src),
+             "-af", f"aresample=44100,apad=pad_dur={gap}",
+             "-ac", "1", "-ar", "44100", "-c:a", "pcm_s16le", str(dst)])
+        lines.append(f"file '{dst.resolve().as_posix()}'")
+        if (i + 1) % 100 == 0:
+            print(f"  結合準備 {i+1}/{len(timeline)}")
+    list_path = ep / "_concat.txt"
+    list_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    run(["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(list_path),
+         "-c", "copy", str(ep / "narration.wav")])
     total = wav_duration(ep / "narration.wav")
     print(f"tts: 完了 {total/60:.1f}分 → narration.wav")
 
