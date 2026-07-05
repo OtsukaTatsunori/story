@@ -1,0 +1,17 @@
+{
+  "_readme": "セグメント範囲(from〜to、segments.jsonのindex)→感情タグ。タグはvoice_config.jsonのemotionsキーに対応。指定外はdefault。",
+  "default": "narration",
+  "spans": [
+    {"from": 19, "to": 26, "emotion": "怒り", "note": "大隅の買収通告と『格が違う』"},
+    {"from": 88, "to": 97, "emotion": "怒り", "note": "業界会合での公開嘲笑『一日十万本』"},
+    {"from": 117, "to": 121, "emotion": "悲しみ", "note": "『親父さんの代なら有り得なかった』"},
+    {"from": 139, "to": 148, "emotion": "緊張", "note": "混入発覚、内部犯の疑念"},
+    {"from": 178, "to": 189, "emotion": "悲しみ", "note": "帳面を開く夜、借用書の発見"},
+    {"from": 196, "to": 221, "emotion": "静かな余韻", "note": "柴田が語る四十年前の恩"},
+    {"from": 240, "to": 252, "emotion": "怒り", "note": "『燃やしてこい』『恩? 焼いてきたよ』"},
+    {"from": 271, "to": 293, "emotion": "悲しみ", "note": "富岡の涙と赦し"},
+    {"from": 306, "to": 345, "emotion": "緊張", "note": "公開検証〜大隅の絶句"},
+    {"from": 374, "to": 385, "emotion": "決意", "note": "決め台詞『それが、あんたへの一番の罰だ』"},
+    {"from": 386, "to": 393, "emotion": "静かな余韻", "note": "翌朝の検品、最終行"}
+  ]
+}

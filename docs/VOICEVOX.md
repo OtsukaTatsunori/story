@@ -18,3 +18,24 @@ python3 pipeline/build_video.py output/epXXX --engine voicevox --speaker 13
 ## 注意
 - クレジット表記必須: 動画概要欄に「VOICEVOX:青山龍星」等を記載（話者ごとの規約を一度確認）
 - VOICEVOXが起動していないと `Connection refused` になる。先にアプリ/エンジンを起動すること
+
+## 感情的な朗読（声はそのまま、感情スタイル切替）
+
+VOICEVOXの多くの話者には同一声質の「感情スタイル」がある（青山龍星: 熱血/不機嫌/喜び/しっぽり/かなしみ/囁き）。
+加えて audio_query の intonationScale(抑揚)/speedScale/pitchScale で温度を調整できる。
+
+1. スタイルIDを確認: `curl -s http://127.0.0.1:50021/speakers` で「青山龍星」の各スタイルのidを調べる
+2. リポジトリ直下の `voice_config.json` の emotions に、感情タグ→style/抑揚を設定（初期値は目安。idは必ず確認）
+3. エピソードの `output/epXXX/emotions.json` で「セグメント範囲→感情タグ」を指定
+   （範囲のindexは `output/epXXX/segments.json` のindex）
+4. 通常どおり実行。感情指定セグメントだけ `segNNNN.感情.wav` として再合成される
+   （既存キャッシュは無効化されない。感情の設定を変えたら該当の `segNNNN.感情.wav` を消して再実行）
+
+## シーン画像（リアルドラマ風背景）
+
+- `output/epXXX/scenes.json` に約15シーンを定義（開始セグメントindexと画像名）
+- `output/epXXX/image_prompts.md` のプロンプトでMidjourney/DALL-E等から16:9画像を生成し、
+  `output/epXXX/images/scene01.png` 〜に保存（jpgでも可）
+- 画像が無いシーンは自動生成背景で代替されるので、途中から差し替えても動く
+- アニメーション: ズームイン/アウト/左右パンをシーンごとに巡回＋シーン間0.8秒クロスフェード。
+  ズームは尺で正規化され最大1.06倍で頭打ち（拡大しすぎない）

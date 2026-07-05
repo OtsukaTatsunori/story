@@ -167,12 +167,22 @@ def tts_openjtalk(text: str, wav: Path) -> None:
          "-r", "1.0", "-ow", str(wav), tf])
 
 
-def tts_voicevox(text: str, wav: Path, url: str, speaker: int) -> None:
+def tts_voicevox(text: str, wav: Path, url: str, speaker: int, emotion: dict | None = None) -> None:
+    """emotion: voice_config.jsonの感情パラメータ。
+    style: 同一話者の感情スタイルID(あればspeakerを差し替え)
+    speedScale/pitchScale/intonationScale/volumeScale: audio_queryを上書き"""
     import urllib.parse, urllib.request
+    emotion = emotion or {}
+    spk = emotion.get("style", speaker)
     q = urllib.request.urlopen(urllib.request.Request(
-        f"{url}/audio_query?speaker={speaker}&text={urllib.parse.quote(text)}", method="POST")).read()
+        f"{url}/audio_query?speaker={spk}&text={urllib.parse.quote(text)}", method="POST")).read()
+    query = json.loads(q)
+    for key in ("speedScale", "pitchScale", "intonationScale", "volumeScale"):
+        if key in emotion:
+            query[key] = emotion[key]
+    data = json.dumps(query).encode("utf-8")
     audio = urllib.request.urlopen(urllib.request.Request(
-        f"{url}/synthesis?speaker={speaker}", data=q,
+        f"{url}/synthesis?speaker={spk}", data=data,
         headers={"Content-Type": "application/json"}, method="POST")).read()
     wav.write_bytes(audio)
 
@@ -188,14 +198,36 @@ def wav_duration(path: Path) -> float:
     return float(r.stdout.strip())
 
 
+def load_emotions(ep: Path):
+    """emotions.json(任意)とvoice_config.json(任意)を読み、
+    セグメントindex→感情タグ と タグ→VOICEVOXパラメータ を返す。"""
+    tag_of = {}
+    default = "narration"
+    efile = ep / "emotions.json"
+    if efile.exists():
+        e = json.loads(efile.read_text(encoding="utf-8"))
+        default = e.get("default", "narration")
+        for span in e.get("spans", []):
+            for i in range(span["from"], span["to"] + 1):
+                tag_of[i] = span["emotion"]
+    vfile = Path(__file__).resolve().parent.parent / "voice_config.json"
+    params = {}
+    if vfile.exists():
+        params = json.loads(vfile.read_text(encoding="utf-8")).get("emotions", {})
+    return default, tag_of, params
+
+
 def step_tts(ep: Path, engine: str, vv_url: str, speaker: int, edge_voice: str) -> None:
     segments = json.loads((ep / "segments.json").read_text(encoding="utf-8"))
     audio_dir = ep / "audio"
     audio_dir.mkdir(exist_ok=True)
+    default_tag, tag_of, emo_params = load_emotions(ep)
     t = 0.0
     timeline = []
     for i, seg in enumerate(segments):
-        wav = audio_dir / f"seg{i:04d}.wav"
+        tag = tag_of.get(i, default_tag)
+        # デフォルト感情は従来のファイル名(キャッシュ互換)。感情指定セグメントのみ別名
+        wav = audio_dir / (f"seg{i:04d}.wav" if tag == default_tag else f"seg{i:04d}.{tag}.wav")
         text = spoken_text(seg["text"])
         if not wav.exists():
             if not re.search(r"[ぁ-んァ-ヶ一-龠a-zA-Z0-9０-９]", text):
@@ -204,7 +236,7 @@ def step_tts(ep: Path, engine: str, vv_url: str, speaker: int, edge_voice: str) 
             elif engine == "openjtalk":
                 tts_openjtalk(text, wav)
             elif engine == "voicevox":
-                tts_voicevox(text, wav, vv_url, speaker)
+                tts_voicevox(text, wav, vv_url, speaker, emo_params.get(tag, {}))
             elif engine == "edge":
                 tts_edge(text, wav, edge_voice)
             else:
@@ -285,21 +317,68 @@ CHAPTER_PALETTES = [  # (上端, 下端) 章の感情に沿った暗色トーン
 ]
 
 
+def load_units(ep: Path) -> list[dict]:
+    """映像の単位(シーン)リストを返す。
+    scenes.json があればシーン単位(約15枚・実写風画像)、なければ章単位(後方互換)。
+    各unit = {key, start, image(images/内の候補名), chapter}"""
+    timeline = json.loads((ep / "timeline.json").read_text(encoding="utf-8"))
+    total_end = timeline[-1]["end"]
+    sfile = ep / "scenes.json"
+    units = []
+    if sfile.exists():
+        scenes = json.loads(sfile.read_text(encoding="utf-8"))["scenes"]
+        for sc in scenes:
+            seg = timeline[min(sc["from_seg"], len(timeline) - 1)]
+            units.append({"key": f"scene{sc['id']:02d}",
+                          "start": seg["start"],
+                          "image": sc.get("image", f"scene{sc['id']:02d}.png"),
+                          "chapter": seg["chapter"]})
+        units.sort(key=lambda u: u["start"])
+        if units[0]["start"] > 0:
+            units[0]["start"] = 0.0
+    else:
+        for ch in sorted({s["chapter"] for s in timeline}):
+            segs = [s for s in timeline if s["chapter"] == ch]
+            units.append({"key": f"ch{ch:02d}", "start": segs[0]["start"],
+                          "image": f"ch{ch:02d}.png", "chapter": ch})
+    for i, u in enumerate(units):
+        u["end"] = units[i + 1]["start"] if i + 1 < len(units) else total_end
+    return units
+
+
 def step_bg(ep: Path) -> None:
     from PIL import Image, ImageDraw, ImageFont
     timeline = json.loads((ep / "timeline.json").read_text(encoding="utf-8"))
-    chapters = sorted({s["chapter"] for s in timeline})
+    units = load_units(ep)
     titles = {s["chapter"]: s["text"] for s in timeline if s["type"] == "title"}
     font_path = find_jp_font()
     bg_dir = ep / "bg"
     bg_dir.mkdir(exist_ok=True)
     W2, H2 = W * 2, H * 2  # Ken Burns用に大きめ
-    for ch in chapters:
-        custom = ep / "images" / f"ch{ch:02d}.png"  # 自作画像があれば優先
-        out = bg_dir / f"ch{ch:02d}.png"
-        if custom.exists():
-            Image.open(custom).convert("RGB").resize((W2, H2)).save(out)
-            continue
+    for unit in units:
+        ch = unit["chapter"]
+        out = bg_dir / f"{unit['key']}.png"
+        # 自作画像(実写風シーン画像など)があれば優先。png/jpg両対応
+        for ext in (".png", ".jpg", ".jpeg", ".webp"):
+            custom = ep / "images" / (Path(unit["image"]).stem + ext)
+            if custom.exists():
+                img = Image.open(custom).convert("RGB")
+                # アスペクト比を保って16:9にセンタークロップ→2倍解像度
+                tw, th = W2, H2
+                scale = max(tw / img.width, th / img.height)
+                img = img.resize((round(img.width * scale), round(img.height * scale)))
+                left, top = (img.width - tw) // 2, (img.height - th) // 2
+                img.crop((left, top, left + tw, top + th)).save(out)
+                break
+        else:
+            step_bg_procedural(out, ch, titles, font_path, W2, H2)
+    print(f"bg: {len(units)}枚 → bg/ ({'シーン単位' if (ep/'scenes.json').exists() else '章単位'})")
+
+
+def step_bg_procedural(out: Path, ch: int, titles: dict, font_path: str, W2: int, H2: int) -> None:
+    """自作画像がない場合のフォールバック背景(暗色グラデ+章タイトル)。"""
+    from PIL import Image, ImageDraw, ImageFont
+    if True:
         top, bottom = CHAPTER_PALETTES[(ch - 1) % len(CHAPTER_PALETTES)]
         img = Image.new("RGB", (W2, H2))
         px = img.load()
@@ -328,36 +407,60 @@ def step_bg(ep: Path) -> None:
         d.text((W2*0.07, H2*0.155), name, font=ImageFont.truetype(font_path, 84),
                fill=(235, 228, 214, 235))
         img.save(out)
-    print(f"bg: {len(chapters)}枚 → bg/")
 
 
 # ---------- 5. render ----------
 
-def step_render(ep: Path) -> None:
-    timeline = json.loads((ep / "timeline.json").read_text(encoding="utf-8"))
-    chapters = sorted({s["chapter"] for s in timeline})
-    spans = {}
-    for ch in chapters:
-        segs = [s for s in timeline if s["chapter"] == ch]
-        spans[ch] = (segs[0]["start"], segs[-1]["end"])
-    total = wav_duration(ep / "narration.wav")
-    spans[chapters[-1]] = (spans[chapters[-1]][0], total)
+XFADE = 0.8   # シーン間クロスフェード(秒)
+ZMAX = 1.06   # Ken Burnsの最大ズーム(尺に関係なくここで頭打ち)
 
-    inputs, fparts, labels = [], [], []
-    for k, ch in enumerate(chapters):
-        start, end = spans[ch]
-        end = spans[chapters[k+1]][0] if k + 1 < len(chapters) else total
-        dur = max(end - start, 0.5)
-        frames = int(dur * FPS) + 1
-        inputs += ["-loop", "1", "-t", f"{dur:.3f}", "-i", str(ep / "bg" / f"ch{ch:02d}.png")]
-        # ゆっくりズームのKen Burns。章ごとにズーム方向を交互に
-        z = f"1.0+0.00008*on" if k % 2 == 0 else f"1.08-0.00008*on"
+
+def motion_expr(k: int, frames: int) -> str:
+    """シーン番号に応じたKen Burnsの動き(ズームは尺で正規化し1.00〜ZMAXに収める)。
+    in/out/右パン/左パン を巡回して単調さを防ぐ。"""
+    rate = f"{(ZMAX - 1.0):.4f}/{frames}"
+    center_x = "iw/2-(iw/zoom/2)"
+    center_y = "ih/2-(ih/zoom/2)"
+    mode = k % 4
+    if mode == 0:    # ズームイン(中央)
+        return f"zoompan=z='1.0+{rate}*on':x='{center_x}':y='{center_y}'"
+    if mode == 1:    # ズームアウト(中央)
+        return f"zoompan=z='{ZMAX}-{rate}*on':x='{center_x}':y='{center_y}'"
+    if mode == 2:    # 固定ズームで左→右パン
+        return f"zoompan=z='{ZMAX}':x='(iw-iw/zoom)*on/{frames}':y='{center_y}'"
+    # 固定ズームで右→左パン
+    return f"zoompan=z='{ZMAX}':x='(iw-iw/zoom)*(1-on/{frames})':y='{center_y}'"
+
+
+def step_render(ep: Path) -> None:
+    units = load_units(ep)
+    total = wav_duration(ep / "narration.wav")
+    units[-1]["end"] = max(units[-1]["end"], total)
+
+    n = len(units)
+    durs = [max(u["end"] - u["start"], XFADE + 0.2) for u in units]
+    inputs, fparts = [], []
+    for k, u in enumerate(units):
+        # クロスフェードで消費される分、最後以外は尺を延長しておく
+        clip_len = durs[k] + (XFADE if k < n - 1 else 0)
+        frames = int(clip_len * FPS) + 1
+        inputs += ["-loop", "1", "-t", f"{clip_len:.3f}", "-i", str(ep / "bg" / f"{u['key']}.png")]
         fparts.append(
-            f"[{k}:v]fps={FPS},zoompan=z='{z}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'"
-            f":d={frames}:s={W}x{H}:fps={FPS},format=yuv420p[v{k}]")
-        labels.append(f"[v{k}]")
-    n = len(chapters)
-    fc = ";".join(fparts) + ";" + "".join(labels) + f"concat=n={n}:v=1:a=0[vid]"
+            f"[{k}:v]fps={FPS},{motion_expr(k, frames)}"
+            f":d={frames}:s={W}x{H}:fps={FPS},format=yuv420p,settb=AVTB[v{k}]")
+    # xfadeで数珠つなぎ(境界はナレーション上のシーン開始時刻に一致させる)
+    if n == 1:
+        fc = ";".join(fparts) + ";[v0]null[vid]"
+    else:
+        fc = ";".join(fparts)
+        prev = "[v0]"
+        boundary = 0.0
+        for k in range(1, n):
+            boundary += durs[k - 1]
+            out_label = "[vid]" if k == n - 1 else f"[x{k}]"
+            fc += (f";{prev}[v{k}]xfade=transition=fade:duration={XFADE}"
+                   f":offset={max(boundary - XFADE, 0):.3f}{out_label}")
+            prev = out_label
     # 字幕焼き込み
     # subtitlesフィルタ用にパスを正規化: Windowsの \ はエスケープ文字として
     # 食われるためフォワードスラッシュに統一し、ドライブレターの : をエスケープする

@@ -1,0 +1,20 @@
+{
+  "_readme": [
+    "感情タグ→VOICEVOXパラメータの対応表。emotions.jsonのタグ名とここのキーが一致すると適用される。",
+    "style: 同一話者の感情スタイルID(任意)。curl http://127.0.0.1:50021/speakers で確認して設定する。",
+    "  例: 青山龍星には ノーマル(13) 熱血(81) 不機嫌(82) 喜び(83) しっぽり(84) かなしみ(85) 囁き(86) がある",
+    "  (IDは環境・バージョンで異なる場合があるので必ず/speakersで確認すること)",
+    "styleを設定しない場合も speed/pitch/intonation の調整だけで感情の温度が変わる。",
+    "intonationScale: 抑揚(1.0が標準。上げると感情的、下げると平坦)"
+  ],
+  "emotions": {
+    "narration": {},
+    "怒り":   {"style": 82, "intonationScale": 1.35, "speedScale": 1.06, "pitchScale": -0.02},
+    "緊張":   {"intonationScale": 1.2, "speedScale": 1.04},
+    "悲しみ": {"style": 85, "intonationScale": 1.15, "speedScale": 0.92, "pitchScale": -0.02},
+    "決意":   {"style": 81, "intonationScale": 1.25, "speedScale": 0.96},
+    "喜び":   {"style": 83, "intonationScale": 1.2},
+    "静かな余韻": {"style": 84, "intonationScale": 1.1, "speedScale": 0.92},
+    "囁き":   {"style": 86, "speedScale": 0.95}
+  }
+}
