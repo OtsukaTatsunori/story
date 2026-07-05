@@ -415,28 +415,34 @@ XFADE = 0.8   # シーン間クロスフェード(秒)
 ZMAX = 1.06   # Ken Burnsの最大ズーム(尺に関係なくここで頭打ち)
 
 
-def motion_expr(k: int, frames: int) -> str:
+def motion_expr(k: int, frames: int, jitter: bool = True) -> str:
     """シーン番号に応じたKen Burnsの動き(ズームは尺で正規化し1.00〜ZMAXに収める)。
-    in/out/右パン/左パン を巡回して単調さを防ぐ。"""
+    in/out/右パン/左パン を巡回して単調さを防ぐ。
+    jitter=Trueで手ぶれ風の微振動(sin)をx/yに加え、静止画感を減らす。"""
     rate = f"{(ZMAX - 1.0):.4f}/{frames}"
-    center_x = "iw/2-(iw/zoom/2)"
-    center_y = "ih/2-(ih/zoom/2)"
+    # 手ぶれ風の微振動(2倍解像度上のpx。周期はフレーム=約0.5〜0.8秒)
+    jx = "+9*sin(on/13)" if jitter else ""
+    jy = "+7*sin(on/19+1)" if jitter else ""
+    cx = f"iw/2-(iw/zoom/2){jx}"
+    cy = f"ih/2-(ih/zoom/2){jy}"
     mode = k % 4
     if mode == 0:    # ズームイン(中央)
-        return f"zoompan=z='1.0+{rate}*on':x='{center_x}':y='{center_y}'"
+        return f"zoompan=z='1.0+{rate}*on':x='{cx}':y='{cy}'"
     if mode == 1:    # ズームアウト(中央)
-        return f"zoompan=z='{ZMAX}-{rate}*on':x='{center_x}':y='{center_y}'"
+        return f"zoompan=z='{ZMAX}-{rate}*on':x='{cx}':y='{cy}'"
     if mode == 2:    # 固定ズームで左→右パン
-        return f"zoompan=z='{ZMAX}':x='(iw-iw/zoom)*on/{frames}':y='{center_y}'"
+        return f"zoompan=z='{ZMAX}':x='(iw-iw/zoom)*on/{frames}{jx}':y='{cy}'"
     # 固定ズームで右→左パン
-    return f"zoompan=z='{ZMAX}':x='(iw-iw/zoom)*(1-on/{frames})':y='{center_y}'"
+    return f"zoompan=z='{ZMAX}':x='(iw-iw/zoom)*(1-on/{frames}){jx}':y='{cy}'"
 
 
-def step_render(ep: Path) -> None:
+def step_render(ep: Path, motion: bool = True, grain: bool = False) -> None:
     units = load_units(ep)
     total = wav_duration(ep / "narration.wav")
     units[-1]["end"] = max(units[-1]["end"], total)
 
+    # motion=手ぶれ微振動(軽い、デフォルトON) / grain=フィルムグレイン(重い、任意)
+    grain = ",noise=alls=6:allf=t" if grain else ""
     n = len(units)
     durs = [max(u["end"] - u["start"], XFADE + 0.2) for u in units]
     inputs, fparts = [], []
@@ -446,8 +452,8 @@ def step_render(ep: Path) -> None:
         frames = int(clip_len * FPS) + 1
         inputs += ["-loop", "1", "-t", f"{clip_len:.3f}", "-i", str(ep / "bg" / f"{u['key']}.png")]
         fparts.append(
-            f"[{k}:v]fps={FPS},{motion_expr(k, frames)}"
-            f":d={frames}:s={W}x{H}:fps={FPS},format=yuv420p,settb=AVTB[v{k}]")
+            f"[{k}:v]fps={FPS},{motion_expr(k, frames, motion)}"
+            f":d={frames}:s={W}x{H}:fps={FPS}{grain},format=yuv420p,settb=AVTB[v{k}]")
     # xfadeで数珠つなぎ(境界はナレーション上のシーン開始時刻に一致させる)
     if n == 1:
         fc = ";".join(fparts) + ";[v0]null[vid]"
@@ -488,6 +494,10 @@ def main() -> None:
     ap.add_argument("--speaker", type=int, default=13, help="VOICEVOX話者ID(13=青山龍星)")
     ap.add_argument("--edge-voice", default="ja-JP-KeitaNeural")
     ap.add_argument("--steps", default="segment,tts,srt,bg,render")
+    ap.add_argument("--no-motion", action="store_true",
+                    help="手ぶれ微振動(擬似モーション)を無効化する")
+    ap.add_argument("--grain", action="store_true",
+                    help="フィルムグレインを追加(空気感が増すがレンダリングが重くなる)")
     args = ap.parse_args()
     steps = args.steps.split(",")
     ep = args.episode
@@ -495,7 +505,7 @@ def main() -> None:
     if "tts" in steps: step_tts(ep, args.engine, args.voicevox_url, args.speaker, args.edge_voice)
     if "srt" in steps: step_srt(ep)
     if "bg" in steps: step_bg(ep)
-    if "render" in steps: step_render(ep)
+    if "render" in steps: step_render(ep, motion=not args.no_motion, grain=args.grain)
 
 
 if __name__ == "__main__":
