@@ -16,6 +16,7 @@
 """
 import argparse
 import json
+import platform
 import re
 import subprocess
 import sys
@@ -41,6 +42,52 @@ def run(cmd, **kw):
     if r.returncode != 0:
         sys.exit(f"コマンド失敗: {' '.join(map(str, cmd))}\n{r.stderr[-2000:]}")
     return r
+
+
+def find_jp_font() -> str:
+    """PIL(背景の章タイトル)用の日本語太字フォントのファイルパスを返す。
+    Noto Sans JP → 各OS標準の太字ゴシック の順で最初に見つかったものを使う。"""
+    home = Path.home()
+    win_user_fonts = home / "AppData/Local/Microsoft/Windows/Fonts"
+    candidates = [
+        # Linux (Noto)
+        "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc",
+        "/usr/share/fonts/truetype/noto/NotoSansCJK-Bold.ttc",
+        # Windows: ユーザーがNoto Sans JPを入れていれば優先
+        str(win_user_fonts / "NotoSansJP-Bold.ttf"),
+        str(win_user_fonts / "NotoSansJP-Bold.otf"),
+        "C:/Windows/Fonts/NotoSansJP-Bold.otf",
+        # Windows標準の太字ゴシック
+        "C:/Windows/Fonts/YuGothB.ttc",   # 游ゴシック Bold
+        "C:/Windows/Fonts/meiryob.ttc",   # メイリオ Bold
+        "C:/Windows/Fonts/YuGothM.ttc",
+        "C:/Windows/Fonts/meiryo.ttc",
+        "C:/Windows/Fonts/msgothic.ttc",
+        # macOS
+        "/System/Library/Fonts/ヒラギノ角ゴシック W6.ttc",
+        "/System/Library/Fonts/Hiragino Sans GB.ttc",
+    ]
+    for p in candidates:
+        if Path(p).exists():
+            return p
+    sys.exit("日本語フォントが見つかりません。Noto Sans JP等をインストールしてください。")
+
+
+def sub_font_name() -> str:
+    """ffmpeg字幕(libass)用のフォントファミリ名。fontconfigが名前解決する。"""
+    if platform.system() == "Windows":
+        home = Path.home()
+        noto = [
+            home / "AppData/Local/Microsoft/Windows/Fonts/NotoSansJP-Bold.ttf",
+            home / "AppData/Local/Microsoft/Windows/Fonts/NotoSansJP-Regular.ttf",
+            Path("C:/Windows/Fonts/NotoSansJP-Bold.otf"),
+        ]
+        if any(p.exists() for p in noto):
+            return "Noto Sans JP"
+        return "Yu Gothic"  # Windows標準。Bold=1で太字化される
+    if platform.system() == "Darwin":
+        return "Hiragino Sans"
+    return "Noto Sans CJK JP"
 
 
 # ---------- 1. segment ----------
@@ -243,7 +290,7 @@ def step_bg(ep: Path) -> None:
     timeline = json.loads((ep / "timeline.json").read_text(encoding="utf-8"))
     chapters = sorted({s["chapter"] for s in timeline})
     titles = {s["chapter"]: s["text"] for s in timeline if s["type"] == "title"}
-    font_path = "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"
+    font_path = find_jp_font()
     bg_dir = ep / "bg"
     bg_dir.mkdir(exist_ok=True)
     W2, H2 = W * 2, H * 2  # Ken Burns用に大きめ
@@ -313,7 +360,7 @@ def step_render(ep: Path) -> None:
     fc = ";".join(fparts) + ";" + "".join(labels) + f"concat=n={n}:v=1:a=0[vid]"
     # 字幕焼き込み
     srt = str(ep / "subtitles.srt").replace(":", "\\:")
-    style = SUB_STYLE
+    style = SUB_STYLE.replace("Noto Sans CJK JP", sub_font_name())
     fc += f";[vid]subtitles='{srt}':force_style='{style}'[vout]"
     # BGM: 静かな環境音パッド(プレースホルダ)を生成してダッキング的に低音量で敷く
     bgm = (f"aevalsrc='0.02*sin(2*PI*110*t)+0.015*sin(2*PI*164.8*t)+0.012*sin(2*PI*220*t)"
