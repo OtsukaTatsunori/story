@@ -415,6 +415,24 @@ XFADE = 0.8   # シーン間クロスフェード(秒)
 ZMAX = 1.06   # Ken Burnsの最大ズーム(尺に関係なくここで頭打ち)
 
 
+def motion_expr(k: int, frames: int) -> str:
+    """背景をゆっくり動かすKen Burns(揺れなし)。ズーム量は尺で正規化し、
+    シーンがどれだけ長くても1.00〜ZMAXの範囲で頭打ちになる。
+    ズームイン/アウト/左右パンを巡回して単調さを防ぐ。"""
+    rate = f"{(ZMAX - 1.0):.4f}/{frames}"
+    cx = "iw/2-(iw/zoom/2)"
+    cy = "ih/2-(ih/zoom/2)"
+    mode = k % 4
+    if mode == 0:    # ズームイン(中央)
+        return f"zoompan=z='1.0+{rate}*on':x='{cx}':y='{cy}'"
+    if mode == 1:    # ズームアウト(中央)
+        return f"zoompan=z='{ZMAX}-{rate}*on':x='{cx}':y='{cy}'"
+    if mode == 2:    # 固定ズームで左→右パン
+        return f"zoompan=z='{ZMAX}':x='(iw-iw/zoom)*on/{frames}':y='{cy}'"
+    # 固定ズームで右→左パン
+    return f"zoompan=z='{ZMAX}':x='(iw-iw/zoom)*(1-on/{frames})':y='{cy}'"
+
+
 def make_light_sweep(path: Path, w: int, h: int) -> None:
     """画面を斜めに横切る、柔らかい光の帯(半透明白)のレイヤーを1枚生成する。
     画像本体は一切動かさず、この光だけをoverlayで流すことで
@@ -460,14 +478,17 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False) -> None:
         fparts.append(f"[{n}:v]format=rgba,fps={FPS}," + f"split={n}" +
                       "".join(f"[l{k}]" for k in range(n)))
     for k, u in enumerate(units):
-        base = f"[{k}:v]fps={FPS},scale={W}:{H},setsar=1"
+        clip_len = durs[k] + (XFADE if k < n - 1 else 0)
+        frames = int(clip_len * FPS) + 1
+        # 背景自体をゆっくり動かす(正規化Ken Burns・揺れなし)
+        base = f"[{k}:v]fps={FPS},{motion_expr(k, frames)}:d={frames}:s={W}x{H}:fps={FPS}"
         if motion:
-            # 光の帯を左→右へゆっくり流す(mod で往復ループ)。画像本体は不動
+            # さらに薄い光の帯をゆっくり流して空気感を足す
             sweep = f"[b{k}][l{k}]overlay=x='(W+w)*mod(t\\,{LIGHT_T})/{LIGHT_T}-w':y=0:eof_action=pass"
             fparts.append(f"{base}[b{k}];{sweep}{grain_f},format=yuv420p,settb=AVTB[v{k}]")
         else:
             fparts.append(f"{base}{grain_f},format=yuv420p,settb=AVTB[v{k}]")
-    # シーン切替はスライド(slideleft)。1枚ならそのまま
+    # シーン切替はクロスフェード。1枚ならそのまま
     if n == 1:
         fc = ";".join(fparts) + ";[v0]null[vid]"
     else:
@@ -477,7 +498,7 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False) -> None:
         for k in range(1, n):
             boundary += durs[k - 1]
             out_label = "[vid]" if k == n - 1 else f"[x{k}]"
-            fc += (f";{prev}[v{k}]xfade=transition=slideleft:duration={XFADE}"
+            fc += (f";{prev}[v{k}]xfade=transition=fade:duration={XFADE}"
                    f":offset={max(boundary - XFADE, 0):.3f}{out_label}")
             prev = out_label
     # 字幕焼き込み
