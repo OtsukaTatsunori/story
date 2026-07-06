@@ -37,9 +37,12 @@ SUB_STYLE = ("FontName=Noto Sans CJK JP,Bold=1,FontSize=29,"
              "BorderStyle=1,Outline=2.5,Shadow=0,Alignment=2,MarginV=29")
 
 
-def run(cmd, **kw):
-    r = subprocess.run(cmd, capture_output=True, text=True, **kw)
-    if r.returncode != 0:
+def run(cmd, check=True, **kw):
+    # encoding指定: Windowsの既定(cp932)でffmpegのUTF-8出力を読むと
+    # UnicodeDecodeErrorになるため、UTF-8+置換で読む
+    r = subprocess.run(cmd, capture_output=True, text=True,
+                       encoding="utf-8", errors="replace", **kw)
+    if check and r.returncode != 0:
         sys.exit(f"コマンド失敗: {' '.join(map(str, cmd))}\n{r.stderr[-2000:]}")
     return r
 
@@ -631,8 +634,18 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False,
            "-filter_complex", fc, "-map", "[vout]", "-map", "[aout]",
            ] + VIDEO_CODECS[encoder] + [
            "-c:a", "aac", "-b:a", "256k", "-t", f"{total:.3f}", str(ep / "video.mp4")])
-    print("render: ffmpeg実行中(数分かかります)…")
-    run(cmd)
+    print(f"render: ffmpeg実行中(encoder={encoder}, 数分かかります)…")
+    r = run(cmd, check=False)
+    if r.returncode != 0:
+        if encoder != "cpu":
+            # GPUエンコーダが使えない環境(ドライバ古い等)はCPUに自動フォールバック
+            print(f"render: {encoder} が使えないためCPU(libx264)で再実行します")
+            print(f"  ヒント: NVIDIAドライバを最新に更新するとnvencが使えます")
+            idx = cmd.index(VIDEO_CODECS[encoder][1])
+            cmd2 = cmd[:idx - 1] + VIDEO_CODECS["cpu"] + cmd[idx - 1 + len(VIDEO_CODECS[encoder]):]
+            run(cmd2)
+        else:
+            sys.exit(f"コマンド失敗: ffmpeg render\n{r.stderr[-2000:]}")
     print(f"render: 完了 → {ep/'video.mp4'} ({total/60:.1f}分)")
 
 
