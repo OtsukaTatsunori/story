@@ -634,18 +634,23 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False,
            "-filter_complex", fc, "-map", "[vout]", "-map", "[aout]",
            ] + VIDEO_CODECS[encoder] + [
            "-c:a", "aac", "-b:a", "256k", "-t", f"{total:.3f}", str(ep / "video.mp4")])
-    print(f"render: ffmpeg実行中(encoder={encoder}, 数分かかります)…")
-    r = run(cmd, check=False)
-    if r.returncode != 0:
+    def run_render(c) -> int:
+        # 進捗(time=..., speed=...)をそのまま画面に流す
+        c = c[:1] + ["-v", "error", "-stats"] + c[1:]
+        return subprocess.run(c).returncode
+
+    print(f"render: ffmpeg実行中(encoder={encoder})。下のtime=が動画内の処理済み時刻です…")
+    if run_render(cmd) != 0:
         if encoder != "cpu":
             # GPUエンコーダが使えない環境(ドライバ古い等)はCPUに自動フォールバック
-            print(f"render: {encoder} が使えないためCPU(libx264)で再実行します")
-            print(f"  ヒント: NVIDIAドライバを最新に更新するとnvencが使えます")
+            print(f"\nrender: {encoder} が使えないためCPU(libx264)で再実行します")
+            print("  ヒント: NVIDIAドライバを最新に更新するとnvencが使えます")
             idx = cmd.index(VIDEO_CODECS[encoder][1])
             cmd2 = cmd[:idx - 1] + VIDEO_CODECS["cpu"] + cmd[idx - 1 + len(VIDEO_CODECS[encoder]):]
-            run(cmd2)
+            if run_render(cmd2) != 0:
+                sys.exit("render失敗(CPU)。上のffmpegエラーを確認してください")
         else:
-            sys.exit(f"コマンド失敗: ffmpeg render\n{r.stderr[-2000:]}")
+            sys.exit("render失敗。上のffmpegエラーを確認してください")
     print(f"render: 完了 → {ep/'video.mp4'} ({total/60:.1f}分)")
 
 
