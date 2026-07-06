@@ -4,3 +4,5 @@ audio/
 audio_padded/
 _concat.txt
 bg/
+_bgm_concat.txt
+bgm.wav
