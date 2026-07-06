@@ -173,3 +173,22 @@ story/
   台本品質と1本ごとの独自性（重複回避DB）を担保。AI生成の開示設定に対応
 - **実在の企業・人物との類似** → 台本検品で固有名詞チェックを必須化
 - **BGM・フォントの権利** → 商用利用可ライセンスのみをassetsに登録し、メタデータで管理
+
+---
+
+## 進捗メモ（2026-07 時点）
+
+M1〜M3相当が完成。1本目(ep001)をVOICEVOX音声で動画化済み。
+
+**確立したワークフロー（1本あたり）**
+1. `python3 pipeline/generate_prompt.py --out output/epXXX/director_prompt.md` → Claudeで設計書
+2. `--record` で履歴登録 → `--plot` でプロット → レビュー → 本文(script.md)
+3. シーン画像15枚を生成して `output/epXXX/images/` へ(image_prompts.md参照)
+4. `emotions.json`(感情朗読) / `bgm_map.json`(章別BGM) を設定
+5. VOICEVOX起動 → `python pipeline/build_video.py output/epXXX --engine voicevox --speaker 13`
+
+**動画仕様**: 720p24 / 等倍スローパン+光の帯+クロスフェード / 固定章タイトル /
+縁取り字幕(下部中央2行) / 感情連動ステレオBGM(自動生成・比率0.14) / -14LUFS正規化 / AAC256k
+
+**残タスク(M4以降)**: サムネイル生成、タイトル・概要欄の自動生成、YouTubeアップロード、
+1080p化、分析フィードバックループ
