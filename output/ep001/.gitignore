@@ -3,3 +3,4 @@ audio/
 *.mp4
 audio_padded/
 _concat.txt
+bg/

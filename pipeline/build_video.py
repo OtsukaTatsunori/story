@@ -415,25 +415,25 @@ XFADE = 0.8   # シーン間クロスフェード(秒)
 ZMAX = 1.06   # Ken Burnsの最大ズーム(尺に関係なくここで頭打ち)
 
 
-def motion_expr(k: int, frames: int, jitter: bool = True) -> str:
-    """シーン番号に応じたKen Burnsの動き(ズームは尺で正規化し1.00〜ZMAXに収める)。
-    in/out/右パン/左パン を巡回して単調さを防ぐ。
-    jitter=Trueで手ぶれ風の微振動(sin)をx/yに加え、静止画感を減らす。"""
-    rate = f"{(ZMAX - 1.0):.4f}/{frames}"
-    # 手ぶれ風の微振動(2倍解像度上のpx。周期はフレーム=約0.5〜0.8秒)
-    jx = "+9*sin(on/13)" if jitter else ""
-    jy = "+7*sin(on/19+1)" if jitter else ""
-    cx = f"iw/2-(iw/zoom/2){jx}"
-    cy = f"ih/2-(ih/zoom/2){jy}"
-    mode = k % 4
-    if mode == 0:    # ズームイン(中央)
-        return f"zoompan=z='1.0+{rate}*on':x='{cx}':y='{cy}'"
-    if mode == 1:    # ズームアウト(中央)
-        return f"zoompan=z='{ZMAX}-{rate}*on':x='{cx}':y='{cy}'"
-    if mode == 2:    # 固定ズームで左→右パン
-        return f"zoompan=z='{ZMAX}':x='(iw-iw/zoom)*on/{frames}{jx}':y='{cy}'"
-    # 固定ズームで右→左パン
-    return f"zoompan=z='{ZMAX}':x='(iw-iw/zoom)*(1-on/{frames}){jx}':y='{cy}'"
+def make_light_sweep(path: Path, w: int, h: int) -> None:
+    """画面を斜めに横切る、柔らかい光の帯(半透明白)のレイヤーを1枚生成する。
+    画像本体は一切動かさず、この光だけをoverlayで流すことで
+    章タイトル・被写体を固定したまま『生きた映像感』を出す。"""
+    import math
+    from PIL import Image
+    band_w = int(w * 0.5)
+    cx = band_w / 2
+    sigma = band_w * 0.22
+    col_alpha = [int(85 * math.exp(-((x - cx) / sigma) ** 2)) for x in range(band_w)]
+    row = [(255, 246, 228, a) for a in col_alpha]
+    band = Image.new("RGBA", (band_w, h), (0, 0, 0, 0))
+    band.putdata(row * h)
+    # 斜めに傾け、画面幅のキャンバスに配置
+    band = band.rotate(18, expand=True, resample=Image.BICUBIC)
+    layer = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    layer.paste(band, ((w - band.width) // 2, (h - band.height) // 2), band)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    layer.save(path)
 
 
 def step_render(ep: Path, motion: bool = True, grain: bool = False) -> None:
@@ -441,20 +441,33 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False) -> None:
     total = wav_duration(ep / "narration.wav")
     units[-1]["end"] = max(units[-1]["end"], total)
 
-    # motion=手ぶれ微振動(軽い、デフォルトON) / grain=フィルムグレイン(重い、任意)
-    grain = ",noise=alls=6:allf=t" if grain else ""
+    # 画像は静止させ、動きは「流れる光」とシーン切替の「スライド」で表現する
+    # (ズーム・パン・揺れは一切かけないので章タイトルも固定される)
+    grain_f = ",noise=alls=6:allf=t" if grain else ""
     n = len(units)
     durs = [max(u["end"] - u["start"], XFADE + 0.2) for u in units]
+    light = ep / "bg" / "_light.png"
+    if motion:
+        make_light_sweep(light, W, H)
+    LIGHT_T = 11.0  # 光が画面を1往復する周期(秒)。ゆっくり流す
+
     inputs, fparts = [], []
     for k, u in enumerate(units):
-        # クロスフェードで消費される分、最後以外は尺を延長しておく
         clip_len = durs[k] + (XFADE if k < n - 1 else 0)
-        frames = int(clip_len * FPS) + 1
         inputs += ["-loop", "1", "-t", f"{clip_len:.3f}", "-i", str(ep / "bg" / f"{u['key']}.png")]
-        fparts.append(
-            f"[{k}:v]fps={FPS},{motion_expr(k, frames, motion)}"
-            f":d={frames}:s={W}x{H}:fps={FPS}{grain},format=yuv420p,settb=AVTB[v{k}]")
-    # xfadeで数珠つなぎ(境界はナレーション上のシーン開始時刻に一致させる)
+    if motion:
+        inputs += ["-loop", "1", "-t", f"{total + 2:.3f}", "-i", str(light)]
+        fparts.append(f"[{n}:v]format=rgba,fps={FPS}," + f"split={n}" +
+                      "".join(f"[l{k}]" for k in range(n)))
+    for k, u in enumerate(units):
+        base = f"[{k}:v]fps={FPS},scale={W}:{H},setsar=1"
+        if motion:
+            # 光の帯を左→右へゆっくり流す(mod で往復ループ)。画像本体は不動
+            sweep = f"[b{k}][l{k}]overlay=x='(W+w)*mod(t\\,{LIGHT_T})/{LIGHT_T}-w':y=0:eof_action=pass"
+            fparts.append(f"{base}[b{k}];{sweep}{grain_f},format=yuv420p,settb=AVTB[v{k}]")
+        else:
+            fparts.append(f"{base}{grain_f},format=yuv420p,settb=AVTB[v{k}]")
+    # シーン切替はスライド(slideleft)。1枚ならそのまま
     if n == 1:
         fc = ";".join(fparts) + ";[v0]null[vid]"
     else:
@@ -464,7 +477,7 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False) -> None:
         for k in range(1, n):
             boundary += durs[k - 1]
             out_label = "[vid]" if k == n - 1 else f"[x{k}]"
-            fc += (f";{prev}[v{k}]xfade=transition=fade:duration={XFADE}"
+            fc += (f";{prev}[v{k}]xfade=transition=slideleft:duration={XFADE}"
                    f":offset={max(boundary - XFADE, 0):.3f}{out_label}")
             prev = out_label
     # 字幕焼き込み
