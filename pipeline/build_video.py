@@ -217,36 +217,60 @@ def load_emotions(ep: Path):
     return default, tag_of, params
 
 
-def step_tts(ep: Path, engine: str, vv_url: str, speaker: int, edge_voice: str) -> None:
+def synth_one(i: int, seg: dict, wav: Path, engine: str, vv_url: str, speaker: int,
+              edge_voice: str, emotion: dict) -> None:
+    text = spoken_text(seg["text"])
+    if not re.search(r"[ぁ-んァ-ヶ一-龠a-zA-Z0-9０-９]", text):
+        run(["ffmpeg", "-y", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=mono",
+             "-t", "0.6", str(wav)])
+    elif engine == "openjtalk":
+        tts_openjtalk(text, wav)
+    elif engine == "voicevox":
+        tts_voicevox(text, wav, vv_url, speaker, emotion)
+    elif engine == "edge":
+        tts_edge(text, wav, edge_voice)
+    else:
+        sys.exit(f"未知のエンジン: {engine}")
+
+
+def step_tts(ep: Path, engine: str, vv_url: str, speaker: int, edge_voice: str,
+             workers: int = 4) -> None:
+    from concurrent.futures import ThreadPoolExecutor, as_completed
     segments = json.loads((ep / "segments.json").read_text(encoding="utf-8"))
     audio_dir = ep / "audio"
     audio_dir.mkdir(exist_ok=True)
     default_tag, tag_of, emo_params = load_emotions(ep)
-    t = 0.0
-    timeline = []
+
+    # 合成対象の一覧(キャッシュ済みはスキップ)を作り、並列合成する
+    jobs = []
+    wavs = []
     for i, seg in enumerate(segments):
         tag = tag_of.get(i, default_tag)
         # デフォルト感情は従来のファイル名(キャッシュ互換)。感情指定セグメントのみ別名
         wav = audio_dir / (f"seg{i:04d}.wav" if tag == default_tag else f"seg{i:04d}.{tag}.wav")
-        text = spoken_text(seg["text"])
+        wavs.append(wav)
         if not wav.exists():
-            if not re.search(r"[ぁ-んァ-ヶ一-龠a-zA-Z0-9０-９]", text):
-                run(["ffmpeg", "-y", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=mono",
-                     "-t", "0.6", str(wav)])
-            elif engine == "openjtalk":
-                tts_openjtalk(text, wav)
-            elif engine == "voicevox":
-                tts_voicevox(text, wav, vv_url, speaker, emo_params.get(tag, {}))
-            elif engine == "edge":
-                tts_edge(text, wav, edge_voice)
-            else:
-                sys.exit(f"未知のエンジン: {engine}")
-        dur = wav_duration(wav)
-        timeline.append({**seg, "wav": wav.name, "start": round(t, 3), "end": round(t + dur, 3)})
+            jobs.append((i, seg, wav, emo_params.get(tag, {})))
+    if jobs:
+        print(f"tts: {len(jobs)}セグメントを{workers}並列で合成中…")
+        done = 0
+        with ThreadPoolExecutor(max_workers=workers) as ex:
+            futs = {ex.submit(synth_one, i, seg, wav, engine, vv_url, speaker,
+                              edge_voice, emo): i for i, seg, wav, emo in jobs}
+            for f in as_completed(futs):
+                f.result()  # 例外があればここで送出
+                done += 1
+                if done % 50 == 0:
+                    print(f"tts: {done}/{len(jobs)}")
+
+    # 実測時間でタイムラインを構築
+    t = 0.0
+    timeline = []
+    for i, seg in enumerate(segments):
+        dur = wav_duration(wavs[i])
+        timeline.append({**seg, "wav": wavs[i].name, "start": round(t, 3), "end": round(t + dur, 3)})
         t += dur
         t += PAUSE_CHAP if seg["type"] == "title" else (PAUSE_PARA if seg.get("para_end") else PAUSE_SEG)
-        if (i + 1) % 25 == 0:
-            print(f"tts: {i+1}/{len(segments)}  {t/60:.1f}分")
     (ep / "timeline.json").write_text(json.dumps(timeline, ensure_ascii=False, indent=1), encoding="utf-8")
 
     # 結合: 各セグメントを統一フォーマット(44100Hz/mono/16bit)+末尾無音に変換し、
@@ -255,17 +279,20 @@ def step_tts(ep: Path, engine: str, vv_url: str, speaker: int, edge_voice: str) 
     # (Windowsのコマンドライン長制限 WinError 206 を回避)。
     pad_dir = ep / "audio_padded"
     pad_dir.mkdir(exist_ok=True)
-    lines = []
-    for i, seg in enumerate(timeline):
+
+    def pad_one(i: int, seg: dict) -> None:
         src = audio_dir / seg["wav"]
         dst = pad_dir / f"p{i:04d}.wav"
         gap = PAUSE_CHAP if seg["type"] == "title" else (PAUSE_PARA if seg.get("para_end") else PAUSE_SEG)
         run(["ffmpeg", "-y", "-i", str(src),
              "-af", f"aresample=44100,apad=pad_dur={gap}",
              "-ac", "1", "-ar", "44100", "-c:a", "pcm_s16le", str(dst)])
-        lines.append(f"file '{dst.resolve().as_posix()}'")
-        if (i + 1) % 100 == 0:
-            print(f"  結合準備 {i+1}/{len(timeline)}")
+
+    print(f"tts: 結合準備({len(timeline)}件・並列)…")
+    with ThreadPoolExecutor(max_workers=max(workers, 4)) as ex:
+        list(ex.map(lambda a: pad_one(*a), enumerate(timeline)))
+    lines = [f"file '{(pad_dir / f'p{i:04d}.wav').resolve().as_posix()}'"
+             for i in range(len(timeline))]
     list_path = ep / "_concat.txt"
     list_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     run(["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(list_path),
@@ -460,6 +487,14 @@ def step_bgm(ep: Path) -> None:
 XFADE = 0.8   # シーン間クロスフェード(秒)
 ZMAX = 1.06   # Ken Burnsの最大ズーム(尺に関係なくここで頭打ち)
 
+# 映像エンコーダ(--encoder)。GPUがあればnvenc/qsv/amfで数倍速(画質は同等ビットレート帯)
+VIDEO_CODECS = {
+    "cpu":   ["-c:v", "libx264", "-preset", "veryfast", "-crf", "23"],
+    "nvenc": ["-c:v", "h264_nvenc", "-preset", "p5", "-rc", "vbr", "-cq", "23", "-b:v", "0"],
+    "qsv":   ["-c:v", "h264_qsv", "-global_quality", "23"],
+    "amf":   ["-c:v", "h264_amf", "-quality", "quality", "-rc", "cqp", "-qp_i", "22", "-qp_p", "24"],
+}
+
 
 def motion_expr(k: int, frames: int) -> str:
     """背景をゆっくり動かす(ズームなし・等倍パンのみ)。
@@ -500,7 +535,8 @@ def make_light_sweep(path: Path, w: int, h: int) -> None:
     layer.save(path)
 
 
-def step_render(ep: Path, motion: bool = True, grain: bool = False) -> None:
+def step_render(ep: Path, motion: bool = True, grain: bool = False,
+                encoder: str = "cpu") -> None:
     units = load_units(ep)
     total = wav_duration(ep / "narration.wav")
     units[-1]["end"] = max(units[-1]["end"], total)
@@ -593,7 +629,7 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False) -> None:
            f"loudnorm=I=-14:TP=-1.5:LRA=11,afade=t=out:st={total - 2.5:.3f}:d=2.5[aout]")
     cmd = (["ffmpeg", "-y"] + inputs + ["-i", str(ep / "narration.wav")] + inputs2 + [
            "-filter_complex", fc, "-map", "[vout]", "-map", "[aout]",
-           "-c:v", "libx264", "-preset", "veryfast", "-crf", "23",
+           ] + VIDEO_CODECS[encoder] + [
            "-c:a", "aac", "-b:a", "256k", "-t", f"{total:.3f}", str(ep / "video.mp4")])
     print("render: ffmpeg実行中(数分かかります)…")
     run(cmd)
@@ -612,15 +648,21 @@ def main() -> None:
                     help="手ぶれ微振動(擬似モーション)を無効化する")
     ap.add_argument("--grain", action="store_true",
                     help="フィルムグレインを追加(空気感が増すがレンダリングが重くなる)")
+    ap.add_argument("--workers", type=int, default=4,
+                    help="TTS合成・音声変換の並列数(既定4)")
+    ap.add_argument("--encoder", default="cpu", choices=list(VIDEO_CODECS),
+                    help="映像エンコーダ。NVIDIA GPUならnvenc、Intel内蔵ならqsv、AMDならamfで高速化")
     args = ap.parse_args()
     steps = args.steps.split(",")
     ep = args.episode
     if "segment" in steps: step_segment(ep)
-    if "tts" in steps: step_tts(ep, args.engine, args.voicevox_url, args.speaker, args.edge_voice)
+    if "tts" in steps: step_tts(ep, args.engine, args.voicevox_url, args.speaker,
+                                args.edge_voice, args.workers)
     if "srt" in steps: step_srt(ep)
     if "bg" in steps: step_bg(ep)
     if "bgm" in steps: step_bgm(ep)
-    if "render" in steps: step_render(ep, motion=not args.no_motion, grain=args.grain)
+    if "render" in steps: step_render(ep, motion=not args.no_motion, grain=args.grain,
+                                      encoder=args.encoder)
 
 
 if __name__ == "__main__":
