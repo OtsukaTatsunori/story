@@ -99,11 +99,28 @@ def render_mood(mood: str) -> np.ndarray:
     return total
 
 
+def to_stereo(mono: np.ndarray) -> np.ndarray:
+    """高音質化: 左右にわずかな時間差+短いエコーで広がりと空気感を出す。"""
+    delay = int(0.012 * SR)          # 左右差12ms
+    left = mono
+    right = np.concatenate([np.zeros(delay), mono[:-delay]])
+    # 柔らかい残響(シンプルなマルチタップエコー)
+    out_l, out_r = left.copy(), right.copy()
+    for tap, gain in ((0.09, 0.22), (0.17, 0.13), (0.29, 0.07)):
+        d = int(tap * SR)
+        out_l[d:] += gain * right[:-d]
+        out_r[d:] += gain * left[:-d]
+    st = np.stack([out_l, out_r], axis=1)
+    st *= 0.5 / (np.abs(st).max() + 1e-9)
+    return st
+
+
 def write_wav(path: Path, data: np.ndarray) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    pcm = (np.clip(data, -1, 1) * 32767).astype("<i2")
+    st = to_stereo(data)
+    pcm = (np.clip(st, -1, 1) * 32767).astype("<i2")
     with wave.open(str(path), "wb") as w:
-        w.setnchannels(1)
+        w.setnchannels(2)
         w.setsampwidth(2)
         w.setframerate(SR)
         w.writeframes(pcm.tobytes())

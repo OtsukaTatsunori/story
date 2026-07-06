@@ -399,13 +399,8 @@ def step_bg_procedural(out: Path, ch: int, titles: dict, font_path: str, W2: int
         for i in range(120):
             a = int(80 * (i / 120) ** 2)
             d.rectangle([i*6, i*4, W2-i*6, H2-i*4], outline=(0, 0, 0, min(a, 4)), width=6)
-        # 章タイトルは左上(下部の字幕域を避ける)
-        title = titles.get(ch, "")
-        name = title.split("　", 1)[1] if "　" in title else title
-        d.text((W2*0.07, H2*0.10), title.split("　")[0] if "　" in title else f"第{ch}章",
-               font=ImageFont.truetype(font_path, 40), fill=(200, 180, 140, 200))
-        d.text((W2*0.07, H2*0.155), name, font=ImageFont.truetype(font_path, 84),
-               fill=(235, 228, 214, 235))
+        # 章タイトルは背景に焼き込まない(パンで動いてちらつくため)。
+        # renderのdrawtextで画面に固定描画する
         img.save(out)
 
 
@@ -451,7 +446,7 @@ def step_bgm(ep: Path) -> None:
         run(["ffmpeg", "-y", "-stream_loop", "-1", "-i", str(bgm_dir / f"{mood}.wav"),
              "-t", f"{dur:.3f}",
              "-af", f"afade=t=in:st=0:d=2,afade=t=out:st={max(dur-2,0):.3f}:d=2",
-             "-ac", "1", "-ar", "44100", "-c:a", "pcm_s16le", str(p)])
+             "-ac", "2", "-ar", "44100", "-c:a", "pcm_s16le", str(p)])
         parts.append(f"file '{p.resolve().as_posix()}'")
     lst = ep / "_bgm_concat.txt"
     lst.write_text("\n".join(parts) + "\n", encoding="utf-8")
@@ -563,7 +558,26 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False) -> None:
     # → 字幕はグレーディングの後に焼くので文字はくっきりしたまま
     fc += (f";[vid]eq=contrast=1.04:saturation=1.06,vignette=PI/24,"
            f"fade=t=in:st=0:d=1.0,fade=t=out:st={total - 2.5:.3f}:d=2.5[graded]")
-    fc += f";[graded]subtitles='{srt}':force_style='{style}'[vout]"
+    # 章タイトルを左上に固定描画(背景のパンと独立なので動かない・ちらつかない)
+    timeline = json.loads((ep / "timeline.json").read_text(encoding="utf-8"))
+    font_arg = Path(find_jp_font()).as_posix().replace(":", "\\:")
+    label = "[graded]"
+    chapters = sorted({s["chapter"] for s in timeline})
+    for i, ch in enumerate(chapters):
+        segs = [s for s in timeline if s["chapter"] == ch]
+        t0, t1 = segs[0]["start"], (timeline[[s["chapter"] for s in timeline].index(ch + 1)]["start"]
+                                    if ch + 1 in chapters else total)
+        title = next((s["text"] for s in segs if s["type"] == "title"), "")
+        small = title.split("　")[0] if "　" in title else f"第{ch}章"
+        name = title.split("　", 1)[1] if "　" in title else title
+        for text, size, y in ((small, 20, 0.075), (name, 40, 0.115)):
+            text = text.replace("\\", "").replace("'", "").replace(":", "：").replace(",", "，")
+            nxt = "[vt]" if (i == len(chapters) - 1 and (text, size) == (name, 40)) else f"[t{i}{size}]"
+            fc += (f";{label}drawtext=fontfile='{font_arg}':text='{text}'"
+                   f":fontsize={size}:fontcolor=0xEDE4D6@0.92:borderw=2:bordercolor=0x000000@0.55"
+                   f":x=w*0.06:y=h*{y}:enable='between(t,{t0 + 0.5:.2f},{t1:.2f})'{nxt}")
+            label = nxt
+    fc += f";[vt]subtitles='{srt}':force_style='{style}'[vout]"
     # BGM: 生成済みbgm.wav(感情別トラック)があればそれを、なければ環境音パッドを敷く
     bgm_wav = ep / "bgm.wav"
     if bgm_wav.exists():
@@ -579,7 +593,7 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False) -> None:
     cmd = (["ffmpeg", "-y"] + inputs + ["-i", str(ep / "narration.wav")] + inputs2 + [
            "-filter_complex", fc, "-map", "[vout]", "-map", "[aout]",
            "-c:v", "libx264", "-preset", "veryfast", "-crf", "23",
-           "-c:a", "aac", "-b:a", "160k", "-t", f"{total:.3f}", str(ep / "video.mp4")])
+           "-c:a", "aac", "-b:a", "256k", "-t", f"{total:.3f}", str(ep / "video.mp4")])
     print("render: ffmpeg実行中(数分かかります)…")
     run(cmd)
     print(f"render: 完了 → {ep/'video.mp4'} ({total/60:.1f}分)")
