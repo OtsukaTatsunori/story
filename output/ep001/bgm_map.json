@@ -1,0 +1,15 @@
+{
+  "default": "warm",
+  "chapters": {
+    "1": "sad",
+    "2": "warm",
+    "3": "tense",
+    "4": "tense",
+    "5": "sad",
+    "6": "hope",
+    "7": "tense",
+    "8": "sad",
+    "9": "tense",
+    "10": "hope"
+  }
+}

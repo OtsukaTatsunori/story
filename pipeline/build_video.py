@@ -409,6 +409,57 @@ def step_bg_procedural(out: Path, ch: int, titles: dict, font_path: str, W2: int
         img.save(out)
 
 
+# ---------- 4.5 bgm ----------
+
+def step_bgm(ep: Path) -> None:
+    """章→ムードの対応表(bgm_map.json)に従い、生成済みBGM(assets/bgm/*.wav)を
+    つないで動画全体のBGMトラック(ep/bgm.wav)を作る。
+    assetsが無ければ pipeline/make_bgm.py で自動生成する。"""
+    root = Path(__file__).resolve().parent.parent
+    bgm_dir = root / "assets" / "bgm"
+    if not (bgm_dir / "warm.wav").exists():
+        run([sys.executable, str(root / "pipeline" / "make_bgm.py")])
+    timeline = json.loads((ep / "timeline.json").read_text(encoding="utf-8"))
+    total = timeline[-1]["end"]
+    mfile = ep / "bgm_map.json"
+    default = "warm"
+    ch_mood = {}
+    if mfile.exists():
+        m = json.loads(mfile.read_text(encoding="utf-8"))
+        default = m.get("default", "warm")
+        ch_mood = {int(k): v for k, v in m.get("chapters", {}).items()}
+    # 章ごとの区間を作る(同ムードが続く場合は結合)
+    chapters = sorted({s["chapter"] for s in timeline})
+    spans = []
+    for ch in chapters:
+        segs = [s for s in timeline if s["chapter"] == ch]
+        mood = ch_mood.get(ch, default)
+        start = segs[0]["start"]
+        if spans and spans[-1][2] == mood:
+            spans[-1][1] = None  # 後で次の開始まで伸ばす
+        else:
+            spans.append([start, None, mood])
+    for i, sp in enumerate(spans):
+        sp[1] = spans[i + 1][0] if i + 1 < len(spans) else total + 1
+    # 各区間: ムードwavをループで必要秒数切り出し、両端をフェード
+    tmp = ep / "audio_padded"
+    tmp.mkdir(exist_ok=True)
+    parts = []
+    for i, (s, e, mood) in enumerate(spans):
+        dur = e - s
+        p = tmp / f"bgm{i:02d}.wav"
+        run(["ffmpeg", "-y", "-stream_loop", "-1", "-i", str(bgm_dir / f"{mood}.wav"),
+             "-t", f"{dur:.3f}",
+             "-af", f"afade=t=in:st=0:d=2,afade=t=out:st={max(dur-2,0):.3f}:d=2",
+             "-ac", "1", "-ar", "44100", "-c:a", "pcm_s16le", str(p)])
+        parts.append(f"file '{p.resolve().as_posix()}'")
+    lst = ep / "_bgm_concat.txt"
+    lst.write_text("\n".join(parts) + "\n", encoding="utf-8")
+    run(["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(lst),
+         "-c", "copy", str(ep / "bgm.wav")])
+    print(f"bgm: {len(spans)}区間 ({', '.join(sp[2] for sp in spans)}) → bgm.wav")
+
+
 # ---------- 5. render ----------
 
 XFADE = 0.8   # シーン間クロスフェード(秒)
@@ -513,13 +564,19 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False) -> None:
     fc += (f";[vid]eq=contrast=1.04:saturation=1.06,vignette=PI/24,"
            f"fade=t=in:st=0:d=1.0,fade=t=out:st={total - 2.5:.3f}:d=2.5[graded]")
     fc += f";[graded]subtitles='{srt}':force_style='{style}'[vout]"
-    # BGM: 静かな環境音パッド(プレースホルダ)を生成してダッキング的に低音量で敷く
-    bgm = (f"aevalsrc='0.02*sin(2*PI*110*t)+0.015*sin(2*PI*164.8*t)+0.012*sin(2*PI*220*t)"
-           f"+0.006*sin(2*PI*329.6*t)':s=44100,tremolo=f=0.15:d=0.4,volume=0.5[bgm]")
+    # BGM: 生成済みbgm.wav(感情別トラック)があればそれを、なければ環境音パッドを敷く
+    bgm_wav = ep / "bgm.wav"
+    if bgm_wav.exists():
+        inputs2 = ["-i", str(bgm_wav)]
+        bgm_src = f"[{n_light + 1}:a]volume=1.0[bgm]"
+    else:
+        inputs2 = []
+        bgm_src = (f"aevalsrc='0.02*sin(2*PI*110*t)+0.015*sin(2*PI*164.8*t)+0.012*sin(2*PI*220*t)"
+                   f"+0.006*sin(2*PI*329.6*t)':s=44100,tremolo=f=0.15:d=0.4,volume=0.5[bgm]")
     # ラウドネスをYouTube標準(-14LUFS)に正規化し、終端をフェードアウト
-    fc += (f";{bgm};[{n_light}:a][bgm]amix=inputs=2:duration=first:weights='1 0.35',"
+    fc += (f";{bgm_src};[{n_light}:a][bgm]amix=inputs=2:duration=first:weights='1 0.30',"
            f"loudnorm=I=-14:TP=-1.5:LRA=11,afade=t=out:st={total - 2.5:.3f}:d=2.5[aout]")
-    cmd = (["ffmpeg", "-y"] + inputs + ["-i", str(ep / "narration.wav"),
+    cmd = (["ffmpeg", "-y"] + inputs + ["-i", str(ep / "narration.wav")] + inputs2 + [
            "-filter_complex", fc, "-map", "[vout]", "-map", "[aout]",
            "-c:v", "libx264", "-preset", "veryfast", "-crf", "23",
            "-c:a", "aac", "-b:a", "160k", "-t", f"{total:.3f}", str(ep / "video.mp4")])
@@ -535,7 +592,7 @@ def main() -> None:
     ap.add_argument("--voicevox-url", default="http://127.0.0.1:50021")
     ap.add_argument("--speaker", type=int, default=13, help="VOICEVOX話者ID(13=青山龍星)")
     ap.add_argument("--edge-voice", default="ja-JP-KeitaNeural")
-    ap.add_argument("--steps", default="segment,tts,srt,bg,render")
+    ap.add_argument("--steps", default="segment,tts,srt,bg,bgm,render")
     ap.add_argument("--no-motion", action="store_true",
                     help="手ぶれ微振動(擬似モーション)を無効化する")
     ap.add_argument("--grain", action="store_true",
@@ -547,6 +604,7 @@ def main() -> None:
     if "tts" in steps: step_tts(ep, args.engine, args.voicevox_url, args.speaker, args.edge_voice)
     if "srt" in steps: step_srt(ep)
     if "bg" in steps: step_bg(ep)
+    if "bgm" in steps: step_bgm(ep)
     if "render" in steps: step_render(ep, motion=not args.no_motion, grain=args.grain)
 
 
