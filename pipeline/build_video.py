@@ -416,21 +416,21 @@ ZMAX = 1.06   # Ken Burnsの最大ズーム(尺に関係なくここで頭打ち
 
 
 def motion_expr(k: int, frames: int) -> str:
-    """背景をゆっくり動かすKen Burns(揺れなし)。ズーム量は尺で正規化し、
-    シーンがどれだけ長くても1.00〜ZMAXの範囲で頭打ちになる。
-    ズームイン/アウト/左右パンを巡回して単調さを防ぐ。"""
-    rate = f"{(ZMAX - 1.0):.4f}/{frames}"
+    """背景をゆっくり動かす(ズームなし・等倍パンのみ)。
+    表示倍率はZMAX固定なので『だんだん拡大される』ことは一切ない。
+    パン方向(右/左/下/上)を巡回して単調さを防ぐ。"""
     cx = "iw/2-(iw/zoom/2)"
     cy = "ih/2-(ih/zoom/2)"
+    # 移動量は余白(iw-iw/zoom)の範囲。等速でゆっくり流れる
     mode = k % 4
-    if mode == 0:    # ズームイン(中央)
-        return f"zoompan=z='1.0+{rate}*on':x='{cx}':y='{cy}'"
-    if mode == 1:    # ズームアウト(中央)
-        return f"zoompan=z='{ZMAX}-{rate}*on':x='{cx}':y='{cy}'"
-    if mode == 2:    # 固定ズームで左→右パン
+    if mode == 0:    # 左→右パン
         return f"zoompan=z='{ZMAX}':x='(iw-iw/zoom)*on/{frames}':y='{cy}'"
-    # 固定ズームで右→左パン
-    return f"zoompan=z='{ZMAX}':x='(iw-iw/zoom)*(1-on/{frames})':y='{cy}'"
+    if mode == 1:    # 右→左パン
+        return f"zoompan=z='{ZMAX}':x='(iw-iw/zoom)*(1-on/{frames})':y='{cy}'"
+    if mode == 2:    # 上→下パン
+        return f"zoompan=z='{ZMAX}':x='{cx}':y='(ih-ih/zoom)*on/{frames}'"
+    # 下→上パン
+    return f"zoompan=z='{ZMAX}':x='{cx}':y='(ih-ih/zoom)*(1-on/{frames})'"
 
 
 def make_light_sweep(path: Path, w: int, h: int) -> None:
@@ -477,6 +477,8 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False) -> None:
         inputs += ["-loop", "1", "-t", f"{total + 2:.3f}", "-i", str(light)]
         fparts.append(f"[{n}:v]format=rgba,fps={FPS}," + f"split={n}" +
                       "".join(f"[l{k}]" for k in range(n)))
+    # ナレーション音声の入力index(bg画像n枚 + 光レイヤー1枚の後)
+    n_light = n + (1 if motion else 0)
     for k, u in enumerate(units):
         clip_len = durs[k] + (XFADE if k < n - 1 else 0)
         frames = int(clip_len * FPS) + 1
@@ -506,11 +508,17 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False) -> None:
     # 食われるためフォワードスラッシュに統一し、ドライブレターの : をエスケープする
     srt = (ep / "subtitles.srt").as_posix().replace(":", "\\:")
     style = SUB_STYLE.replace("Noto Sans CJK JP", sub_font_name())
-    fc += f";[vid]subtitles='{srt}':force_style='{style}'[vout]"
+    # 軽いシネマ調グレーディング(コントラスト/彩度を微調整+うっすらビネット)
+    # → 字幕はグレーディングの後に焼くので文字はくっきりしたまま
+    fc += (f";[vid]eq=contrast=1.04:saturation=1.06,vignette=PI/24,"
+           f"fade=t=in:st=0:d=1.0,fade=t=out:st={total - 2.5:.3f}:d=2.5[graded]")
+    fc += f";[graded]subtitles='{srt}':force_style='{style}'[vout]"
     # BGM: 静かな環境音パッド(プレースホルダ)を生成してダッキング的に低音量で敷く
     bgm = (f"aevalsrc='0.02*sin(2*PI*110*t)+0.015*sin(2*PI*164.8*t)+0.012*sin(2*PI*220*t)"
            f"+0.006*sin(2*PI*329.6*t)':s=44100,tremolo=f=0.15:d=0.4,volume=0.5[bgm]")
-    fc += f";{bgm};[{n}:a][bgm]amix=inputs=2:duration=first:weights='1 0.35'[aout]"
+    # ラウドネスをYouTube標準(-14LUFS)に正規化し、終端をフェードアウト
+    fc += (f";{bgm};[{n_light}:a][bgm]amix=inputs=2:duration=first:weights='1 0.35',"
+           f"loudnorm=I=-14:TP=-1.5:LRA=11,afade=t=out:st={total - 2.5:.3f}:d=2.5[aout]")
     cmd = (["ffmpeg", "-y"] + inputs + ["-i", str(ep / "narration.wav"),
            "-filter_complex", fc, "-map", "[vout]", "-map", "[aout]",
            "-c:v", "libx264", "-preset", "veryfast", "-crf", "23",
