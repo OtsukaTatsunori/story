@@ -1,17 +1,247 @@
 {
-  "_readme": "セグメント範囲(from〜to、segments.jsonのindex)→感情タグ。タグはvoice_config.jsonのemotionsキーに対応。指定外はdefault。",
-  "default": "narration",
-  "spans": [
-    {"from": 19, "to": 26, "emotion": "怒り", "note": "大隅の買収通告と『格が違う』"},
-    {"from": 88, "to": 97, "emotion": "怒り", "note": "業界会合での公開嘲笑『一日十万本』"},
-    {"from": 117, "to": 121, "emotion": "悲しみ", "note": "『親父さんの代なら有り得なかった』"},
-    {"from": 139, "to": 148, "emotion": "緊張", "note": "混入発覚、内部犯の疑念"},
-    {"from": 178, "to": 189, "emotion": "悲しみ", "note": "帳面を開く夜、借用書の発見"},
-    {"from": 196, "to": 221, "emotion": "静かな余韻", "note": "柴田が語る四十年前の恩"},
-    {"from": 240, "to": 252, "emotion": "怒り", "note": "『燃やしてこい』『恩? 焼いてきたよ』"},
-    {"from": 271, "to": 293, "emotion": "悲しみ", "note": "富岡の涙と赦し"},
-    {"from": 306, "to": 345, "emotion": "緊張", "note": "公開検証〜大隅の絶句"},
-    {"from": 374, "to": 385, "emotion": "決意", "note": "決め台詞『それが、あんたへの一番の罰だ』"},
-    {"from": 386, "to": 393, "emotion": "静かな余韻", "note": "翌朝の検品、最終行"}
-  ]
+ "_comment": "全編の感情マップ(自動生成+手動調整可)。spansは上から順に適用。overridesで1枚単位の微調整。",
+ "default": "narration",
+ "spans": [
+  {
+   "from": 1,
+   "to": 22,
+   "emotion": "重い語り"
+  },
+  {
+   "from": 23,
+   "to": 23,
+   "emotion": "静かな余韻"
+  },
+  {
+   "from": 24,
+   "to": 24,
+   "emotion": "威圧"
+  },
+  {
+   "from": 25,
+   "to": 25,
+   "emotion": "重い語り"
+  },
+  {
+   "from": 26,
+   "to": 26,
+   "emotion": "威圧"
+  },
+  {
+   "from": 27,
+   "to": 30,
+   "emotion": "重い語り"
+  },
+  {
+   "from": 31,
+   "to": 31,
+   "emotion": "静かな余韻"
+  },
+  {
+   "from": 32,
+   "to": 33,
+   "emotion": "重い語り"
+  },
+  {
+   "from": 34,
+   "to": 34,
+   "emotion": "静かな余韻"
+  },
+  {
+   "from": 35,
+   "to": 38,
+   "emotion": "重い語り"
+  },
+  {
+   "from": 71,
+   "to": 72,
+   "emotion": "緊張"
+  },
+  {
+   "from": 81,
+   "to": 86,
+   "emotion": "緊張"
+  },
+  {
+   "from": 87,
+   "to": 87,
+   "emotion": "威圧"
+  },
+  {
+   "from": 88,
+   "to": 93,
+   "emotion": "緊張"
+  },
+  {
+   "from": 94,
+   "to": 94,
+   "emotion": "威圧"
+  },
+  {
+   "from": 95,
+   "to": 96,
+   "emotion": "緊張"
+  },
+  {
+   "from": 97,
+   "to": 97,
+   "emotion": "威圧"
+  },
+  {
+   "from": 98,
+   "to": 110,
+   "emotion": "緊張"
+  },
+  {
+   "from": 112,
+   "to": 120,
+   "emotion": "不穏"
+  },
+  {
+   "from": 121,
+   "to": 121,
+   "emotion": "怒り"
+  },
+  {
+   "from": 122,
+   "to": 148,
+   "emotion": "不穏"
+  },
+  {
+   "from": 150,
+   "to": 178,
+   "emotion": "重い語り"
+  },
+  {
+   "from": 179,
+   "to": 179,
+   "emotion": "静かな余韻"
+  },
+  {
+   "from": 180,
+   "to": 189,
+   "emotion": "重い語り"
+  },
+  {
+   "from": 214,
+   "to": 214,
+   "emotion": "悲しみ"
+  },
+  {
+   "from": 215,
+   "to": 215,
+   "emotion": "決意"
+  },
+  {
+   "from": 223,
+   "to": 225,
+   "emotion": "不穏"
+  },
+  {
+   "from": 226,
+   "to": 226,
+   "emotion": "怒り"
+  },
+  {
+   "from": 227,
+   "to": 229,
+   "emotion": "不穏"
+  },
+  {
+   "from": 230,
+   "to": 230,
+   "emotion": "緊張"
+  },
+  {
+   "from": 231,
+   "to": 242,
+   "emotion": "不穏"
+  },
+  {
+   "from": 243,
+   "to": 243,
+   "emotion": "威圧"
+  },
+  {
+   "from": 244,
+   "to": 244,
+   "emotion": "静かな余韻"
+  },
+  {
+   "from": 245,
+   "to": 248,
+   "emotion": "不穏"
+  },
+  {
+   "from": 249,
+   "to": 249,
+   "emotion": "悲しみ"
+  },
+  {
+   "from": 250,
+   "to": 251,
+   "emotion": "不穏"
+  },
+  {
+   "from": 252,
+   "to": 252,
+   "emotion": "威圧"
+  },
+  {
+   "from": 254,
+   "to": 292,
+   "emotion": "悲しみ"
+  },
+  {
+   "from": 293,
+   "to": 293,
+   "emotion": "決意"
+  },
+  {
+   "from": 295,
+   "to": 330,
+   "emotion": "緊張"
+  },
+  {
+   "from": 331,
+   "to": 331,
+   "emotion": "悲しみ"
+  },
+  {
+   "from": 332,
+   "to": 335,
+   "emotion": "緊張"
+  },
+  {
+   "from": 336,
+   "to": 336,
+   "emotion": "怒り"
+  },
+  {
+   "from": 337,
+   "to": 337,
+   "emotion": "威圧"
+  },
+  {
+   "from": 338,
+   "to": 345,
+   "emotion": "緊張"
+  },
+  {
+   "from": 376,
+   "to": 376,
+   "emotion": "決意"
+  },
+  {
+   "from": 379,
+   "to": 379,
+   "emotion": "静かな余韻"
+  },
+  {
+   "from": 381,
+   "to": 381,
+   "emotion": "決意"
+  }
+ ],
+ "overrides": {}
 }
