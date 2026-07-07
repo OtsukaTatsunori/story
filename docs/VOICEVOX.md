@@ -66,3 +66,13 @@ VOICEVOXの多くの話者には同一声質の「感情スタイル」がある
 ## BGMムード一覧(bgm_map.jsonでピックアップ)
 warm sad tense hope nostalgic dark epic gentle suspense bittersweet uplifting calm dramatic mystery
 (全14種。1本の動画では章に合わせて3〜5種を選ぶのがおすすめ)
+
+## 字幕1枚単位の音声調整(overrides)と試聴
+- セグメント番号の確認: output/epXXX/segments.json (字幕1枚=1セグメント。timeline.jsonで時刻も分かる)
+- emotions.json に個別上書きを追加:
+  "overrides": { "123": {"speedScale": 0.85, "pitchScale": -0.03, "intonationScale": 1.4, "pause_after": 1.5} }
+  (pause_after=そのセグメントの後の間を秒指定。他はそのセグメントの声の調整)
+- 1セグメントだけ試聴(全編を作り直さない):
+  python pipeline/build_video.py output/epXXX --preview 123 --engine voicevox --voicevox-url http://127.0.0.1:10101 --speaker <ID>
+  → output/epXXX/preview_seg123.wav ができるので再生して確認
+- 納得したら --steps tts,srt,bgm,render で本番反映(上書きセグメントだけ再合成される)

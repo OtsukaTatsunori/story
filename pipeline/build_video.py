@@ -238,7 +238,13 @@ def load_emotions(ep: Path):
     params = {}
     if vfile.exists():
         params = json.loads(vfile.read_text(encoding="utf-8")).get("emotions", {})
-    return default, tag_of, params
+    # セグメント個別の上書き(emotions.jsonの"overrides")。字幕1枚単位のピンポイント調整。
+    # 例: "overrides": {"123": {"speedScale": 0.85, "pitchScale": -0.03, "pause_after": 1.5}}
+    overrides = {}
+    if efile.exists():
+        e = json.loads(efile.read_text(encoding="utf-8"))
+        overrides = {int(k): v for k, v in e.get("overrides", {}).items()}
+    return default, tag_of, params, overrides
 
 
 def synth_one(i: int, seg: dict, wav: Path, engine: str, vv_url: str, speaker: int,
@@ -263,18 +269,24 @@ def step_tts(ep: Path, engine: str, vv_url: str, speaker: int, edge_voice: str,
     segments = json.loads((ep / "segments.json").read_text(encoding="utf-8"))
     audio_dir = ep / "audio"
     audio_dir.mkdir(exist_ok=True)
-    default_tag, tag_of, emo_params = load_emotions(ep)
+    default_tag, tag_of, emo_params, overrides = load_emotions(ep)
 
     # 合成対象の一覧(キャッシュ済みはスキップ)を作り、並列合成する
     jobs = []
     wavs = []
     for i, seg in enumerate(segments):
         tag = tag_of.get(i, default_tag)
-        # デフォルト感情は従来のファイル名(キャッシュ互換)。感情指定セグメントのみ別名
-        wav = audio_dir / (f"seg{i:04d}.wav" if tag == default_tag else f"seg{i:04d}.{tag}.wav")
+        params = dict(emo_params.get(tag, {}))
+        ov = overrides.get(i, {})
+        params.update({k: v for k, v in ov.items() if k != "pause_after"})
+        # キャッシュ名: デフォルト=従来名 / 感情=タグ付き / 個別上書き=ovN付き
+        # (上書き内容を変えたら該当wavを削除して再合成する)
+        suffix = "" if (tag == default_tag and not ov) else \
+                 f".{tag}" + (f".ov{i}" if ov else "")
+        wav = audio_dir / f"seg{i:04d}{suffix}.wav"
         wavs.append(wav)
         if not wav.exists():
-            jobs.append((i, seg, wav, emo_params.get(tag, {})))
+            jobs.append((i, seg, wav, params))
     if jobs:
         print(f"tts: {len(jobs)}セグメントを{workers}並列で合成中…")
         done = 0
@@ -292,9 +304,12 @@ def step_tts(ep: Path, engine: str, vv_url: str, speaker: int, edge_voice: str,
     timeline = []
     for i, seg in enumerate(segments):
         dur = wav_duration(wavs[i])
-        timeline.append({**seg, "wav": wavs[i].name, "start": round(t, 3), "end": round(t + dur, 3)})
-        t += dur
-        t += PAUSE_CHAP if seg["type"] == "title" else (PAUSE_PARA if seg.get("para_end") else PAUSE_SEG)
+        gap = overrides.get(i, {}).get(
+            "pause_after",
+            PAUSE_CHAP if seg["type"] == "title" else (PAUSE_PARA if seg.get("para_end") else PAUSE_SEG))
+        timeline.append({**seg, "wav": wavs[i].name, "start": round(t, 3), "end": round(t + dur, 3),
+                         "gap": gap})
+        t += dur + gap
     (ep / "timeline.json").write_text(json.dumps(timeline, ensure_ascii=False, indent=1), encoding="utf-8")
 
     # 結合: 各セグメントを統一フォーマット(44100Hz/mono/16bit)+末尾無音に変換し、
@@ -307,7 +322,8 @@ def step_tts(ep: Path, engine: str, vv_url: str, speaker: int, edge_voice: str,
     def pad_one(i: int, seg: dict) -> None:
         src = audio_dir / seg["wav"]
         dst = pad_dir / f"p{i:04d}.wav"
-        gap = PAUSE_CHAP if seg["type"] == "title" else (PAUSE_PARA if seg.get("para_end") else PAUSE_SEG)
+        gap = seg.get("gap",
+                      PAUSE_CHAP if seg["type"] == "title" else (PAUSE_PARA if seg.get("para_end") else PAUSE_SEG))
         run(["ffmpeg", "-y", "-i", str(src),
              "-af", f"aresample=44100,apad=pad_dur={gap}",
              "-ac", "1", "-ar", "44100", "-c:a", "pcm_s16le", str(dst)])
@@ -726,11 +742,28 @@ def main() -> None:
                     help="フィルムグレインを追加(空気感が増すがレンダリングが重くなる)")
     ap.add_argument("--workers", type=int, default=4,
                     help="TTS合成・音声変換の並列数(既定4)")
+    ap.add_argument("--preview", type=int, metavar="N",
+                    help="セグメントNだけ合成して preview_segN.wav を出力(全編を作り直さず試聴)")
     ap.add_argument("--encoder", default="cpu", choices=list(VIDEO_CODECS),
                     help="映像エンコーダ。NVIDIA GPUならnvenc、Intel内蔵ならqsv、AMDならamfで高速化")
     args = ap.parse_args()
     steps = args.steps.split(",")
     ep = args.episode
+    if args.preview is not None:
+        segments = json.loads((ep / "segments.json").read_text(encoding="utf-8"))
+        i = args.preview
+        seg = segments[i]
+        default_tag, tag_of, emo_params, overrides = load_emotions(ep)
+        tag = tag_of.get(i, default_tag)
+        params = dict(emo_params.get(tag, {}))
+        params.update({k: v for k, v in overrides.get(i, {}).items() if k != "pause_after"})
+        out = ep / f"preview_seg{i}.wav"
+        synth_one(i, seg, out, args.engine, args.voicevox_url, args.speaker,
+                  args.edge_voice, params)
+        print(f"セグメント{i} [{tag}] {params}")
+        print(f"テキスト: {seg['text']}")
+        print(f"試聴ファイル: {out}")
+        return
     if "segment" in steps: step_segment(ep)
     if "tts" in steps: step_tts(ep, args.engine, args.voicevox_url, args.speaker,
                                 args.edge_voice, args.workers)
