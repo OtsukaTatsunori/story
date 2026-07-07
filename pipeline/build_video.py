@@ -35,7 +35,7 @@ W, H = 1280, 720
 # → 白文字/黒縁/白の外縁 のテレビ字幕風になり、どんな背景でも読める
 SUB_BASE = ("FontName=Noto Sans CJK JP,Bold=1,FontSize=29,"
             "BorderStyle=1,Shadow=0,Alignment=2,MarginV=29")
-SUB_OUTER = SUB_BASE + ",PrimaryColour=&H00FFFFFF,OutlineColour=&H00FFFFFF,Outline=5"
+SUB_OUTER = SUB_BASE + ",PrimaryColour=&H00FFFFFF,OutlineColour=&H00FFFFFF,Outline=3.5"
 SUB_INNER = SUB_BASE + ",PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,Outline=2.5"
 
 
@@ -60,7 +60,9 @@ def find_jp_font() -> str:
         "/usr/share/fonts/truetype/noto/NotoSansCJK-Bold.ttc",
         # Windows: ユーザーがNoto Sans JPを入れていれば優先
         str(win_user_fonts / "NotoSansJP-Bold.ttf"),
+        str(win_user_fonts / "NotoSansJP-SemiBold.ttf"),
         str(win_user_fonts / "NotoSansJP-Bold.otf"),
+        str(win_user_fonts / "NotoSansJP-SemiBold.otf"),
         "C:/Windows/Fonts/NotoSansJP-Bold.otf",
         # Windows標準の太字ゴシック
         "C:/Windows/Fonts/YuGothB.ttc",   # 游ゴシック Bold
@@ -82,12 +84,9 @@ def sub_font_name() -> str:
     """ffmpeg字幕(libass)用のフォントファミリ名。fontconfigが名前解決する。"""
     if platform.system() == "Windows":
         home = Path.home()
-        noto = [
-            home / "AppData/Local/Microsoft/Windows/Fonts/NotoSansJP-Bold.ttf",
-            home / "AppData/Local/Microsoft/Windows/Fonts/NotoSansJP-Regular.ttf",
-            Path("C:/Windows/Fonts/NotoSansJP-Bold.otf"),
-        ]
-        if any(p.exists() for p in noto):
+        fonts_dir = home / "AppData/Local/Microsoft/Windows/Fonts"
+        if (fonts_dir.exists() and any(fonts_dir.glob("NotoSansJP*"))) \
+                or any(Path("C:/Windows/Fonts").glob("NotoSansJP*")):
             return "Noto Sans JP"
         return "Yu Gothic"  # Windows標準。Bold=1で太字化される
     if platform.system() == "Darwin":

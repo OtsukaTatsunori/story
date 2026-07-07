@@ -61,6 +61,27 @@ PROGRESSIONS = {
                     ("B", "min", 2), ("G", "maj", 2), ("A", "maj", 2), ("B", "min", 2)],
     "mystery":     [("D", "min", 3), ("D#", "maj", 3), ("D", "min", 3), ("C", "min", 3),
                     ("D", "min", 3), ("G", "min", 3), ("D#", "maj", 3), ("D", "min", 3)],
+    # さらに拡張10ムード(計24)
+    "serene":      [("C", "maj", 3), ("F", "maj", 3), ("C", "maj", 3), ("G", "maj", 3),
+                    ("C", "maj", 3), ("F", "maj", 3), ("G", "maj", 3), ("C", "maj", 3)],
+    "melancholy":  [("E", "min", 3), ("C", "maj", 3), ("D", "maj", 3), ("B", "min", 3),
+                    ("E", "min", 3), ("A", "min", 3), ("B", "min", 3), ("E", "min", 3)],
+    "heroic":      [("G", "maj", 2), ("C", "maj", 3), ("D", "maj", 3), ("G", "maj", 3),
+                    ("E", "min", 3), ("C", "maj", 3), ("D", "maj", 3), ("G", "maj", 3)],
+    "tender":      [("F", "maj", 3), ("A", "min", 3), ("A#", "maj", 3), ("F", "maj", 3),
+                    ("D", "min", 3), ("A#", "maj", 3), ("C", "maj", 3), ("F", "maj", 3)],
+    "anxious":     [("F#", "min", 2), ("G", "maj", 2), ("F#", "min", 2), ("A", "min", 2),
+                    ("F#", "min", 2), ("C", "maj", 2), ("G", "maj", 2), ("F#", "min", 2)],
+    "triumphant":  [("A#", "maj", 2), ("D#", "maj", 3), ("F", "maj", 3), ("A#", "maj", 3),
+                    ("G", "min", 3), ("D#", "maj", 3), ("F", "maj", 3), ("A#", "maj", 3)],
+    "lonely":      [("B", "min", 2), ("B", "min", 2), ("G", "maj", 2), ("B", "min", 2),
+                    ("F#", "min", 2), ("G", "maj", 2), ("B", "min", 2), ("B", "min", 2)],
+    "playful":     [("C", "maj", 4), ("A", "min", 4), ("F", "maj", 3), ("G", "maj", 3),
+                    ("C", "maj", 4), ("E", "min", 4), ("F", "maj", 3), ("G", "maj", 3)],
+    "solemn":      [("D", "min", 2), ("A", "min", 2), ("A#", "maj", 2), ("F", "maj", 2),
+                    ("D", "min", 2), ("G", "min", 2), ("A", "min", 2), ("D", "min", 2)],
+    "healing":     [("G", "maj", 3), ("B", "min", 3), ("C", "maj", 3), ("G", "maj", 3),
+                    ("A", "min", 3), ("C", "maj", 3), ("D", "maj", 3), ("G", "maj", 3)],
 }
 INTERVALS = {"maj": (0, 4, 7), "min": (0, 3, 7)}
 
@@ -97,13 +118,14 @@ def render_mood(mood: str) -> np.ndarray:
         end = min(start + len(segb), len(total))
         total[start:end] += segb[: end - start]
         # tenseは半音上の音を薄く重ねて不穏さを出す
-        if mood in ("tense", "suspense", "dark", "mystery"):
+        if mood in ("tense", "suspense", "dark", "mystery", "anxious", "solemn", "lonely"):
             f2 = base * 2 ** (1 / 12)
             seg2 = tone(f2, CHORD_SEC, 0.03, attack=2.0, decay=4.0)
             end = min(start + len(seg2), len(total))
             total[start:end] += seg2[: end - start]
         # warm/hopeは軽いアルペジオを散らす
-        if mood in ("warm", "hope", "gentle", "uplifting", "nostalgic", "bittersweet", "calm"):
+        if mood in ("warm", "hope", "gentle", "uplifting", "nostalgic", "bittersweet", "calm",
+                    "serene", "tender", "healing", "playful", "heroic", "triumphant"):
             for j, semi in enumerate(INTERVALS[kind] + (12,)):
                 f = base * 2 ** (semi / 12) * 2
                 at = start + int((j * 1.9 + 0.4) * SR)
