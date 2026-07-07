@@ -31,10 +31,12 @@ FPS = 24
 W, H = 1280, 720
 
 # 字幕スタイル(libassのPlayResY=288基準。MarginV=29 ≒ 画面下10%の余白)
-# FontName: Noto Sans JP相当(Noto Sans CJK JP)。縁取り(Outline)で読みやすく
-SUB_STYLE = ("FontName=Noto Sans CJK JP,Bold=1,FontSize=29,"
-             "PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,"
-             "BorderStyle=1,Outline=2.5,Shadow=0,Alignment=2,MarginV=29")
+# 二重縁取り: 同じSRTを2回焼く。1回目=外縁(太い白)、2回目=本文(白文字+黒縁)
+# → 白文字/黒縁/白の外縁 のテレビ字幕風になり、どんな背景でも読める
+SUB_BASE = ("FontName=Noto Sans CJK JP,Bold=1,FontSize=29,"
+            "BorderStyle=1,Shadow=0,Alignment=2,MarginV=29")
+SUB_OUTER = SUB_BASE + ",PrimaryColour=&H00FFFFFF,OutlineColour=&H00FFFFFF,Outline=5"
+SUB_INNER = SUB_BASE + ",PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,Outline=2.5"
 
 
 def run(cmd, check=True, **kw):
@@ -396,8 +398,27 @@ def load_units(ep: Path) -> list[dict]:
     return units
 
 
+IMG_EXTS = (".png", ".jpg", ".jpeg", ".webp")
+
+
+def fit_169(src: Path, out: Path, W2: int, H2: int) -> None:
+    """画像をアスペクト比を保って16:9にセンタークロップし、2倍解像度で保存。"""
+    from PIL import Image
+    img = Image.open(src).convert("RGB")
+    scale = max(W2 / img.width, H2 / img.height)
+    img = img.resize((round(img.width * scale), round(img.height * scale)))
+    left, top = (img.width - W2) // 2, (img.height - H2) // 2
+    img.crop((left, top, left + W2, top + H2)).save(out)
+
+
 def step_bg(ep: Path) -> None:
-    from PIL import Image, ImageDraw, ImageFont
+    """背景画像の準備。優先順:
+    ① images/  : シーン番号・章番号に対応した名前の画像を順番に使う(scene01.png等)
+    ② images_random/ : プール内の画像からシーンごとにランダムに選ぶ
+       (再現性のためシード固定。同じ画像が連続しないように選ぶ)
+    ③ どちらも無ければ自動生成の暗色背景
+    """
+    import random as _random
     timeline = json.loads((ep / "timeline.json").read_text(encoding="utf-8"))
     units = load_units(ep)
     titles = {s["chapter"]: s["text"] for s in timeline if s["type"] == "title"}
@@ -405,24 +426,33 @@ def step_bg(ep: Path) -> None:
     bg_dir = ep / "bg"
     bg_dir.mkdir(exist_ok=True)
     W2, H2 = W * 2, H * 2  # Ken Burns用に大きめ
+
+    pool = sorted(p for p in (ep / "images_random").glob("*")
+                  if p.suffix.lower() in IMG_EXTS) if (ep / "images_random").exists() else []
+    rng = _random.Random(len(units))  # シード固定(再実行しても同じ割当)
+    prev = None
+    used = {"seq": 0, "rand": 0, "auto": 0}
     for unit in units:
         ch = unit["chapter"]
         out = bg_dir / f"{unit['key']}.png"
-        # 自作画像(実写風シーン画像など)があれば優先。png/jpg両対応
-        for ext in (".png", ".jpg", ".jpeg", ".webp"):
-            custom = ep / "images" / (Path(unit["image"]).stem + ext)
-            if custom.exists():
-                img = Image.open(custom).convert("RGB")
-                # アスペクト比を保って16:9にセンタークロップ→2倍解像度
-                tw, th = W2, H2
-                scale = max(tw / img.width, th / img.height)
-                img = img.resize((round(img.width * scale), round(img.height * scale)))
-                left, top = (img.width - tw) // 2, (img.height - th) // 2
-                img.crop((left, top, left + tw, top + th)).save(out)
-                break
+        # ① 順番指定の画像(images/)
+        seq = next((ep / "images" / (Path(unit["image"]).stem + ext)
+                    for ext in IMG_EXTS if (ep / "images" / (Path(unit["image"]).stem + ext)).exists()), None)
+        if seq:
+            fit_169(seq, out, W2, H2)
+            used["seq"] += 1
+        elif pool:
+            # ② ランダムプール(images_random/)。直前と同じ画像は避ける
+            cand = [p for p in pool if p != prev] or pool
+            pick = rng.choice(cand)
+            prev = pick
+            fit_169(pick, out, W2, H2)
+            used["rand"] += 1
         else:
             step_bg_procedural(out, ch, titles, font_path, W2, H2)
-    print(f"bg: {len(units)}枚 → bg/ ({'シーン単位' if (ep/'scenes.json').exists() else '章単位'})")
+            used["auto"] += 1
+    mode = "シーン単位" if (ep / "scenes.json").exists() else "章単位"
+    print(f"bg: {len(units)}枚 → bg/ ({mode} / 順番:{used['seq']} ランダム:{used['rand']} 自動:{used['auto']})")
 
 
 def step_bg_procedural(out: Path, ch: int, titles: dict, font_path: str, W2: int, H2: int) -> None:
@@ -616,7 +646,9 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False,
     # subtitlesフィルタ用にパスを正規化: Windowsの \ はエスケープ文字として
     # 食われるためフォワードスラッシュに統一し、ドライブレターの : をエスケープする
     srt = (ep / "subtitles.srt").as_posix().replace(":", "\\:")
-    style = SUB_STYLE.replace("Noto Sans CJK JP", sub_font_name())
+    font = sub_font_name()
+    style_outer = SUB_OUTER.replace("Noto Sans CJK JP", font)
+    style_inner = SUB_INNER.replace("Noto Sans CJK JP", font)
     # 軽いシネマ調グレーディング(コントラスト/彩度を微調整+うっすらビネット)
     # → 字幕はグレーディングの後に焼くので文字はくっきりしたまま
     fc += (f";[vid]eq=contrast=1.04:saturation=1.06,vignette=PI/24,"
@@ -642,7 +674,8 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False,
             label = nxt
     # 最終段でyuv420pに固定: 字幕・drawtext後に4:4:4へ昇格すると
     # H.264 High 4:4:4になり、Windows標準プレイヤー等で再生できなくなる
-    fc += f";[vt]subtitles='{srt}':force_style='{style}',format=yuv420p[vout]"
+    fc += (f";[vt]subtitles='{srt}':force_style='{style_outer}'[vso]"
+           f";[vso]subtitles='{srt}':force_style='{style_inner}',format=yuv420p[vout]")
     # BGM: 生成済みbgm.wav(感情別トラック)があればそれを、なければ環境音パッドを敷く
     bgm_wav = ep / "bgm.wav"
     if bgm_wav.exists():

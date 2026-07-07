@@ -56,3 +56,13 @@ VOICEVOXの多くの話者には同一声質の「感情スタイル」がある
 ## 読み間違いの直し方(yomi.json)
 - リポジトリ直下の yomi.json に「誤読される単語→ひらがな」を追記(音声のみ置換、字幕は漢字のまま)
 - 追記後、`output/epXXX/audio/` の該当セグメントwav(または全部)を削除して再実行すると差分だけ再合成される
+
+## 背景画像の2方式
+- `output/epXXX/images/scene01.png` 等 … シーン番号に対応して「順番に」使う(従来方式・最優先)
+- `output/epXXX/images_random/` … フォルダ内の画像から「ランダムに」選んでスライド表示
+  (ファイル名は自由。シード固定で再実行しても同じ割当。直前と同じ画像は連続しない)
+- 両方あるシーンは images/ が優先。どちらも無いシーンは自動生成背景
+
+## BGMムード一覧(bgm_map.jsonでピックアップ)
+warm sad tense hope nostalgic dark epic gentle suspense bittersweet uplifting calm dramatic mystery
+(全14種。1本の動画では章に合わせて3〜5種を選ぶのがおすすめ)

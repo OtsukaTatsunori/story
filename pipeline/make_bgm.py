@@ -31,6 +31,7 @@ def freq(name: str, octave: int) -> float:
 
 # コード進行(各ムード8コード)。(ルート,種類,オクターブ)
 PROGRESSIONS = {
+    # 基本4ムード
     "warm":  [("C", "maj", 3), ("G", "maj", 3), ("A", "min", 3), ("F", "maj", 3),
               ("C", "maj", 3), ("E", "min", 3), ("F", "maj", 3), ("G", "maj", 3)],
     "sad":   [("A", "min", 3), ("F", "maj", 3), ("C", "maj", 3), ("G", "maj", 3),
@@ -39,6 +40,27 @@ PROGRESSIONS = {
               ("C", "min", 2), ("D", "min", 2), ("D#", "maj", 2), ("D", "min", 2)],
     "hope":  [("F", "maj", 3), ("G", "maj", 3), ("A", "min", 3), ("C", "maj", 3),
               ("F", "maj", 3), ("G", "maj", 3), ("C", "maj", 4), ("C", "maj", 4)],
+    # 拡張10ムード(動画ごとにbgm_map.jsonでピックアップして使う)
+    "nostalgic":   [("F", "maj", 3), ("E", "min", 3), ("D", "min", 3), ("C", "maj", 3),
+                    ("F", "maj", 3), ("C", "maj", 3), ("D", "min", 3), ("G", "maj", 3)],
+    "dark":        [("A", "min", 2), ("A", "min", 2), ("F", "maj", 2), ("E", "min", 2),
+                    ("A", "min", 2), ("G", "min", 2), ("F", "maj", 2), ("E", "min", 2)],
+    "epic":        [("C", "min", 2), ("G#", "maj", 2), ("D#", "maj", 3), ("A#", "maj", 2),
+                    ("C", "min", 2), ("G#", "maj", 2), ("A#", "maj", 2), ("C", "min", 3)],
+    "gentle":      [("G", "maj", 3), ("D", "maj", 3), ("E", "min", 3), ("C", "maj", 3),
+                    ("G", "maj", 3), ("C", "maj", 3), ("D", "maj", 3), ("G", "maj", 3)],
+    "suspense":    [("E", "min", 2), ("F", "maj", 2), ("E", "min", 2), ("F", "maj", 2),
+                    ("E", "min", 2), ("D#", "maj", 2), ("E", "min", 2), ("B", "maj", 1)],
+    "bittersweet": [("C", "maj", 3), ("E", "min", 3), ("F", "maj", 3), ("F", "min", 3),
+                    ("C", "maj", 3), ("A", "min", 3), ("F", "min", 3), ("C", "maj", 3)],
+    "uplifting":   [("D", "maj", 3), ("A", "maj", 3), ("B", "min", 3), ("G", "maj", 3),
+                    ("D", "maj", 3), ("A", "maj", 3), ("G", "maj", 3), ("D", "maj", 4)],
+    "calm":        [("A", "min", 3), ("G", "maj", 3), ("F", "maj", 3), ("G", "maj", 3),
+                    ("A", "min", 3), ("F", "maj", 3), ("G", "maj", 3), ("A", "min", 3)],
+    "dramatic":    [("B", "min", 2), ("G", "maj", 2), ("D", "maj", 3), ("A", "maj", 2),
+                    ("B", "min", 2), ("G", "maj", 2), ("A", "maj", 2), ("B", "min", 2)],
+    "mystery":     [("D", "min", 3), ("D#", "maj", 3), ("D", "min", 3), ("C", "min", 3),
+                    ("D", "min", 3), ("G", "min", 3), ("D#", "maj", 3), ("D", "min", 3)],
 }
 INTERVALS = {"maj": (0, 4, 7), "min": (0, 3, 7)}
 
@@ -75,13 +97,13 @@ def render_mood(mood: str) -> np.ndarray:
         end = min(start + len(segb), len(total))
         total[start:end] += segb[: end - start]
         # tenseは半音上の音を薄く重ねて不穏さを出す
-        if mood == "tense":
+        if mood in ("tense", "suspense", "dark", "mystery"):
             f2 = base * 2 ** (1 / 12)
             seg2 = tone(f2, CHORD_SEC, 0.03, attack=2.0, decay=4.0)
             end = min(start + len(seg2), len(total))
             total[start:end] += seg2[: end - start]
         # warm/hopeは軽いアルペジオを散らす
-        if mood in ("warm", "hope"):
+        if mood in ("warm", "hope", "gentle", "uplifting", "nostalgic", "bittersweet", "calm"):
             for j, semi in enumerate(INTERVALS[kind] + (12,)):
                 f = base * 2 ** (semi / 12) * 2
                 at = start + int((j * 1.9 + 0.4) * SR)
