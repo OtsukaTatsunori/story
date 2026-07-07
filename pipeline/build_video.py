@@ -633,7 +633,7 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False,
     cmd = (["ffmpeg", "-y"] + inputs + ["-i", str(ep / "narration.wav")] + inputs2 + [
            "-filter_complex", fc, "-map", "[vout]", "-map", "[aout]",
            ] + VIDEO_CODECS[encoder] + [
-           "-c:a", "aac", "-b:a", "256k", "-t", f"{total:.3f}", str(ep / "video.mp4")])
+           "-c:a", "aac", "-b:a", "256k", "-movflags", "+faststart", "-t", f"{total:.3f}", str(ep / "video.mp4")])
     def run_render(c) -> int:
         # 進捗(time=..., speed=...)をそのまま画面に流す
         c = c[:1] + ["-v", "error", "-stats"] + c[1:]
