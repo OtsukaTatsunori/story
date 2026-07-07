@@ -1,39 +1,40 @@
 {
   "_readme": [
     "感情タグ→TTSパラメータの対応表。emotions.jsonのタグ名とここのキーが一致すると適用される。",
-    "声色を変えないため style(感情スタイルID) は使わない方針。",
-    "  (スタイル切替は同一話者でも別人のように聞こえるため、抑揚・速度・ピッチの調整のみで感情を出す)",
-    "intonationScale: 抑揚(1.0が標準) / speedScale: 話速 / pitchScale: 声の高さ(±0.05程度まで)"
+    "styleはAivisSpeech「阿井田 茂」の同一話者スタイルID(表情差なので声は別人にならない)。",
+    "  ノーマル1310138976 / Calm 1310138977 / Far 1310138978 / Heavy 1310138979",
+    "  / Mid 1310138980 / Shout 1310138981 / Surprise 1310138982",
+    "別モデルに変える場合は /speakers でIDを確認してここを差し替える。styleを消せば抑揚調整のみになる。"
   ],
   "emotions": {
     "narration": {},
     "怒り": {
-      "intonationScale": 1.35,
-      "speedScale": 1.06,
-      "pitchScale": -0.02
+      "style": 1310138979,
+      "intonationScale": 1.15
     },
     "緊張": {
-      "intonationScale": 1.2,
-      "speedScale": 1.04
+      "style": 1310138980
     },
     "悲しみ": {
-      "intonationScale": 1.15,
-      "speedScale": 0.92,
-      "pitchScale": -0.02
+      "style": 1310138977,
+      "speedScale": 0.93
     },
     "決意": {
-      "intonationScale": 1.25,
+      "style": 1310138980,
+      "intonationScale": 1.15,
       "speedScale": 0.96
     },
     "喜び": {
       "intonationScale": 1.2
     },
     "静かな余韻": {
-      "intonationScale": 1.1,
-      "speedScale": 0.92
+      "style": 1310138977,
+      "speedScale": 0.9
     },
     "囁き": {
-      "speedScale": 0.95
+      "style": 1310138977,
+      "speedScale": 0.95,
+      "volumeScale": 0.85
     }
   }
 }
