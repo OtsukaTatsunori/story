@@ -616,7 +616,9 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False,
                    f":fontsize={size}:fontcolor=0xEDE4D6@0.92:borderw=2:bordercolor=0x000000@0.55"
                    f":x=w*0.06:y=h*{y}:enable='between(t,{t0 + 0.5:.2f},{t1:.2f})'{nxt}")
             label = nxt
-    fc += f";[vt]subtitles='{srt}':force_style='{style}'[vout]"
+    # 最終段でyuv420pに固定: 字幕・drawtext後に4:4:4へ昇格すると
+    # H.264 High 4:4:4になり、Windows標準プレイヤー等で再生できなくなる
+    fc += f";[vt]subtitles='{srt}':force_style='{style}',format=yuv420p[vout]"
     # BGM: 生成済みbgm.wav(感情別トラック)があればそれを、なければ環境音パッドを敷く
     bgm_wav = ep / "bgm.wav"
     if bgm_wav.exists():
