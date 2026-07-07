@@ -195,19 +195,32 @@ def tts_voicevox(text: str, wav: Path, url: str, speaker: int, emotion: dict | N
     """emotion: voice_config.jsonの感情パラメータ。
     style: 同一話者の感情スタイルID(あればspeakerを差し替え)
     speedScale/pitchScale/intonationScale/volumeScale: audio_queryを上書き"""
+    import time
     import urllib.parse, urllib.request
+
+    def post(req_url: str, data: bytes | None = None) -> bytes:
+        # VOICEVOXは並列負荷で接続をリセットすることがあるためリトライする
+        last: Exception | None = None
+        for attempt in range(5):
+            try:
+                req = urllib.request.Request(
+                    req_url, data=data, method="POST",
+                    headers={"Content-Type": "application/json"} if data else {})
+                with urllib.request.urlopen(req, timeout=300) as res:
+                    return res.read()
+            except Exception as e:  # ConnectionResetError / URLError / timeout
+                last = e
+                time.sleep(1.5 * (attempt + 1))
+        raise RuntimeError(f"VOICEVOX接続に5回失敗: {req_url.split('?')[0]} ({last})")
+
     emotion = emotion or {}
     spk = emotion.get("style", speaker)
-    q = urllib.request.urlopen(urllib.request.Request(
-        f"{url}/audio_query?speaker={spk}&text={urllib.parse.quote(text)}", method="POST")).read()
+    q = post(f"{url}/audio_query?speaker={spk}&text={urllib.parse.quote(text)}")
     query = json.loads(q)
     for key in ("speedScale", "pitchScale", "intonationScale", "volumeScale"):
         if key in emotion:
             query[key] = emotion[key]
-    data = json.dumps(query).encode("utf-8")
-    audio = urllib.request.urlopen(urllib.request.Request(
-        f"{url}/synthesis?speaker={spk}", data=data,
-        headers={"Content-Type": "application/json"}, method="POST")).read()
+    audio = post(f"{url}/synthesis?speaker={spk}", json.dumps(query).encode("utf-8"))
     wav.write_bytes(audio)
 
 
