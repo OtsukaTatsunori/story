@@ -151,8 +151,28 @@ def step_segment(ep: Path) -> None:
 
 # ---------- 2. tts ----------
 
+_YOMI_CACHE: dict | None = None
+
+
+def load_yomi() -> dict:
+    """読み辞書(yomi.json)を読む。リポジトリ直下の共通辞書と、
+    エピソード直下(実行時cwd基準ではなくrepo構成)の辞書をマージ。
+    形式: {"倅": "せがれ", ...}  音声にだけ適用され、字幕は元の漢字のまま。"""
+    global _YOMI_CACHE
+    if _YOMI_CACHE is None:
+        _YOMI_CACHE = {}
+        for p in (Path(__file__).resolve().parent.parent / "yomi.json",):
+            if p.exists():
+                d = json.loads(p.read_text(encoding="utf-8"))
+                _YOMI_CACHE.update({k: v for k, v in d.items() if not k.startswith("_")})
+    return _YOMI_CACHE
+
+
 def spoken_text(t: str) -> str:
-    """合成エンジンに渡す読み上げテキスト(記号の除去・言い換え)。"""
+    """合成エンジンに渡す読み上げテキスト(記号の除去・言い換え・読み辞書)。
+    ここでの置換は音声のみに影響し、字幕には影響しない。"""
+    for word, yomi in load_yomi().items():
+        t = t.replace(word, yomi)
     t = re.sub(r"[「」『』【】]", "", t)
     t = t.replace("——", "、").replace("……", "、").replace("…", "、")
     t = t.replace("〇・〇三", "ゼロてんゼロさん").replace("〇・三", "ゼロてんさん").replace("〇・〇一", "ゼロてんゼロいち")
@@ -568,7 +588,11 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False,
         clip_len = durs[k] + (XFADE if k < n - 1 else 0)
         frames = int(clip_len * FPS) + 1
         # 背景自体をゆっくり動かす(正規化Ken Burns・揺れなし)
-        base = f"[{k}:v]fps={FPS},{motion_expr(k, frames)}:d={frames}:s={W}x{H}:fps={FPS}"
+        # 滑らかなパンのため4倍解像度に拡大してからzoompanし、2倍で切り出して縮小する。
+        # (パンは整数ピクセル単位でしか動けないため、低解像度のままだとカクつく)
+        base = (f"[{k}:v]fps={FPS},scale={W*4}:{H*4}:flags=lanczos,"
+                f"{motion_expr(k, frames)}:d={frames}:s={W*2}x{H*2}:fps={FPS},"
+                f"scale={W}:{H}:flags=lanczos")
         if motion:
             # さらに薄い光の帯をゆっくり流して空気感を足す
             sweep = f"[b{k}][l{k}]overlay=x='(W+w)*mod(t\\,{LIGHT_T})/{LIGHT_T}-w':y=0:eof_action=pass"

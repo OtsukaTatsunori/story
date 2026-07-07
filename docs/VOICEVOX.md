@@ -45,3 +45,14 @@ VOICEVOXの多くの話者には同一声質の「感情スタイル」がある
 - `output/epXXX/bgm_map.json` で章ごとのムードを指定(warm/sad/tense/hope)
 - `--steps bgm,render` でBGMトラック生成→動画に低音量ミックス(自動ダッキング+ラウドネス正規化)
 - プログラム合成のオリジナル曲のため著作権フリー。市販曲に差し替える場合は assets/bgm/ のwavを置き換えるだけ
+
+## AivisSpeech(より自然な発音・無料・VOICEVOX互換)
+1. https://aivis-project.com/ からAivisSpeechをインストールして起動(エンジンは http://127.0.0.1:10101)
+2. 話者ID確認: `curl http://127.0.0.1:10101/speakers`
+3. 実行: `python pipeline/build_video.py output/epXXX --engine voicevox --voicevox-url http://127.0.0.1:10101 --speaker <ID>`
+   - パイプラインはVOICEVOX互換APIなのでURL/話者IDを変えるだけ。クレジット表記は話者の規約に従う
+- 声色を変えない方針: voice_config.jsonはスタイル切替なし(抑揚・速度のみ)
+
+## 読み間違いの直し方(yomi.json)
+- リポジトリ直下の yomi.json に「誤読される単語→ひらがな」を追記(音声のみ置換、字幕は漢字のまま)
+- 追記後、`output/epXXX/audio/` の該当セグメントwav(または全部)を削除して再実行すると差分だけ再合成される
