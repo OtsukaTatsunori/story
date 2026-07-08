@@ -2,25 +2,25 @@
   {
     "episode": 1,
     "choices": {
-      "relation": "rel26",
+      "relation": "rel21",
       "engine_main": "en13",
       "engine_sub": [
-        "en10"
+        "en11"
       ],
       "stage": "st08",
       "viewpoint": "vp01",
       "era": "era04",
       "time_mode": "tm01",
-      "milestone": "ms09",
-      "item": "it01",
-      "item_summary": "嫁の味噌汁を姑が毎朝一口だけすすり『薄めなさい』と突き返した一杯",
-      "shift": "gs04",
-      "ending": "end05",
+      "milestone": "ms23",
+      "item": "it10",
+      "item_summary": "父の位牌の裏に挟まれた、弟名義の借金の完済証明書一枚",
+      "shift": "gs05",
+      "ending": "end04",
       "twist": "tw08",
-      "twist_summary": "姑の執拗な味付け直しは、遺伝性高血圧の息子を減塩で守るための偽装だった。自らの濃い味で夫を亡くした罪悪感ゆえ、嫁にも真意を隠し憎まれ役を選んだ",
-      "opening": "op05",
-      "opening_summary": "遺品の帳面に並ぶ二十三年分の血圧の数字、その意味を伏せて開幕",
-      "note": "転の装置は記録の発見(tw05)。嫁姑に固有の節目がリストにないため看取り(ms09)を転用。死別は主エンジンでなく背景"
+      "twist_summary": "相続で全部取った強欲な兄の正体は、父の事業の借金を一人で被り弟名義の負債まで二十年かけて完済し弟の再出発を守っていたこと。父の遺言『修二には知らせるな』ゆえ汚名を選び沈黙した",
+      "opening": "op03",
+      "opening_summary": "兄の遺品整理中、位牌の裏から弟である自分名義の借金完済証明書を見つけ、意味を伏せて開幕",
+      "note": "転の装置は記録の発見(tw05)＋隠れた金銭的犠牲(tw01)。副エンジンは遺志の代行(en11)。兄弟は15歳差で兄は親代わり。死別は背景で主エンジンでない"
     },
     "design_file": "output/family/ep001/design.md"
   }

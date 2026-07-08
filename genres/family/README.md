@@ -29,7 +29,8 @@ python pipeline/build_video.py output/family/ep001 --engine voicevox --speaker 1
 ## このジャンル固有の要点
 
 - **6幕構成**（コールドオープン5%→日常15%→亀裂20%→深化20%→転25%→結15%）。
-  script.md の章見出しは共通パイプラインがそのまま章タイトルとして使う
+  script.md は章見出しを付けず、ひと続きの朗読本文として書く（章立てはしない方針）。
+  動画のシーン区切り・BGMは章見出しではなく scenes.json / bgm_map.json 側で設定する
 - **被り管理は「具体の一文要約」**: 設計書JSONの `item_summary` / `twist_summary` / `opening_summary` が
   次回以降の禁止リストに反映される。カテゴリ名でなく具体で書くこと
 - **量産運用ルール**: 関係性の配分は 親子:夫婦:きょうだい:祖父母孫・姻族 = 4:3:2:1 目安。
