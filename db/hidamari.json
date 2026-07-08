@@ -1,0 +1,35 @@
+[
+  {
+    "episode": 1,
+    "choices": {
+      "relation": "hr07",
+      "spring_main": "sp05",
+      "spring_sub": [
+        "sp09"
+      ],
+      "trigger": "original",
+      "trigger_summary": "帰省初日、孫が麦茶を飲み干して叫んだ「いきかえったー」が母→私→娘→孫の四人目だった",
+      "anchor": "original",
+      "anchor_summary": "夜の台所で明日の麦茶をやかんで煮出しながら",
+      "viewpoint": "vp03",
+      "season": "se02",
+      "wave": "wv01",
+      "beads": [
+        "bd06",
+        "bd14",
+        "bd13",
+        "bd12",
+        "original"
+      ],
+      "item": "it01",
+      "item_summary": "やかんで煮出した麦茶と、飲み干したあとの「いきかえったー」",
+      "chord": "ch05",
+      "ending": "ed06",
+      "opening": "op02",
+      "opening_summary": "孫の「いきかえったーー！」の絶叫から開幕",
+      "phrase_summary": "「口癖は、血よりも静かに受け継がれていく」",
+      "note": "trigger/anchorはリスト外発明。ビーズ5は思春期の台所（original）"
+    },
+    "design_file": "output/hidamari/ep001/design.md"
+  }
+]
