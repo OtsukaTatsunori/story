@@ -33,10 +33,7 @@ W, H = 1280, 720
 # 字幕スタイル(libassのPlayResY=288基準。MarginV=29 ≒ 画面下10%の余白)
 # 二重縁取り: 同じSRTを2回焼く。1回目=外縁(太い白)、2回目=本文(白文字+黒縁)
 # → 白文字/黒縁/白の外縁 のテレビ字幕風になり、どんな背景でも読める
-SUB_BASE = ("FontName=Noto Sans CJK JP,Bold=1,FontSize=29,"
-            "BorderStyle=1,Shadow=0,Alignment=2,MarginV=29")
-SUB_OUTER = SUB_BASE + ",PrimaryColour=&H00FFFFFF,OutlineColour=&H00FFFFFF,Outline=3.5"
-SUB_INNER = SUB_BASE + ",PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,Outline=2.5"
+# 字幕スタイルは step_srt が生成する subtitles.ass に定義される(二重縁取り+太字)
 
 
 def run(cmd, check=True, **kw):
@@ -85,10 +82,14 @@ def sub_font_name() -> str:
     if platform.system() == "Windows":
         home = Path.home()
         fonts_dir = home / "AppData/Local/Microsoft/Windows/Fonts"
-        if (fonts_dir.exists() and any(fonts_dir.glob("NotoSansJP*"))) \
-                or any(Path("C:/Windows/Fonts").glob("NotoSansJP*")):
+        names = [p.name for d in (fonts_dir, Path("C:/Windows/Fonts"))
+                 if d.exists() for p in d.glob("NotoSansJP*")]
+        if any("SemiBold" in n for n in names):
+            # SemiBoldは独立ファミリ名で登録される。Bold指定より確実に太くなる
+            return "Noto Sans JP SemiBold"
+        if names:
             return "Noto Sans JP"
-        return "Yu Gothic"  # Windows標準。Bold=1で太字化される
+        return "Yu Gothic"  # Windows標準。Bold指定で太字化される
     if platform.system() == "Darwin":
         return "Hiragino Sans"
     return "Noto Sans CJK JP"
@@ -410,14 +411,53 @@ def wrap_sub(text: str) -> str:
     return text[:pos] + "\n" + text[pos:]
 
 
+def fmt_ass(s: float) -> str:
+    cs = int(round(s * 100))
+    return f"{cs//360000}:{cs%360000//6000:02d}:{cs%6000//100:02d}.{cs%100:02d}"
+
+
 def step_srt(ep: Path) -> None:
+    """字幕を2形式で出力する。
+    subtitles.srt : 確認用・YouTubeアップロード用
+    subtitles.ass : 動画焼き込み用。二重縁取り(外=白/内=黒)と太字をスタイルとして持ち、
+      外枠(Layer0)と内枠(Layer1)を同座標に重ねるため位置ズレが起きない。
+      字幕同士の時間の重なりは次の字幕開始でクランプする
+      (重なると字幕エンジンの衝突回避で2枚目が画面上部に押し出されてしまうため)。"""
     timeline = json.loads((ep / "timeline.json").read_text(encoding="utf-8"))
+    # 表示時刻: 終了に余韻を足しつつ、次の字幕の開始とは絶対に重ねない
+    events = []
+    for i, seg in enumerate(timeline):
+        end = seg["end"] + (0.1 if seg["type"] == "title" else 0.25)
+        if i + 1 < len(timeline):
+            end = min(end, timeline[i + 1]["start"])
+        end = max(end, seg["start"] + 0.1)
+        events.append((seg["start"], end, wrap_sub(seg["text"])))
+
     lines = []
-    for n, seg in enumerate(timeline, 1):
-        end = seg["end"] + (0.25 if not seg["type"] == "title" else 0.1)
-        lines += [str(n), f"{fmt_ts(seg['start'])} --> {fmt_ts(end)}", wrap_sub(seg["text"]), ""]
+    for n, (st, en, text) in enumerate(events, 1):
+        lines += [str(n), f"{fmt_ts(st)} --> {fmt_ts(en)}", text, ""]
     (ep / "subtitles.srt").write_text("\n".join(lines), encoding="utf-8")
-    print(f"srt: {len(timeline)}枚 → subtitles.srt")
+
+    font = sub_font_name()
+    common = "&H00FFFFFF,&H00FFFFFF,{outline_col},&H00000000,-1,0,0,0,100,100,0,0,1,{outline},0,2,60,60,29,1"
+    header = (
+        "[Script Info]\nScriptType: v4.00+\n"
+        f"PlayResX: {W}\nPlayResY: {H}\nWrapStyle: 2\nScaledBorderAndShadow: yes\n\n"
+        "[V4+ Styles]\n"
+        "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, "
+        "BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, "
+        "BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n"
+        f"Style: Outer,{font},29," + common.format(outline_col="&H00FFFFFF", outline=3.5) + "\n"
+        f"Style: Inner,{font},29," + common.format(outline_col="&H00000000", outline=2.5) + "\n\n"
+        "[Events]\n"
+        "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n")
+    ev_lines = []
+    for st, en, text in events:
+        t = text.replace("{", "").replace("}", "").replace("\n", "\\N")
+        ev_lines.append(f"Dialogue: 0,{fmt_ass(st)},{fmt_ass(en)},Outer,,0,0,0,,{t}")
+        ev_lines.append(f"Dialogue: 1,{fmt_ass(st)},{fmt_ass(en)},Inner,,0,0,0,,{t}")
+    (ep / "subtitles.ass").write_text(header + "\n".join(ev_lines) + "\n", encoding="utf-8")
+    print(f"srt: {len(timeline)}枚 → subtitles.srt / subtitles.ass")
 
 
 # ---------- 4. bg ----------
@@ -728,10 +768,7 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False,
     # 字幕焼き込み
     # subtitlesフィルタ用にパスを正規化: Windowsの \ はエスケープ文字として
     # 食われるためフォワードスラッシュに統一し、ドライブレターの : をエスケープする
-    srt = (ep / "subtitles.srt").as_posix().replace(":", "\\:")
-    font = sub_font_name()
-    style_outer = SUB_OUTER.replace("Noto Sans CJK JP", font)
-    style_inner = SUB_INNER.replace("Noto Sans CJK JP", font)
+    ass = (ep / "subtitles.ass").as_posix().replace(":", "\\:")
     # 軽いシネマ調グレーディング(コントラスト/彩度を微調整+うっすらビネット)
     # → 字幕はグレーディングの後に焼くので文字はくっきりしたまま
     fc += (f";[vid]eq=contrast=1.04:saturation=1.06,vignette=PI/24,"
@@ -757,8 +794,7 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False,
             label = nxt
     # 最終段でyuv420pに固定: 字幕・drawtext後に4:4:4へ昇格すると
     # H.264 High 4:4:4になり、Windows標準プレイヤー等で再生できなくなる
-    fc += (f";[vt]subtitles='{srt}':force_style='{style_outer}'[vso]"
-           f";[vso]subtitles='{srt}':force_style='{style_inner}',format=yuv420p[vout]")
+    fc += f";[vt]subtitles='{ass}',format=yuv420p[vout]"
     # BGM: 生成済みbgm.wav(感情別トラック)があればそれを、なければ環境音パッドを敷く
     bgm_wav = ep / "bgm.wav"
     if bgm_wav.exists():
@@ -770,8 +806,9 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False,
                    f"+0.006*sin(2*PI*329.6*t)':s=44100,tremolo=f=0.15:d=0.4,volume=0.5[bgm]")
     # ラウドネスをYouTube標準(-14LUFS)に正規化し、終端をフェードアウト
     # 朗読がメイン。BGMは薄く敷く程度(比率を上げたい場合はここを調整)
-    fc += (f";{bgm_src};[{n_light}:a][bgm]amix=inputs=2:duration=first:weights='1 0.14',"
+    fc += (f";{bgm_src};[{n_light}:a][bgm]amix=inputs=2:duration=first:weights='1 0.18',"
            f"loudnorm=I=-14:TP=-1.5:LRA=11,afade=t=out:st={total - 2.5:.3f}:d=2.5[aout]")
+
     cmd = (["ffmpeg", "-y"] + inputs + ["-i", str(ep / "narration.wav")] + inputs2 + [
            "-filter_complex", fc, "-map", "[vout]", "-map", "[aout]",
            ] + VIDEO_CODECS[encoder] + [
