@@ -1,0 +1,16 @@
+{
+  "_comment": "章→BGMムードの対応。assets/bgm/*.wav のムード名を指定する。家族ep001『薄めなさい』の情感アークに合わせて設定。",
+  "default": "warm",
+  "chapters": {
+    "1": "mystery",
+    "2": "nostalgic",
+    "3": "mystery",
+    "4": "tense",
+    "5": "melancholy",
+    "6": "nostalgic",
+    "7": "sad",
+    "8": "bittersweet",
+    "9": "tender",
+    "10": "warm"
+  }
+}
