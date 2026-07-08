@@ -1,0 +1,44 @@
+{
+  "name": "陽だまり家族エッセイ（ほんわか常時感動）",
+  "categories": {
+    "relation":  {"file": "relations.json", "key": "items", "n": 5, "window": 8,
+                  "label": "関係性（最重要軸。必ず1つに絞る）"},
+    "spring":    {"file": "springs.json", "key": "items", "n": 5, "window": 5,
+                  "label": "しみじみの源泉（主1つ＋副0〜1つ。sp01/sp02は合計3割以下）"},
+    "trigger":   {"file": "triggers.json", "key": "items", "n": 6, "window": 10,
+                  "label": "きっかけの小さな出来事（最重要の差別化点。リスト外の発明を最も歓迎）"},
+    "anchor":    {"file": "anchors.json", "key": "items", "n": 4, "window": 6,
+                  "label": "アンカー動作（気づきの瞬間に並走する日常動作）"},
+    "viewpoint": {"file": "structure.json", "key": "viewpoints", "n": 3, "window": 2,
+                  "label": "視点人物（母:父:祖父母その他=5:3:2目安）"},
+    "season":    {"file": "structure.json", "key": "seasons", "n": 3, "window": 2,
+                  "label": "季節"},
+    "wave":      {"file": "structure.json", "key": "waves", "n": 3, "window": 3,
+                  "label": "時間構造（波形）"},
+    "bead":      {"file": "beads.json", "key": "items", "n": 7, "window": 0,
+                  "label": "思い出ビーズの場面カテゴリ（楽章④の素材。4〜6粒を時系列で。具体は毎回発明）"},
+    "item":      {"file": "emotions.json", "key": "item_categories", "n": 5, "window": 0,
+                  "label": "象徴アイテムのカテゴリ（毎回その物語固有の具体物を発明する。被り判定は具体物で行う）"},
+    "chord":     {"file": "emotions.json", "key": "chords", "n": 4, "window": 4,
+                  "label": "感情の和音（両価感情。単色で泣かせない）"},
+    "ending":    {"file": "structure.json", "key": "endings", "n": 3, "window": 3,
+                  "label": "結末の型"},
+    "opening":   {"file": "structure.json", "key": "openings", "n": 4, "window": 4,
+                  "label": "冒頭の型（謎・不穏で開かない。微笑みで掴む）"}
+  },
+  "history_keys": {
+    "spring_main": "spring", "spring_sub": "spring"
+  },
+  "banned_list_categories": ["relation", "spring", "chord", "ending", "opening"],
+  "combo_ban": {
+    "keys": ["relation", "spring_main", "trigger"],
+    "label": "関係性×主源泉×きっかけの組み合わせ（全期間で再使用禁止）"
+  },
+  "summary_keys": {
+    "trigger_summary": {"label": "きっかけの出来事の具体", "window": 10},
+    "anchor_summary":  {"label": "アンカー動作の具体", "window": 6},
+    "item_summary":    {"label": "象徴アイテムの具体物", "window": 10},
+    "phrase_summary":  {"label": "象徴フレーズ（エコー台詞・締めの言葉）", "window": 10},
+    "opening_summary": {"label": "冒頭の仕掛けの具体", "window": 5}
+  }
+}
