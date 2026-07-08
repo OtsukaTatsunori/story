@@ -45,7 +45,7 @@ python3 pipeline/generate_prompt.py --plot output/ep001/design.md --out output/e
 ## 多様性の担保方法
 
 - **候補の直近除外**: カテゴリごとのウィンドウ（対立軸3話、主人公6話、逆転5話…）で
-  使用済みIDを候補メニューから外す（`generate_prompt.py` の `CATEGORIES` で調整可）
+  使用済みIDを候補メニューから外す（`genres/japan_tech/genre.json` の categories で調整可）
 - **禁止リストの明示**: 主要カテゴリの直近使用と「感動主軸×スカッと主軸」の全期間使用済みコンボを
   ディレクターに禁止事項として渡す
 - **組み合わせ爆発**: 対立軸20 × 悪役30 × 感動40 × スカッと40 × 逆転30 …

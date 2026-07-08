@@ -1,0 +1,42 @@
+{
+  "name": "家族・親子の感動ストーリー",
+  "categories": {
+    "relation":  {"file": "relations.json", "key": "items", "n": 6, "window": 10,
+                  "label": "関係性（最重要軸。必ず1つに絞る）"},
+    "engine":    {"file": "engines.json", "key": "items", "n": 5, "window": 5,
+                  "label": "感動エンジン（主1つ＋副0〜1つ。掛け合わせ・新規発明も可）"},
+    "stage":     {"file": "stages.json", "key": "items", "n": 4, "window": 4,
+                  "label": "舞台・背景（背景装置であり主題にしない）"},
+    "viewpoint": {"file": "structure.json", "key": "viewpoints", "n": 3, "window": 2,
+                  "label": "視点人物"},
+    "era":       {"file": "structure.json", "key": "eras", "n": 3, "window": 2,
+                  "label": "時代設定"},
+    "time_mode": {"file": "structure.json", "key": "time_modes", "n": 3, "window": 2,
+                  "label": "時間の扱い（またぐ/またがない/一日もの）"},
+    "milestone": {"file": "milestones.json", "key": "items", "n": 6, "window": 10,
+                  "label": "人生の節目（選んだ関係性に対応するもの。リスト外の発明歓迎）"},
+    "item":      {"file": "emotions_twists.json", "key": "item_categories", "n": 5, "window": 0,
+                  "label": "象徴アイテムのカテゴリ（毎回その物語固有の具体物を発明する。被り判定は具体物で行う）"},
+    "shift":     {"file": "emotions_twists.json", "key": "shifts", "n": 4, "window": 5,
+                  "label": "感情の変換式"},
+    "ending":    {"file": "structure.json", "key": "endings", "n": 3, "window": 3,
+                  "label": "結末の型"},
+    "twist":     {"file": "emotions_twists.json", "key": "twists", "n": 5, "window": 3,
+                  "label": "転の仕掛け（品質の生命線。型の3連続は禁止・具体の被りは要約で管理）"},
+    "opening":   {"file": "structure.json", "key": "openings", "n": 4, "window": 5,
+                  "label": "冒頭コールドオープンの仕掛け"}
+  },
+  "history_keys": {
+    "engine_main": "engine", "engine_sub": "engine"
+  },
+  "banned_list_categories": ["relation", "engine", "milestone", "twist", "shift", "ending", "opening"],
+  "combo_ban": {
+    "keys": ["relation", "engine_main", "milestone"],
+    "label": "関係性×主エンジン×節目の組み合わせ（全期間で再使用禁止）"
+  },
+  "summary_keys": {
+    "item_summary":    {"label": "象徴アイテムの具体物", "window": 10},
+    "twist_summary":   {"label": "転の内容", "window": 10},
+    "opening_summary": {"label": "冒頭の仕掛けの具体", "window": 5}
+  }
+}

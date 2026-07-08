@@ -1,0 +1,47 @@
+{
+  "name": "日本の技術×感動スカッと",
+  "categories": {
+    "conflict":    {"file": "conflicts.json", "key": "items", "n": 6, "window": 3,
+                    "label": "対立軸（悪役の価値観・動機。物語の背骨）"},
+    "villain":     {"file": "villains.json", "key": "items", "n": 6, "window": 5,
+                    "label": "悪役の立場と手口（対立軸と組み合わせて人格を設計する）"},
+    "protagonist": {"file": "protagonists.json", "key": "items", "n": 6, "window": 6,
+                    "label": "主人公の職業・技能"},
+    "stage":       {"file": "stages.json", "key": "items", "n": 5, "window": 4,
+                    "label": "舞台"},
+    "kando":       {"file": "kando_patterns.json", "key": "items", "n": 8, "window": 4,
+                    "label": "感動パターン（主軸1＋副軸0〜2を選ぶ）"},
+    "sukatto":     {"file": "sukatto_patterns.json", "key": "items", "n": 8, "window": 4,
+                    "label": "スカッとパターン（中盤の小＋終盤の大、と段階設計する）"},
+    "turn1":       {"file": "relations.json", "key": "turns1", "n": 4, "window": 2,
+                    "label": "一つ目の転（主人公を沈める）"},
+    "turn2":       {"file": "relations.json", "key": "turns2", "n": 4, "window": 2,
+                    "label": "二つ目の転（空気を変える）"},
+    "reversal":    {"file": "reversals.json", "key": "items", "n": 6, "window": 5,
+                    "label": "逆転のきっかけと手段"},
+    "heroine":     {"file": "relations.json", "key": "heroines", "n": 4, "window": 3,
+                    "label": "ヒロインとの関係"},
+    "ally":        {"file": "relations.json", "key": "allies", "n": 4, "window": 3,
+                    "label": "途中から味方になる人物"},
+    "betrayal":    {"file": "relations.json", "key": "betrayals", "n": 3, "window": 2,
+                    "label": "裏切りの扱い"},
+    "crowd":       {"file": "relations.json", "key": "crowds", "n": 3, "window": 2,
+                    "label": "大衆が味方に変わる理由"},
+    "ending":      {"file": "endings.json", "key": "items", "n": 4, "window": 3,
+                    "label": "結末の形"},
+    "hook":        {"file": "hooks.json", "key": "items", "n": 4, "window": 3,
+                    "label": "序盤のつかみ・冒頭30秒フックの型"},
+    "foreshadow":  {"file": "foreshadowing.json", "key": "items", "n": 8, "window": 2,
+                    "label": "伏線の型（3〜5個選ぶ）"}
+  },
+  "history_keys": {
+    "kando_main": "kando", "kando_sub": "kando",
+    "sukatto_main": "sukatto", "sukatto_sub": "sukatto"
+  },
+  "banned_list_categories": ["conflict", "kando", "sukatto", "reversal", "protagonist"],
+  "combo_ban": {
+    "keys": ["kando_main", "sukatto_main"],
+    "label": "感動主軸×スカッと主軸の組み合わせ（全期間で再使用禁止）"
+  },
+  "summary_keys": {}
+}

@@ -147,7 +147,7 @@
 ```
 story/
 ├── docs/               # 設計ドキュメント（本ファイル等）
-├── prompts/            # プロット/台本/シーン分割/サムネコピー等のプロンプト
+├── genres/<genre>/     # ジャンル別プロンプト+候補バンク+genre.json (japan_tech, family, ...)
 ├── pipeline/
 │   ├── plot.py         # プロット生成
 │   ├── script.py       # 台本生成・整形
@@ -160,7 +160,7 @@ story/
 │   └── upload.py       # YouTube投稿
 ├── assets/bgm/         # BGMライブラリ（感情タグ付きメタデータ）
 ├── db/                 # 過去作品DB（重複回避）
-└── output/<video_id>/  # 動画ごとの成果物（plot, script, audio, images, mp4）
+└── output/[<genre>/]<video_id>/  # 動画ごとの成果物（plot, script, audio, images, mp4）
 ```
 
 ---
@@ -192,3 +192,15 @@ M1〜M3相当が完成。1本目(ep001)をVOICEVOX音声で動画化済み。
 
 **残タスク(M4以降)**: サムネイル生成、タイトル・概要欄の自動生成、YouTubeアップロード、
 1080p化、分析フィードバックループ
+
+## マルチジャンル化（2026-07 追記）
+
+パイプライン(pipeline/)・読み辞書(yomi.json)・感情設定(voice_config.json)・BGM(assets/bgm/)は
+全ジャンル共通。ジャンル固有なのはプロンプトと候補バンクのみで、`genres/<genre>/` に自己完結する:
+- `genre.json` … カテゴリ定義(バンク・候補数・冷却期間)・禁止ルール・具体要約の被り管理
+- `banks/*.json` … 候補バンク / `*_prompt.md` … director/plot/script/review の4プロンプト
+- 履歴DBはジャンル別に `db/<genre>.json`
+
+現行ジャンル: `japan_tech`(日本の技術×感動スカッと)、`family`(家族・親子の感動話。genres/family/GUIDE.md 参照)。
+新ジャンル追加は family をコピーして genre.json とバンクを差し替えるだけ。
+制作は `pipeline/generate_prompt.py --genre <name>` から（各ジャンルREADMEにフロー記載）。
