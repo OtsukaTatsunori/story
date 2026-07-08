@@ -220,7 +220,8 @@ def tts_voicevox(text: str, wav: Path, url: str, speaker: int, emotion: dict | N
     for key in ("speedScale", "pitchScale", "intonationScale", "volumeScale"):
         if key in emotion:
             query[key] = emotion[key]
-    audio = post(f"{url}/synthesis?speaker={spk}", json.dumps(query).encode("utf-8"))
+    audio = post(f"{url}/synthesis?speaker={spk}&enable_interrogative_upspeak=true",
+                 json.dumps(query).encode("utf-8"))
     wav.write_bytes(audio)
 
 
@@ -276,6 +277,34 @@ def synth_one(i: int, seg: dict, wav: Path, engine: str, vv_url: str, speaker: i
         sys.exit(f"未知のエンジン: {engine}")
 
 
+def group_segments(segments: list, tag_of: dict, default_tag: str,
+                   emo_params: dict, overrides: dict) -> list:
+    """読点で分割された字幕セグメントを「文」単位にまとめる。
+    文の途中でぶつ切りに合成するとイントネーションが不自然になる(棒読みの主因)ため、
+    1文を1回のTTS呼び出しで合成し、字幕タイミングは後で文字数比で配分する。
+    感情タグ/上書きが変わる位置では文をまたがずに区切る。"""
+    groups = []
+    cur = None
+    for i, seg in enumerate(segments):
+        tag = tag_of.get(i, default_tag)
+        ov = overrides.get(i, {})
+        params = dict(emo_params.get(tag, {}))
+        params.update({k: v for k, v in ov.items() if k != "pause_after"})
+        key = (tag, json.dumps(params, sort_keys=True))
+        if (cur is not None and seg["type"] == "body" and not cur["break"]
+                and key == cur["key"] and len(cur["text"]) + len(seg["text"]) <= 160):
+            cur["idx"].append(i)
+            cur["text"] += seg["text"]
+        else:
+            cur = {"idx": [i], "text": seg["text"], "key": key, "tag": tag,
+                   "params": params, "ov": bool(ov)}
+            groups.append(cur)
+        # この文がここで終わるか(読点で終わる=まだ続く)
+        cur["break"] = (seg["type"] == "title" or bool(seg.get("para_end"))
+                        or not seg["text"].rstrip().endswith("、"))
+    return groups
+
+
 def step_tts(ep: Path, engine: str, vv_url: str, speaker: int, edge_voice: str,
              workers: int = 4) -> None:
     from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -284,44 +313,52 @@ def step_tts(ep: Path, engine: str, vv_url: str, speaker: int, edge_voice: str,
     audio_dir.mkdir(exist_ok=True)
     default_tag, tag_of, emo_params, overrides = load_emotions(ep)
 
-    # 合成対象の一覧(キャッシュ済みはスキップ)を作り、並列合成する
+    # 文単位にまとめて合成対象の一覧(キャッシュ済みはスキップ)を作り、並列合成する
+    groups = group_segments(segments, tag_of, default_tag, emo_params, overrides)
     jobs = []
-    wavs = []
-    for i, seg in enumerate(segments):
-        tag = tag_of.get(i, default_tag)
-        params = dict(emo_params.get(tag, {}))
-        ov = overrides.get(i, {})
-        params.update({k: v for k, v in ov.items() if k != "pause_after"})
-        # キャッシュ名: デフォルト=従来名 / 感情=タグ付き / 個別上書き=ovN付き
-        # (上書き内容を変えたら該当wavを削除して再合成する)
-        suffix = "" if (tag == default_tag and not ov) else \
-                 f".{tag}" + (f".ov{i}" if ov else "")
-        wav = audio_dir / f"seg{i:04d}{suffix}.wav"
-        wavs.append(wav)
-        if not wav.exists():
-            jobs.append((i, seg, wav, params))
+    for g in groups:
+        i0 = g["idx"][0]
+        # キャッシュ名: 単独セグメント=従来名 / 文結合=senN_個数 / 感情=タグ付き / 上書き=ovN付き
+        # (emotions.jsonを変えたら該当wavを削除して再合成する)
+        suffix = "" if (g["tag"] == default_tag and not g["ov"]) else \
+                 f".{g['tag']}" + (f".ov{i0}" if g["ov"] else "")
+        base = f"seg{i0:04d}" if len(g["idx"]) == 1 else f"sen{i0:04d}_{len(g['idx'])}"
+        g["wav"] = audio_dir / f"{base}{suffix}.wav"
+        if not g["wav"].exists():
+            jobs.append(g)
     if jobs:
-        print(f"tts: {len(jobs)}セグメントを{workers}並列で合成中…")
+        print(f"tts: {len(segments)}セグメント→{len(groups)}文 / 未合成{len(jobs)}文を{workers}並列で合成中…")
         done = 0
         with ThreadPoolExecutor(max_workers=workers) as ex:
-            futs = {ex.submit(synth_one, i, seg, wav, engine, vv_url, speaker,
-                              edge_voice, emo): i for i, seg, wav, emo in jobs}
+            futs = {ex.submit(synth_one, g["idx"][0], {"text": g["text"]}, g["wav"],
+                              engine, vv_url, speaker, edge_voice, g["params"]): g["idx"][0]
+                    for g in jobs}
             for f in as_completed(futs):
                 f.result()  # 例外があればここで送出
                 done += 1
                 if done % 50 == 0:
                     print(f"tts: {done}/{len(jobs)}")
 
-    # 実測時間でタイムラインを構築
+    # 実測時間でタイムラインを構築(文の長さを字幕ごとに文字数比で配分)
     t = 0.0
     timeline = []
-    for i, seg in enumerate(segments):
-        dur = wav_duration(wavs[i])
-        gap = overrides.get(i, {}).get(
+    for g in groups:
+        dur = wav_duration(g["wav"])
+        weights = [max(1, len(spoken_text(segments[i]["text"]))) for i in g["idx"]]
+        wsum = sum(weights)
+        last = g["idx"][-1]
+        seg_last = segments[last]
+        gap = overrides.get(last, {}).get(
             "pause_after",
-            PAUSE_CHAP if seg["type"] == "title" else (PAUSE_PARA if seg.get("para_end") else PAUSE_SEG))
-        timeline.append({**seg, "wav": wavs[i].name, "start": round(t, 3), "end": round(t + dur, 3),
-                         "gap": gap})
+            PAUSE_CHAP if seg_last["type"] == "title" else (PAUSE_PARA if seg_last.get("para_end") else PAUSE_SEG))
+        g["gap"] = gap
+        off = 0.0
+        for i, w in zip(g["idx"], weights):
+            d = dur * w / wsum
+            timeline.append({**segments[i], "wav": g["wav"].name,
+                             "start": round(t + off, 3), "end": round(t + off + d, 3),
+                             "gap": gap if i == last else 0.0})
+            off += d
         t += dur + gap
     (ep / "timeline.json").write_text(json.dumps(timeline, ensure_ascii=False, indent=1), encoding="utf-8")
 
@@ -332,20 +369,17 @@ def step_tts(ep: Path, engine: str, vv_url: str, speaker: int, edge_voice: str,
     pad_dir = ep / "audio_padded"
     pad_dir.mkdir(exist_ok=True)
 
-    def pad_one(i: int, seg: dict) -> None:
-        src = audio_dir / seg["wav"]
-        dst = pad_dir / f"p{i:04d}.wav"
-        gap = seg.get("gap",
-                      PAUSE_CHAP if seg["type"] == "title" else (PAUSE_PARA if seg.get("para_end") else PAUSE_SEG))
-        run(["ffmpeg", "-y", "-i", str(src),
-             "-af", f"aresample=44100,apad=pad_dur={gap}",
+    def pad_one(k: int, g: dict) -> None:
+        dst = pad_dir / f"p{k:04d}.wav"
+        run(["ffmpeg", "-y", "-i", str(g["wav"]),
+             "-af", f"aresample=44100,apad=pad_dur={g['gap']}",
              "-ac", "1", "-ar", "44100", "-c:a", "pcm_s16le", str(dst)])
 
-    print(f"tts: 結合準備({len(timeline)}件・並列)…")
+    print(f"tts: 結合準備({len(groups)}件・並列)…")
     with ThreadPoolExecutor(max_workers=max(workers, 4)) as ex:
-        list(ex.map(lambda a: pad_one(*a), enumerate(timeline)))
-    lines = [f"file '{(pad_dir / f'p{i:04d}.wav').resolve().as_posix()}'"
-             for i in range(len(timeline))]
+        list(ex.map(lambda a: pad_one(*a), enumerate(groups)))
+    lines = [f"file '{(pad_dir / f'p{k:04d}.wav').resolve().as_posix()}'"
+             for k in range(len(groups))]
     list_path = ep / "_concat.txt"
     list_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     run(["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(list_path),

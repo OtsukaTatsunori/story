@@ -12,7 +12,11 @@
 rm -rf output/epXXX/audio output/epXXX/narration.wav  # 別エンジンの音声が残っている場合のみ
 python3 pipeline/build_video.py output/epXXX --engine voicevox --speaker 13
 ```
-- 音声はセグメント単位でキャッシュされる。台本の一部修正時は変わった部分だけ再合成される
+- 音声は「文」単位で合成される。読点で分かれた字幕セグメントは1文にまとめて1回で合成する
+  （ぶつ切り合成によるイントネーション崩れ=棒読みを防ぐ）。字幕タイミングは文字数比で自動配分
+- 疑問文は語尾が自然に上がる（enable_interrogative_upspeak）
+- 音声は文単位でキャッシュされる（単独文=`segNNNN.wav` / 結合文=`senNNNN_個数.wav`）。
+  台本の一部修正時は変わった部分だけ再合成される
 - 字幕(SRT)は合成音声の実測時間から自動生成されるため、エンジンを替えてもズレない
 
 ## 注意
