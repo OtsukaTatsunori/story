@@ -680,9 +680,10 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False,
         clip_len = durs[k] + (XFADE if k < n - 1 else 0)
         frames = int(clip_len * FPS) + 1
         # 背景自体をゆっくり動かす(正規化Ken Burns・揺れなし)
-        # 滑らかなパンのため4倍解像度に拡大してからzoompanし、2倍で切り出して縮小する。
-        # (パンは整数ピクセル単位でしか動けないため、低解像度のままだとカクつく)
-        base = (f"[{k}:v]fps={FPS},scale={W*4}:{H*4}:flags=lanczos,"
+        # 滑らかなパンのため2倍解像度に拡大してからzoompanし、等倍に縮小する。
+        # (パンは整数ピクセル単位でしか動けないため、低解像度のままだとカクつく。
+        #  4倍→2倍に落として高速化。720pでは滑らかさの差はほぼ知覚できない)
+        base = (f"[{k}:v]fps={FPS},scale={W*2}:{H*2}:flags=lanczos,"
                 f"{motion_expr(k, frames)}:d={frames}:s={W*2}x{H*2}:fps={FPS},"
                 f"scale={W}:{H}:flags=lanczos")
         if motion:
