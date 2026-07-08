@@ -424,10 +424,13 @@ def step_srt(ep: Path) -> None:
       字幕同士の時間の重なりは次の字幕開始でクランプする
       (重なると字幕エンジンの衝突回避で2枚目が画面上部に押し出されてしまうため)。"""
     timeline = json.loads((ep / "timeline.json").read_text(encoding="utf-8"))
+    # 章タイトルは画面左上にdrawtextで固定表示されるため字幕には含めない(二重表示防止)
     # 表示時刻: 終了に余韻を足しつつ、次の字幕の開始とは絶対に重ねない
     events = []
     for i, seg in enumerate(timeline):
-        end = seg["end"] + (0.1 if seg["type"] == "title" else 0.25)
+        if seg["type"] == "title":
+            continue
+        end = seg["end"] + 0.25
         if i + 1 < len(timeline):
             end = min(end, timeline[i + 1]["start"])
         end = max(end, seg["start"] + 0.1)
@@ -439,7 +442,9 @@ def step_srt(ep: Path) -> None:
     (ep / "subtitles.srt").write_text("\n".join(lines), encoding="utf-8")
 
     font = sub_font_name()
-    common = "&H00FFFFFF,&H00FFFFFF,{outline_col},&H00000000,-1,0,0,0,100,100,0,0,1,{outline},0,2,60,60,29,1"
+    # サイズ・縁取り・下余白は720p基準のピクセル値
+    # (旧force_style方式は288p基準の29が2.5倍に拡大されて約72px相当だった)
+    common = "&H00FFFFFF,&H00FFFFFF,{outline_col},&H00000000,-1,0,0,0,100,100,0,0,1,{outline},0,2,40,40,72,1"
     header = (
         "[Script Info]\nScriptType: v4.00+\n"
         f"PlayResX: {W}\nPlayResY: {H}\nWrapStyle: 2\nScaledBorderAndShadow: yes\n\n"
@@ -447,8 +452,8 @@ def step_srt(ep: Path) -> None:
         "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, "
         "BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, "
         "BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n"
-        f"Style: Outer,{font},29," + common.format(outline_col="&H00FFFFFF", outline=3.5) + "\n"
-        f"Style: Inner,{font},29," + common.format(outline_col="&H00000000", outline=2.5) + "\n\n"
+        f"Style: Outer,{font},72," + common.format(outline_col="&H00FFFFFF", outline=8.8) + "\n"
+        f"Style: Inner,{font},72," + common.format(outline_col="&H00000000", outline=6.2) + "\n\n"
         "[Events]\n"
         "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n")
     ev_lines = []

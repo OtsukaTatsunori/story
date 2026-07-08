@@ -1,59 +1,66 @@
 {
   "_readme": [
     "感情タグ→VOICEVOXパラメータ(青山龍星、スタイル切替なし=声色固定)。",
-    "棒読み対策: narration基準でも抑揚1.1とし、場面ごとに話速・ピッチ・抑揚を動かす。",
-    "intonationScale: 抑揚 / speedScale: 話速 / pitchScale: 声の高さ(±0.05まで) / volumeScale: 音量"
+    "棒読み対策: narration基準でも抑揚1.15とし、場面ごとに話速・ピッチ・抑揚を動かす。",
+    "全体にpitchを下げて低め・落ち着いた朗読トーンに統一。",
+    "intonationScale: 抑揚 / speedScale: 話速 / pitchScale: 声の高さ(±0.06まで) / volumeScale: 音量",
+    "注意: この値を変えたら output/epXXX/audio/ を削除して再合成すること(キャッシュ名に値が入らないため)"
   ],
   "emotions": {
     "narration": {
-      "intonationScale": 1.1
+      "intonationScale": 1.15,
+      "speedScale": 0.97,
+      "pitchScale": -0.03
     },
     "重い語り": {
-      "intonationScale": 1.05,
-      "speedScale": 0.93,
-      "pitchScale": -0.02
+      "intonationScale": 1.08,
+      "speedScale": 0.92,
+      "pitchScale": -0.05
     },
     "不穏": {
-      "intonationScale": 1.12,
-      "speedScale": 0.96,
-      "pitchScale": -0.02
+      "intonationScale": 1.15,
+      "speedScale": 0.95,
+      "pitchScale": -0.04
     },
     "威圧": {
       "intonationScale": 1.3,
-      "speedScale": 0.94,
-      "pitchScale": -0.04
+      "speedScale": 0.93,
+      "pitchScale": -0.06
     },
     "怒り": {
       "intonationScale": 1.45,
-      "speedScale": 1.1
+      "speedScale": 1.08,
+      "pitchScale": -0.02
     },
     "悲しみ": {
-      "intonationScale": 1.15,
+      "intonationScale": 1.18,
       "speedScale": 0.88,
-      "pitchScale": -0.03
+      "pitchScale": -0.05
     },
     "緊張": {
       "intonationScale": 1.25,
-      "speedScale": 1.05
+      "speedScale": 1.03,
+      "pitchScale": -0.02
     },
     "決意": {
       "intonationScale": 1.3,
       "speedScale": 0.92,
-      "pitchScale": -0.01
+      "pitchScale": -0.03
     },
     "静かな余韻": {
-      "intonationScale": 1.1,
-      "speedScale": 0.88,
-      "pitchScale": -0.02
+      "intonationScale": 1.12,
+      "speedScale": 0.87,
+      "pitchScale": -0.04
     },
     "喜び": {
       "intonationScale": 1.25,
-      "speedScale": 1.03,
-      "pitchScale": 0.02
+      "speedScale": 1.02,
+      "pitchScale": 0.0
     },
     "囁き": {
       "intonationScale": 0.95,
-      "speedScale": 0.95,
+      "speedScale": 0.94,
+      "pitchScale": -0.03,
       "volumeScale": 0.85
     }
   }
