@@ -650,48 +650,68 @@ def make_light_sweep(path: Path, w: int, h: int) -> None:
     layer.save(path)
 
 
+def render_scene_clip(k: int, bg: Path, clip_len: float, light: Path | None,
+                      grain: bool, out: Path) -> None:
+    """1シーン分の背景クリップ(パン+光の帯)を中間ファイルに前処理する。
+    ここが最も重い処理なので、シーンごとに別プロセスで並列実行する。
+    中間ファイルはほぼ可逆(crf 10)なので画質は落ちない。"""
+    frames = int(clip_len * FPS) + 1
+    grain_f = ",noise=alls=6:allf=t" if grain else ""
+    LIGHT_T = 11.0  # 光が画面を1往復する周期(秒)。ゆっくり流す
+    # 滑らかなパンのため2倍解像度に拡大してからzoompanし、等倍に縮小する。
+    # (パンは整数ピクセル単位でしか動けないため、低解像度のままだとカクつく)
+    base = (f"[0:v]fps={FPS},scale={W*2}:{H*2}:flags=lanczos,"
+            f"{motion_expr(k, frames)}:d={frames}:s={W*2}x{H*2}:fps={FPS},"
+            f"scale={W}:{H}:flags=lanczos")
+    inputs = ["-loop", "1", "-t", f"{clip_len:.3f}", "-i", str(bg)]
+    if light is not None:
+        inputs += ["-loop", "1", "-t", f"{clip_len:.3f}", "-i", str(light)]
+        sweep = f"[b][l]overlay=x='(W+w)*mod(t\\,{LIGHT_T})/{LIGHT_T}-w':y=0:eof_action=pass"
+        fc = (f"{base}[b];[1:v]format=rgba,fps={FPS}[l];"
+              f"{sweep}{grain_f},format=yuv420p[v]")
+    else:
+        fc = f"{base}{grain_f},format=yuv420p[v]"
+    run(["ffmpeg", "-y", "-v", "error"] + inputs +
+        ["-filter_complex", fc, "-map", "[v]",
+         "-c:v", "libx264", "-preset", "ultrafast", "-crf", "10",
+         "-t", f"{clip_len:.3f}", str(out)])
+
+
 def step_render(ep: Path, motion: bool = True, grain: bool = False,
-                encoder: str = "cpu") -> None:
+                encoder: str = "cpu", workers: int = 4) -> None:
+    from concurrent.futures import ThreadPoolExecutor
     units = load_units(ep)
     total = wav_duration(ep / "narration.wav")
     units[-1]["end"] = max(units[-1]["end"], total)
 
-    # 画像は静止させ、動きは「流れる光」とシーン切替の「スライド」で表現する
-    # (ズーム・パン・揺れは一切かけないので章タイトルも固定される)
-    grain_f = ",noise=alls=6:allf=t" if grain else ""
     n = len(units)
     durs = [max(u["end"] - u["start"], XFADE + 0.2) for u in units]
     light = ep / "bg" / "_light.png"
     if motion:
         make_light_sweep(light, W, H)
-    LIGHT_T = 11.0  # 光が画面を1往復する周期(秒)。ゆっくり流す
 
+    # パス1: 重いシーン前処理(パン+光)をシーンごとに並列レンダリング
+    clip_dir = ep / "bg" / "_clips"
+    clip_dir.mkdir(parents=True, exist_ok=True)
+    clips = []
+    jobs = []
+    for k, u in enumerate(units):
+        clip_len = durs[k] + (XFADE if k < n - 1 else 0)
+        out = clip_dir / f"c{k:03d}.mp4"
+        clips.append(out)
+        jobs.append((k, ep / "bg" / f"{u['key']}.png", clip_len,
+                     light if motion else None, grain, out))
+    print(f"render: パス1/2 {n}シーンを{workers}並列で前処理中…")
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        list(ex.map(lambda a: render_scene_clip(*a), jobs))
+
+    # パス2: クロスフェード結合+グレーディング+字幕+音声ミックス+最終エンコード
     inputs, fparts = [], []
-    for k, u in enumerate(units):
-        clip_len = durs[k] + (XFADE if k < n - 1 else 0)
-        inputs += ["-loop", "1", "-t", f"{clip_len:.3f}", "-i", str(ep / "bg" / f"{u['key']}.png")]
-    if motion:
-        inputs += ["-loop", "1", "-t", f"{total + 2:.3f}", "-i", str(light)]
-        fparts.append(f"[{n}:v]format=rgba,fps={FPS}," + f"split={n}" +
-                      "".join(f"[l{k}]" for k in range(n)))
-    # ナレーション音声の入力index(bg画像n枚 + 光レイヤー1枚の後)
-    n_light = n + (1 if motion else 0)
-    for k, u in enumerate(units):
-        clip_len = durs[k] + (XFADE if k < n - 1 else 0)
-        frames = int(clip_len * FPS) + 1
-        # 背景自体をゆっくり動かす(正規化Ken Burns・揺れなし)
-        # 滑らかなパンのため2倍解像度に拡大してからzoompanし、等倍に縮小する。
-        # (パンは整数ピクセル単位でしか動けないため、低解像度のままだとカクつく。
-        #  4倍→2倍に落として高速化。720pでは滑らかさの差はほぼ知覚できない)
-        base = (f"[{k}:v]fps={FPS},scale={W*2}:{H*2}:flags=lanczos,"
-                f"{motion_expr(k, frames)}:d={frames}:s={W*2}x{H*2}:fps={FPS},"
-                f"scale={W}:{H}:flags=lanczos")
-        if motion:
-            # さらに薄い光の帯をゆっくり流して空気感を足す
-            sweep = f"[b{k}][l{k}]overlay=x='(W+w)*mod(t\\,{LIGHT_T})/{LIGHT_T}-w':y=0:eof_action=pass"
-            fparts.append(f"{base}[b{k}];{sweep}{grain_f},format=yuv420p,settb=AVTB[v{k}]")
-        else:
-            fparts.append(f"{base}{grain_f},format=yuv420p,settb=AVTB[v{k}]")
+    for k, c in enumerate(clips):
+        inputs += ["-i", str(c)]
+        fparts.append(f"[{k}:v]settb=AVTB[v{k}]")
+    # ナレーション音声の入力index(クリップn本の後)
+    n_light = n
     # シーン切替はクロスフェード。1枚ならそのまま
     if n == 1:
         fc = ";".join(fparts) + ";[v0]null[vid]"
@@ -761,7 +781,7 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False,
         c = c[:1] + ["-v", "error", "-stats"] + c[1:]
         return subprocess.run(c).returncode
 
-    print(f"render: ffmpeg実行中(encoder={encoder})。下のtime=が動画内の処理済み時刻です…")
+    print(f"render: パス2/2 結合+字幕+音声(encoder={encoder})。下のtime=が動画内の処理済み時刻です…")
     if run_render(cmd) != 0:
         if encoder != "cpu":
             # GPUエンコーダが使えない環境(ドライバ古い等)はCPUに自動フォールバック
@@ -819,7 +839,7 @@ def main() -> None:
     if "bg" in steps: step_bg(ep)
     if "bgm" in steps: step_bgm(ep)
     if "render" in steps: step_render(ep, motion=not args.no_motion, grain=args.grain,
-                                      encoder=args.encoder)
+                                      encoder=args.encoder, workers=args.workers)
 
 
 if __name__ == "__main__":
