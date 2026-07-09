@@ -703,9 +703,10 @@ def render_scene_clip(k: int, bg: Path, clip_len: float, light: Path | None,
     frames = int(clip_len * FPS) + 1
     grain_f = ",noise=alls=6:allf=t" if grain else ""
     LIGHT_T = 11.0  # 光が画面を1往復する周期(秒)。ゆっくり流す
-    # 滑らかなパンのため2倍解像度に拡大してからzoompanし、等倍に縮小する。
-    # (パンは整数ピクセル単位でしか動けないため、低解像度のままだとカクつく)
-    base = (f"[0:v]fps={FPS},scale={W*2}:{H*2}:flags=lanczos,"
+    # 滑らかなパンのため4倍解像度に拡大してからzoompanし、2倍で切り出して縮小する。
+    # (パンは整数ピクセル単位でしか動けないため、解像度が低いとカクつく。
+    #  シーン並列化で速度に余裕ができたため4倍に戻した)
+    base = (f"[0:v]fps={FPS},scale={W*4}:{H*4}:flags=lanczos,"
             f"{motion_expr(k, frames)}:d={frames}:s={W*2}x{H*2}:fps={FPS},"
             f"scale={W}:{H}:flags=lanczos")
     inputs = ["-loop", "1", "-t", f"{clip_len:.3f}", "-i", str(bg)]
