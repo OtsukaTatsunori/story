@@ -24,8 +24,13 @@ python pipeline/generate_prompt.py --genre hidamari --plot output/hidamari/ep001
 # 5. review_prompt.md でプロットを検品(レビューA) → script_prompt.md で本文（楽章①〜③→④〜⑥の2分割）
 #    → review_prompt.md で本文を検品(レビューB) → output/hidamari/ep001/script.md
 
-# 6. 以降は共通パイプライン（他ジャンルと同一）
-#    シーン画像 → images/ へ、emotions.json / bgm_map.json を設定して:
+# 6. シーン画像の一括生成（image_prompts.md + scenes.json から未生成分を並列生成）
+#    ChatGPT UIでの手動生成の置き換え。OPENAI_API_KEY（またはSTABILITY_API_KEY）が必要
+python pipeline/make_images.py output/hidamari/ep001 --workers 4
+#    気に入らない絵だけ差し替え: --only 5,9 --force ／ 事前確認: --dry-run
+
+# 7. 以降は共通パイプライン（他ジャンルと同一）
+#    BGMはbgm_defaults.jsonが自動適用されるので設定不要:
 python pipeline/build_video.py output/hidamari/ep001 --engine voicevox --speaker 13 --workers 6 --encoder nvenc
 ```
 
