@@ -1,0 +1,5 @@
+{
+  "_comment": "bgm_map.jsonがエピソードに無い場合に自動適用される既定BGM。sequenceは章の進行に沿って均等割り当て(さざ波×6楽章対応: 幸せ事件→ふくらむ→しみじみ→満ち潮→受けとめ→それから)。個別調整したい回だけepフォルダにbgm_map.jsonを置けば上書きされる。",
+  "default": "hidamari",
+  "sequence": ["hanauta", "sanpo", "komorebi", "engawa", "yuuyake", "hidamari", "pokapoka"]
+}

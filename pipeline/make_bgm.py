@@ -82,8 +82,38 @@ PROGRESSIONS = {
                     ("D", "min", 2), ("G", "min", 2), ("A", "min", 2), ("D", "min", 2)],
     "healing":     [("G", "maj", 3), ("B", "min", 3), ("C", "maj", 3), ("G", "maj", 3),
                     ("A", "min", 3), ("C", "maj", 3), ("D", "maj", 3), ("G", "maj", 3)],
+    # 陽だまりジャンル向けの明るい10曲(maj7/add9/sus4系の柔らかい響き。計34)
+    "hidamari":    [("C", "maj7", 3), ("A", "min7", 3), ("F", "add9", 3), ("G", "maj", 3),
+                    ("C", "maj7", 3), ("F", "add9", 3), ("D", "min7", 3), ("G", "sus4", 3)],
+    "komorebi":    [("F", "maj7", 3), ("G", "maj", 3), ("A", "min7", 3), ("F", "add9", 3),
+                    ("F", "maj7", 3), ("E", "min7", 3), ("D", "min7", 3), ("C", "add9", 3)],
+    "hanauta":     [("C", "maj", 4), ("F", "maj", 3), ("G", "maj", 3), ("C", "maj", 4),
+                    ("A", "min", 3), ("D", "min7", 3), ("G", "maj", 3), ("C", "add9", 4)],
+    "sanpo":       [("G", "maj", 3), ("C", "add9", 3), ("D", "maj", 3), ("G", "maj7", 3),
+                    ("E", "min7", 3), ("C", "maj7", 3), ("D", "sus4", 3), ("G", "maj", 3)],
+    "soyokaze":    [("A", "maj", 3), ("E", "maj", 3), ("F#", "min7", 3), ("D", "add9", 3),
+                    ("A", "maj7", 3), ("D", "maj", 3), ("E", "sus4", 3), ("A", "add9", 3)],
+    "engawa":      [("F", "add9", 3), ("C", "maj", 3), ("G", "maj", 3), ("C", "maj7", 3),
+                    ("F", "maj7", 3), ("C", "maj", 3), ("D", "min7", 3), ("C", "add9", 3)],
+    "yuuyake":     [("D", "maj", 3), ("A", "maj", 3), ("B", "min7", 3), ("F#", "min7", 3),
+                    ("G", "maj7", 3), ("D", "maj", 3), ("G", "add9", 3), ("A", "sus4", 3)],
+    "waraigoe":    [("F", "maj", 3), ("A#", "add9", 3), ("C", "maj", 3), ("F", "maj", 3),
+                    ("D", "min", 3), ("A#", "maj7", 3), ("C", "sus4", 3), ("F", "add9", 3)],
+    "asa":         [("C", "add9", 3), ("G", "maj", 3), ("A", "min7", 3), ("F", "maj7", 3),
+                    ("C", "maj", 3), ("G", "sus4", 3), ("F", "add9", 3), ("C", "maj7", 3)],
+    "pokapoka":    [("G", "add9", 3), ("E", "min7", 3), ("C", "maj7", 3), ("D", "maj", 3),
+                    ("G", "maj", 3), ("C", "add9", 3), ("A", "min7", 3), ("D", "sus4", 3)],
 }
-INTERVALS = {"maj": (0, 4, 7), "min": (0, 3, 7)}
+INTERVALS = {"maj": (0, 4, 7), "min": (0, 3, 7),
+             "maj7": (0, 4, 7, 11), "min7": (0, 3, 7, 10),
+             "add9": (0, 4, 7, 14), "sus4": (0, 5, 7)}
+
+# 明るい系(軽いアルペジオを散らす)と不穏系(半音上を薄く重ねる)のムード分類
+BRIGHT_MOODS = {"warm", "hope", "gentle", "uplifting", "nostalgic", "bittersweet", "calm",
+                "serene", "tender", "healing", "playful", "heroic", "triumphant",
+                "hidamari", "komorebi", "hanauta", "sanpo", "soyokaze",
+                "engawa", "yuuyake", "waraigoe", "asa", "pokapoka"}
+DISSONANT_MOODS = {"tense", "suspense", "dark", "mystery", "anxious", "solemn", "lonely"}
 
 
 def tone(f: float, dur: float, vol: float, attack: float = 0.8, decay: float | None = None) -> np.ndarray:
@@ -118,14 +148,13 @@ def render_mood(mood: str) -> np.ndarray:
         end = min(start + len(segb), len(total))
         total[start:end] += segb[: end - start]
         # tenseは半音上の音を薄く重ねて不穏さを出す
-        if mood in ("tense", "suspense", "dark", "mystery", "anxious", "solemn", "lonely"):
+        if mood in DISSONANT_MOODS:
             f2 = base * 2 ** (1 / 12)
             seg2 = tone(f2, CHORD_SEC, 0.03, attack=2.0, decay=4.0)
             end = min(start + len(seg2), len(total))
             total[start:end] += seg2[: end - start]
         # warm/hopeは軽いアルペジオを散らす
-        if mood in ("warm", "hope", "gentle", "uplifting", "nostalgic", "bittersweet", "calm",
-                    "serene", "tender", "healing", "playful", "heroic", "triumphant"):
+        if mood in BRIGHT_MOODS:
             for j, semi in enumerate(INTERVALS[kind] + (12,)):
                 f = base * 2 ** (semi / 12) * 2
                 at = start + int((j * 1.9 + 0.4) * SR)

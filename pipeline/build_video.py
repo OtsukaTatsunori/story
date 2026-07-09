@@ -599,7 +599,7 @@ def step_bgm(ep: Path) -> None:
     assetsが無ければ pipeline/make_bgm.py で自動生成する。"""
     root = Path(__file__).resolve().parent.parent
     bgm_dir = root / "assets" / "bgm"
-    if not (bgm_dir / "warm.wav").exists():
+    if not (bgm_dir / "hidamari.wav").exists():  # 最新追加ムードの有無で世代判定
         run([sys.executable, str(root / "pipeline" / "make_bgm.py")])
     timeline = json.loads((ep / "timeline.json").read_text(encoding="utf-8"))
     total = timeline[-1]["end"]
@@ -610,6 +610,19 @@ def step_bgm(ep: Path) -> None:
         m = json.loads(mfile.read_text(encoding="utf-8"))
         default = m.get("default", "warm")
         ch_mood = {int(k): v for k, v in m.get("chapters", {}).items()}
+    else:
+        # エピソードにbgm_map.jsonが無ければ、ジャンル既定(genres/<genre>/bgm_defaults.json)を自動適用。
+        # 形式: {"default": ムード名, "sequence": [章の進行に沿って均等に割り当てるムード名の列]}
+        gfile = root / "genres" / ep.resolve().parent.name / "bgm_defaults.json"
+        if gfile.exists():
+            g = json.loads(gfile.read_text(encoding="utf-8"))
+            default = g.get("default", default)
+            seq = g.get("sequence") or []
+            if seq:
+                chs = sorted({s["chapter"] for s in timeline})
+                for i, ch in enumerate(chs):
+                    ch_mood[ch] = seq[min(i * len(seq) // len(chs), len(seq) - 1)]
+            print(f"bgm: ジャンル既定を自動適用 ({gfile.relative_to(root)})")
     # 章ごとの区間を作る(同ムードが続く場合は結合)
     chapters = sorted({s["chapter"] for s in timeline})
     spans = []

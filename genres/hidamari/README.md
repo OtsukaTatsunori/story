@@ -42,4 +42,8 @@ python pipeline/build_video.py output/hidamari/ep001 --engine voicevox --speaker
 - **被り管理は「具体の一文要約」**: 設計書JSONの `trigger_summary` / `anchor_summary` /
   `item_summary` / `phrase_summary` / `opening_summary` が次回以降の禁止リストに反映される
 - **量産運用ルール**: 源泉sp01（成長のうれしさびしさ）＋sp02（気づかない最後）は合計3割以下。
-  視点は母:父:祖父母その他=5:3:2目安。BGMは family より一段明るく、涙系より陽だまり系を基調に
+  視点は母:父:祖父母その他=5:3:2目安
+- **BGMは自動適用**: エピソードに `bgm_map.json` を置かなければ、`bgm_defaults.json` の既定
+  （明るい10曲: hanauta→sanpo→komorebi→engawa→yuuyake→hidamari→pokapoka を章の進行に均等割り当て、
+  既定ムードは hidamari）が自動で使われる。個別調整したい回だけ ep フォルダに `bgm_map.json` を置けば上書きされる。
+  曲はすべて `pipeline/make_bgm.py` によるプログラム合成（著作権フリー・クレジット不要）
