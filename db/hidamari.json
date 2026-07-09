@@ -31,5 +31,37 @@
       "note": "trigger/anchorはリスト外発明。ビーズ5は思春期の台所（original）"
     },
     "design_file": "output/hidamari/ep001/design.md"
+  },
+  {
+    "episode": 2,
+    "choices": {
+      "relation": "hr04",
+      "spring_main": "sp07",
+      "spring_sub": [
+        "sp10"
+      ],
+      "trigger": "tg02",
+      "trigger_summary": "カレーの材料の買い足し(にんじん一本、牛乳一つ)に、六歳の娘が初めて一人でおつかいに出る",
+      "anchor": "an01",
+      "anchor_summary": "娘を見送った直後、ベランダで洗濯物を取り込みながら角のスーパーの方角ばかり見る",
+      "viewpoint": "vp02",
+      "season": "se03",
+      "wave": "original",
+      "beads": [
+        "original",
+        "original",
+        "bd04",
+        "bd12"
+      ],
+      "item": "it01",
+      "item_summary": "娘が自分の百円玉で買い足した、父の好物のちくわ一本",
+      "chord": "ch03",
+      "ending": "ed05",
+      "opening": "op06",
+      "opening_summary": "「にんじんが一本。牛乳が、一つ。」の買い物メモ読み上げから開幕",
+      "phrase_summary": "「まっててね」は「かならずかえってくるからね」の、こども語だ",
+      "note": "waveはリスト外「待つ十五分」型: 一日ものの待ち時間に満ち潮を挟み、時計の現在が戻る構造。relationはメニュー外だが父視点ローテーション優先で選択"
+    },
+    "design_file": "output/hidamari/ep002/design.md"
   }
 ]
