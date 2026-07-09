@@ -1,0 +1,17 @@
+{
+  "_readme": "from_seg=このシーンが始まるセグメントindex(segments.json)。imageはoutput/hidamari/ep002/images/に置く(png/jpg可)。無ければ自動生成背景で代替。プロンプト全文はimage_prompts.md参照。",
+  "scenes": [
+    {"id": 1,  "from_seg": 0,   "image": "scene01.png", "title": "冷蔵庫のメモと玄関の靴"},
+    {"id": 2,  "from_seg": 15,  "image": "scene02.png", "title": "カレー鍋の前・立候補"},
+    {"id": 3,  "from_seg": 27,  "image": "scene03.png", "title": "玄関・大きなリュックと装備"},
+    {"id": 4,  "from_seg": 42,  "image": "scene04.png", "title": "ベランダから見送る小さな背中"},
+    {"id": 5,  "from_seg": 51,  "image": "scene05.png", "title": "洗濯物越しに角を見る父"},
+    {"id": 6,  "from_seg": 72,  "image": "scene06.png", "title": "回想・初めて歩いた日のリビング"},
+    {"id": 7,  "from_seg": 82,  "image": "scene07.png", "title": "回想・食パンを指差す一歳半"},
+    {"id": 8,  "from_seg": 93,  "image": "scene08.png", "title": "回想・幼稚園バスの窓の手のひら"},
+    {"id": 9,  "from_seg": 103, "image": "scene09.png", "title": "回想・冷蔵庫の鏡文字の名前"},
+    {"id": 10, "from_seg": 113, "image": "scene10.png", "title": "帰宅・レジ袋のちくわ一本"},
+    {"id": 11, "from_seg": 141, "image": "scene11.png", "title": "夜・母の種明かしとスーパーの通路"},
+    {"id": 12, "from_seg": 156, "image": "scene12.png", "title": "玄関で靴を履かずに待つ・切手"}
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "_readme": "from_seg=このシーンが始まるセグメントindex(segments.json)。imageはoutput/hidamari/ep001/images/に置く(png/jpg可)。無ければ自動生成背景で代替。プロンプト全文はimage_prompts.md参照。",
+  "scenes": [
+    {"id": 1,  "from_seg": 0,   "image": "scene01.png", "title": "縁側・麦茶を飲み干す孫"},
+    {"id": 2,  "from_seg": 15,  "image": "scene02.png", "title": "夏の庭・セミ捕りのじいじと孫"},
+    {"id": 3,  "from_seg": 32,  "image": "scene03.png", "title": "五人の食卓・井戸のスイカ"},
+    {"id": 4,  "from_seg": 44,  "image": "scene04.png", "title": "風呂上がり・金魚のコップの麦茶"},
+    {"id": 5,  "from_seg": 57,  "image": "scene05.png", "title": "夜の台所・やかんの湯気"},
+    {"id": 6,  "from_seg": 80,  "image": "scene06.png", "title": "回想・三歳の風呂上がりの麦茶"},
+    {"id": 7,  "from_seg": 90,  "image": "scene07.png", "title": "回想・台風の停電とろうそくの影絵"},
+    {"id": 8,  "from_seg": 100, "image": "scene08.png", "title": "回想・夕焼けの鉄棒と一気飲み"},
+    {"id": 9,  "from_seg": 110, "image": "scene09.png", "title": "回想・冷蔵庫に貼られた似顔絵"},
+    {"id": 10, "from_seg": 122, "image": "scene10.png", "title": "回想・思春期の台所で立ち飲み"},
+    {"id": 11, "from_seg": 135, "image": "scene11.png", "title": "台所の引き出し・古い似顔絵と麦茶の道具"},
+    {"id": 12, "from_seg": 157, "image": "scene12.png", "title": "帰る朝・車を見送る"},
+    {"id": 13, "from_seg": 172, "image": "scene13.png", "title": "三日後の縁側・二人と大きなやかん"}
+  ]
+}
