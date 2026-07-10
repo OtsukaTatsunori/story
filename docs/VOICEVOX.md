@@ -39,9 +39,11 @@ VOICEVOXの多くの話者には同一声質の「感情スタイル」がある
 
 1. **台本生成時**: script_prompt が制作メモに読み辞書JSONを出力させ、segmentステップが
    `output/epXXX/yomi.json` に自動取り込みする（人名の誤読を発生源で防ぐ）
-2. **事前チェック**: 音声合成の前に読みを一覧確認できる:
+2. **自動チェック**: `pip install pykakasi`(初回のみ)の上で
    `python pipeline/build_video.py output/epXXX --check-yomi`
-   （台本中の漢字語をVOICEVOXに問い合わせて「単語 → 読み」を列挙。誤読を見つけたら追記）
+   VOICEVOXの読みと形態素辞書の読みを自動照合し、**食い違う疑わしい語だけ**を
+   `output/epXXX/yomi_review.json` に保存する。このファイルをClaudeに貼れば
+   正しい読みの判定とyomi.jsonへの追記まで自動で行える（目視チェック不要）
 3. **辞書の2層**: 人名など作品固有 → `output/epXXX/yomi.json` / 一般語 → リポジトリ直下 `yomi.json`
    （蓄積型。エピソード側が優先。キャッシュはハッシュで自動無効化されるので追記→再実行だけでよい）
 

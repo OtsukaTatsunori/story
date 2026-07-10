@@ -328,28 +328,64 @@ def group_segments(segments: list, tag_of: dict, default_tag: str,
     return groups
 
 
+def _norm_kana(s: str) -> str:
+    """読み比較用の正規化。ひらがな→カタカナ、長音表記のゆれ(オウ/オー等)を吸収。"""
+    s = "".join(chr(ord(c) + 0x60) if "ぁ" <= c <= "ゖ" else c for c in s)
+    s = re.sub(r"[^ァ-ヶー]", "", s)
+    out = []
+    for c in s:
+        if out and ((c == "ウ" and out[-1] in "オコソトノホモヨロヲゴゾドボポョ")
+                    or (c == "イ" and out[-1] in "エケセテネヘメレゲゼデベペ")
+                    or (c == "ー")):
+            out.append("ー")
+        else:
+            out.append(c.replace("ヅ", "ズ").replace("ヂ", "ジ"))
+    return "".join(out)
+
+
 def check_yomi(ep: Path, url: str, speaker: int) -> None:
-    """台本中の漢字語の読みをVOICEVOXに問い合わせて一覧表示する(合成はしない)。
-    誤読を見つけたら ep/yomi.json (人名等) か リポジトリ直下 yomi.json (一般語) に追記する。
+    """台本中の漢字語の読みを自動チェックする(合成はしない)。
+    VOICEVOXの読みと形態素辞書(pykakasi)の読みを突き合わせ、
+    食い違う「疑わしい語」だけを表示し ep/yomi_review.json に保存する。
+    誤読は ep/yomi.json (人名等) か リポジトリ直下 yomi.json (一般語) に追記する。
     読み辞書適用後のテキストで判定するため、辞書で解決済みの語は表示されない。"""
     import urllib.parse, urllib.request
     from collections import OrderedDict
+    try:
+        import pykakasi
+        kk = pykakasi.kakasi()
+    except ImportError:
+        kk = None
+        print("check-yomi: pip install pykakasi を実行すると照合読みが有効になり、"
+              "疑わしい語だけに自動で絞り込めます(今回は全語を表示)")
     init_yomi(ep)
     segments = json.loads((ep / "segments.json").read_text(encoding="utf-8"))
     words: OrderedDict[str, None] = OrderedDict()
     for seg in segments:
         for w in re.findall(r"[一-龠]{2,}", spoken_text(seg["text"])):
             words.setdefault(w)
-    print(f"check-yomi: {len(words)}語の読みを問い合わせ中…(誤読があれば yomi.json に追記)")
+    print(f"check-yomi: {len(words)}語を照合中…")
+    suspects = {}
     for w in words:
         try:
             q = urllib.request.urlopen(urllib.request.Request(
                 f"{url}/audio_query?speaker={speaker}&text={urllib.parse.quote(w)}",
                 method="POST"), timeout=30).read()
-            kana = re.sub(r"[^ァ-ヶー]", "", json.loads(q).get("kana", ""))
+            vv = re.sub(r"[^ァ-ヶー]", "", json.loads(q).get("kana", ""))
         except Exception as e:
-            kana = f"(取得失敗: {e})"
-        print(f"  {w} → {kana}")
+            sys.exit(f"check-yomi: VOICEVOXに接続できません({e})。先にVOICEVOXを起動してください")
+        if kk is None:
+            print(f"  {w} → {vv}")
+            continue
+        ref = "".join(item["kana"] for item in kk.convert(w))
+        if _norm_kana(vv) != _norm_kana(ref):
+            suspects[w] = {"voicevox": vv, "reference": ref}
+            print(f"  疑: {w} → VOICEVOX:{vv} / 照合:{ref}")
+    if kk is not None:
+        out = ep / "yomi_review.json"
+        out.write_text(json.dumps(suspects, ensure_ascii=False, indent=1), encoding="utf-8")
+        print(f"check-yomi: 疑わしい語 {len(suspects)}/{len(words)} → {out}")
+        print("  このファイルをClaudeに貼れば、正しい読みを判定してyomi.jsonへの追記まで行えます")
 
 
 def step_tts(ep: Path, engine: str, vv_url: str, speaker: int, edge_voice: str,
