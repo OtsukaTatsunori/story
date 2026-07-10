@@ -131,8 +131,24 @@ def split_sentence(s: str) -> list[str]:
 
 
 def step_segment(ep: Path) -> None:
-    text = (ep / "script.md").read_text(encoding="utf-8")
-    text = text.split("## 制作メモ")[0]
+    raw_text = (ep / "script.md").read_text(encoding="utf-8")
+    text = raw_text.split("## 制作メモ")[0]
+    # 制作メモ内のJSONコードブロック({"直人": "なおと", ...}形式)を
+    # エピソード読み辞書(ep/yomi.json)に取り込む。人名の誤読防止。
+    # 既存のep/yomi.json(手動追記)が優先される。
+    if "## 制作メモ" in raw_text:
+        memo = raw_text.split("## 制作メモ", 1)[1]
+        for block in re.findall(r"```json\s*(\{.*?\})\s*```", memo, re.DOTALL):
+            try:
+                d = json.loads(block)
+            except json.JSONDecodeError:
+                continue
+            if d and all(isinstance(v, str) and re.fullmatch(r"[ぁ-んー]+", v) for v in d.values()):
+                yfile = ep / "yomi.json"
+                cur = json.loads(yfile.read_text(encoding="utf-8")) if yfile.exists() else {}
+                merged = {**d, **cur}
+                yfile.write_text(json.dumps(merged, ensure_ascii=False, indent=1), encoding="utf-8")
+                print(f"segment: 読み辞書{len(d)}語を {yfile} に取り込み")
     segments, chapter = [], 0
     for raw in text.splitlines():
         line = raw.strip()
@@ -156,24 +172,30 @@ def step_segment(ep: Path) -> None:
 _YOMI_CACHE: dict | None = None
 
 
-def load_yomi() -> dict:
-    """読み辞書(yomi.json)を読む。リポジトリ直下の共通辞書と、
-    エピソード直下(実行時cwd基準ではなくrepo構成)の辞書をマージ。
-    形式: {"倅": "せがれ", ...}  音声にだけ適用され、字幕は元の漢字のまま。"""
+def init_yomi(ep: Path | None) -> None:
+    """読み辞書を初期化する。リポジトリ直下の共通辞書(一般語)と、
+    エピソード直下の辞書(人名など作品固有の読み)をマージ。エピソード側が優先。"""
     global _YOMI_CACHE
+    _YOMI_CACHE = {}
+    paths = [Path(__file__).resolve().parent.parent / "yomi.json"]
+    if ep is not None:
+        paths.append(ep / "yomi.json")
+    for p in paths:
+        if p.exists():
+            d = json.loads(p.read_text(encoding="utf-8"))
+            _YOMI_CACHE.update({k: v for k, v in d.items() if not k.startswith("_")})
+
+
+def load_yomi() -> dict:
     if _YOMI_CACHE is None:
-        _YOMI_CACHE = {}
-        for p in (Path(__file__).resolve().parent.parent / "yomi.json",):
-            if p.exists():
-                d = json.loads(p.read_text(encoding="utf-8"))
-                _YOMI_CACHE.update({k: v for k, v in d.items() if not k.startswith("_")})
+        init_yomi(None)
     return _YOMI_CACHE
 
 
 def spoken_text(t: str) -> str:
     """合成エンジンに渡す読み上げテキスト(記号の除去・言い換え・読み辞書)。
     ここでの置換は音声のみに影響し、字幕には影響しない。"""
-    for word, yomi in load_yomi().items():
+    for word, yomi in sorted(load_yomi().items(), key=lambda kv: -len(kv[0])):
         t = t.replace(word, yomi)
     t = re.sub(r"[「」『』【】]", "", t)
     t = t.replace("——", "、").replace("……", "、").replace("…", "、")
@@ -306,12 +328,38 @@ def group_segments(segments: list, tag_of: dict, default_tag: str,
     return groups
 
 
+def check_yomi(ep: Path, url: str, speaker: int) -> None:
+    """台本中の漢字語の読みをVOICEVOXに問い合わせて一覧表示する(合成はしない)。
+    誤読を見つけたら ep/yomi.json (人名等) か リポジトリ直下 yomi.json (一般語) に追記する。
+    読み辞書適用後のテキストで判定するため、辞書で解決済みの語は表示されない。"""
+    import urllib.parse, urllib.request
+    from collections import OrderedDict
+    init_yomi(ep)
+    segments = json.loads((ep / "segments.json").read_text(encoding="utf-8"))
+    words: OrderedDict[str, None] = OrderedDict()
+    for seg in segments:
+        for w in re.findall(r"[一-龠]{2,}", spoken_text(seg["text"])):
+            words.setdefault(w)
+    print(f"check-yomi: {len(words)}語の読みを問い合わせ中…(誤読があれば yomi.json に追記)")
+    for w in words:
+        try:
+            q = urllib.request.urlopen(urllib.request.Request(
+                f"{url}/audio_query?speaker={speaker}&text={urllib.parse.quote(w)}",
+                method="POST"), timeout=30).read()
+            kana = re.sub(r"[^ァ-ヶー]", "", json.loads(q).get("kana", ""))
+        except Exception as e:
+            kana = f"(取得失敗: {e})"
+        print(f"  {w} → {kana}")
+
+
 def step_tts(ep: Path, engine: str, vv_url: str, speaker: int, edge_voice: str,
              workers: int = 4) -> None:
+    import hashlib
     from concurrent.futures import ThreadPoolExecutor, as_completed
     segments = json.loads((ep / "segments.json").read_text(encoding="utf-8"))
     audio_dir = ep / "audio"
     audio_dir.mkdir(exist_ok=True)
+    init_yomi(ep)
     default_tag, tag_of, emo_params, overrides = load_emotions(ep)
 
     # 文単位にまとめて合成対象の一覧(キャッシュ済みはスキップ)を作り、並列合成する
@@ -319,12 +367,13 @@ def step_tts(ep: Path, engine: str, vv_url: str, speaker: int, edge_voice: str,
     jobs = []
     for g in groups:
         i0 = g["idx"][0]
-        # キャッシュ名: 単独セグメント=従来名 / 文結合=senN_個数 / 感情=タグ付き / 上書き=ovN付き
-        # (emotions.jsonを変えたら該当wavを削除して再合成する)
-        suffix = "" if (g["tag"] == default_tag and not g["ov"]) else \
-                 f".{g['tag']}" + (f".ov{i0}" if g["ov"] else "")
+        # キャッシュ名に「実際に読み上げるテキスト(読み辞書適用後)+感情パラメータ」の
+        # ハッシュを含める。yomi.json/emotions.json/voice_config.jsonを変えると
+        # 影響を受けた文だけ自動で再合成される(手動でwavを消す必要なし)
+        h = hashlib.md5((spoken_text(g["text"]) + json.dumps(g["params"], sort_keys=True))
+                        .encode("utf-8")).hexdigest()[:8]
         base = f"seg{i0:04d}" if len(g["idx"]) == 1 else f"sen{i0:04d}_{len(g['idx'])}"
-        g["wav"] = audio_dir / f"{base}{suffix}.wav"
+        g["wav"] = audio_dir / f"{base}.{h}.wav"
         if not g["wav"].exists():
             jobs.append(g)
     if jobs:
@@ -859,6 +908,8 @@ def main() -> None:
                     help="フィルムグレインを追加(空気感が増すがレンダリングが重くなる)")
     ap.add_argument("--workers", type=int, default=4,
                     help="TTS合成・音声変換の並列数(既定4)")
+    ap.add_argument("--check-yomi", action="store_true",
+                    help="台本中の漢字語の読みをVOICEVOXに問い合わせて一覧表示(誤読の事前発見用)")
     ap.add_argument("--preview", type=int, metavar="N",
                     help="セグメントNだけ合成して preview_segN.wav を出力(全編を作り直さず試聴)")
     ap.add_argument("--encoder", default="cpu", choices=list(VIDEO_CODECS),
@@ -866,7 +917,11 @@ def main() -> None:
     args = ap.parse_args()
     steps = args.steps.split(",")
     ep = args.episode
+    if args.check_yomi:
+        check_yomi(ep, args.voicevox_url, args.speaker)
+        return
     if args.preview is not None:
+        init_yomi(ep)
         segments = json.loads((ep / "segments.json").read_text(encoding="utf-8"))
         i = args.preview
         seg = segments[i]
