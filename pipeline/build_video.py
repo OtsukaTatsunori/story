@@ -815,10 +815,14 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False,
     fc += (f";{bgm_src};[{n_light}:a][bgm]amix=inputs=2:duration=first:weights='1 0.18',"
            f"loudnorm=I=-14:TP=-1.5:LRA=11,afade=t=out:st={total - 2.5:.3f}:d=2.5[aout]")
 
+    # 一時ファイルに書き出し、完了後にvideo.mp4へ置き換える。
+    # (書き込み途中のmp4は再生情報が末尾に無く「サポートされていない」エラーになるため、
+    #  レンダリング中にユーザーがvideo.mp4を開いても壊れたファイルを見ずに済む)
+    tmp_out = ep / "_render_tmp.mp4"
     cmd = (["ffmpeg", "-y"] + inputs + ["-i", str(ep / "narration.wav")] + inputs2 + [
            "-filter_complex", fc, "-map", "[vout]", "-map", "[aout]",
            ] + VIDEO_CODECS[encoder] + [
-           "-c:a", "aac", "-b:a", "256k", "-movflags", "+faststart", "-t", f"{total:.3f}", str(ep / "video.mp4")])
+           "-c:a", "aac", "-b:a", "256k", "-movflags", "+faststart", "-t", f"{total:.3f}", str(tmp_out)])
     def run_render(c) -> int:
         # 進捗(time=..., speed=...)をそのまま画面に流す
         c = c[:1] + ["-v", "error", "-stats"] + c[1:]
@@ -836,6 +840,8 @@ def step_render(ep: Path, motion: bool = True, grain: bool = False,
                 sys.exit("render失敗(CPU)。上のffmpegエラーを確認してください")
         else:
             sys.exit("render失敗。上のffmpegエラーを確認してください")
+    import os
+    os.replace(tmp_out, ep / "video.mp4")
     print(f"render: 完了 → {ep/'video.mp4'} ({total/60:.1f}分)")
 
 
